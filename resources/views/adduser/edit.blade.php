@@ -20,7 +20,7 @@
                 <div class="card bg-white shadow p-4">
                     <form action="{{ route('adduser.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT') {{-- Change this to PUT for update --}}
+                        @method('PUT')
 
                         <div class="row">
                             <div class="mb-3 col-6">
@@ -37,7 +37,7 @@
 
                             <div class="mb-3 col-6">
                                 <label for="user_type" class="form-label">User Type</label>
-                                <select name="user_type" class="form-select" required>
+                                <select name="user_type" id="user_type" class="form-select" required>
                                     <option value="">-- Select User Type --</option>
                                     <option value="doctor"
                                         {{ old('user_type', $user->user_type) == 'doctor' ? 'selected' : '' }}>Doctor
@@ -55,6 +55,12 @@
                                 <label for="password" class="form-label">Password (optional)</label>
                                 <input type="password" name="password" class="form-control"
                                     placeholder="Enter new password">
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="fee" class="form-label">Fee</label>
+                                <input type="number" name="fee" id="fee" class="form-control"
+                                    placeholder="Enter fee" value="{{ old('fee', $user->fee) }}">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Update User</button>

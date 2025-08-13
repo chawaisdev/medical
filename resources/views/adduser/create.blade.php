@@ -25,48 +25,54 @@
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter name"
                                     value="{{ old('name') }}" required>
-                                @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
 
                             <div class="mb-3 col-6">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" name="email" class="form-control" placeholder="Enter email"
                                     value="{{ old('email') }}" required>
-                                @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
+
                             <div class="mb-3 col-6">
                                 <label for="user_type" class="form-label">User Type</label>
-                                <select name="user_type" class="form-select" required>
+                                <select name="user_type" id="user_type" class="form-select" required>
                                     <option value="">-- Select User Type --</option>
-                                    <option value="doctor" {{ old('user_type') == 'doctor' ? 'selected' : '' }}>Doctor
-                                    </option>
-                                    <option value="reception" {{ old('user_type') == 'reception' ? 'selected' : '' }}>
-                                        Reception</option>
-                                    <option value="patient" {{ old('user_type') == 'patient' ? 'selected' : '' }}>Patient
-                                    </option>
+                                    <option value="doctor">Doctor</option>
+                                    <option value="reception">Reception</option>
+                                    <option value="patient">Patient</option>
                                 </select>
-                                @error('user_type')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
+
                             <div class="mb-3 col-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" class="form-control" placeholder="Enter password"
                                     required>
-                                @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
                             </div>
                         </div>
 
+                        <div id="doctor_fields" style="display: none;">
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label for="fee" class="form-label">Doctor Fee</label>
+                                    <input type="number" name="fee" class="form-control"
+                                        placeholder="Fee">
+                                </div>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Add User</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('user_type').addEventListener('change', function() {
+            let doctorFields = document.getElementById('doctor_fields');
+            if (this.value === 'doctor') {
+                doctorFields.style.display = 'block';
+            } else {
+                doctorFields.style.display = 'none';
+            }
+        });
+    </script>
 @endsection

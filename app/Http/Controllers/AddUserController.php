@@ -30,21 +30,25 @@ class AddUserController extends Controller
         // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email', // corrected table name
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'user_type' => 'required|string|in:doctor,reception,patient', // fixed rule
+            'user_type' => 'required|string|in:doctor,reception,patient',
+            'fee' => 'nullable|numeric|min:0',
         ]);
+
 
         // Create user
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'user_type' => $request->user_type,
+            'fee' => $request->fee,
             'password' => Hash::make($request->password),
         ]);
 
         return redirect()->route('adduser.create')->with('success', 'User added successfully.');
     }
+
 
     // Fetch user by ID and show it in the edit form for updating
     public function edit($id)
@@ -61,6 +65,8 @@ class AddUserController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
             'user_type' => 'required|string|in:doctor,reception,patient',
+            'fee' => 'nullable|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0|max:100',
         ]);
 
         $user = User::findOrFail($id);
@@ -68,6 +74,7 @@ class AddUserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->user_type = $request->user_type;
+        $user->fee = $request->fee;
 
         if ($request->password) {
             $user->password = Hash::make($request->password);

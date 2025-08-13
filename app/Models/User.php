@@ -36,6 +36,9 @@ class User extends Authenticatable
         'contact_number',
         'address',
         'mr_number',
+        'fee',
+        'discount',
+        'final_fee',
     ];
 
 
