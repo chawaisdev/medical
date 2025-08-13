@@ -26,18 +26,19 @@
                         <div class="row">
                             <div class="mb-3 col-6">
                                 <label for="doctor_id" class="form-label">Select Doctor</label>
-                                <select name="doctor_id" class="form-control" required>
+                                <select name="doctor_id" id="doctor_id" class="form-control" required>
                                     <option value="">-- Select Doctor --</option>
                                     @foreach ($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
+                                        {{-- Add a data-fee attribute to store the doctor's fee --}}
+                                        <option value="{{ $doctor->id }}" data-fee="{{ $doctor->fee ?? 0 }}">
+                                            {{ $doctor->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="mb-3 col-6">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label for="patient_id" class="form-label">Select Patient</label>
-                                </div>
+                                <label for="patient_id" class="form-label">Select Patient</label>
                                 <select name="patient_id" class="form-control select2" required>
                                     <option value="">-- Select Patient --</option>
                                     @foreach ($patients as $patient)
@@ -46,7 +47,6 @@
                                         </option>
                                     @endforeach
                                 </select>
-
                             </div>
 
                             <div class="mb-3 col-6">
@@ -59,12 +59,64 @@
                                 <input type="time" name="time" class="form-control" required>
                             </div>
                         </div>
+
+                        <!-- Doctor-specific fields -->
+                        <div id="doctor_fields" style="display: none;">
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                    <label for="fee" class="form-label">Doctor Fee</label>
+                                    <input type="number" name="fee" id="fee" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label for="discount" class="form-label">Discount (%)</label>
+                                    <input type="number" name="discount" id="discount" class="form-control" step="0.01"
+                                        value="0">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label for="final_fee" class="form-label">Final Fee</label>
+                                    <input type="number" name="final_fee" id="final_fee" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Save Appointment</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const doctorSelect = document.getElementById('doctor_id');
+        const doctorFields = document.getElementById('doctor_fields');
+        const feeInput = document.getElementById('fee');
+        const discountInput = document.getElementById('discount');
+        const finalFeeInput = document.getElementById('final_fee');
+
+        function updateFinalFee() {
+            const fee = parseFloat(feeInput.value || 0);
+            const discount = parseFloat(discountInput.value || 0);
+            finalFeeInput.value = fee - (fee * discount / 100);
+        }
+
+        // When doctor changes
+        doctorSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (this.value !== '') {
+                doctorFields.style.display = 'flex';
+                feeInput.value = parseFloat(selectedOption.dataset.fee || 0);
+            } else {
+                doctorFields.style.display = 'none';
+                feeInput.value = '';
+                discountInput.value = 0;
+                finalFeeInput.value = '';
+            }
+            updateFinalFee();
+        });
+
+        // When discount changes
+        discountInput.addEventListener('input', updateFinalFee);
+    </script>
 
     {{-- Patient Modal --}}
     <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
