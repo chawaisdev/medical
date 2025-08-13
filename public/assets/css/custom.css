@@ -1,0 +1,15 @@
+
+/* Hide sorting arrows in DataTables */
+.dt-column-order {
+    display: none !important;
+}
+
+.dt-type-numeric.sorting_1 {
+    text-align: left !important;
+    padding-left: 10px !important; /* optional padding */
+}
+
+.dt-type-numeric{
+    text-align: left !important;
+    padding-left: 10px !important; /* optional padding */
+}
