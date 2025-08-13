@@ -13,11 +13,11 @@
             <div class="col-md-6">
                 <!-- Logo (Optional) -->
                 <div class="text-center mb-4">
-                    <img src="{{ asset('assets/images/logo medical.png') }}" alt="Logo" style="max-width: 150px;">
+                    <img src="{{ asset('assets/images/getwell.png') }}" alt="Logo" style="max-width: 150px;">
                 </div>
 
                 <div class="card">
-                    <div class="text-center mb-5">Login</div>
+                    <div class="text-center mt-4">Login</div>
 
                     <div class="card-body">
 
