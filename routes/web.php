@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
         // Reception resource controllers
         Route::resource('reception', ReceptionController::class);
         Route::resource('appointment', AppointmentController::class);
+        Route::resource('services', ServiceController::class);
         Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
         
         Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])

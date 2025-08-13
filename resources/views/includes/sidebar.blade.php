@@ -96,6 +96,12 @@
                                  <span class="side-menu__label">Appointments</span>
                              </a>
                          </li>
+                         <li class="slide mt-2">
+                             <a href="{{ route('services.index') }}" class="side-menu__item">
+                                 <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                                 <span class="side-menu__label">Services</span>
+                             </a>
+                         </li>
                      @endif
                  @endauth
 
