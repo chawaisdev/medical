@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\PatientReport;
 class PatientController extends Controller
 {
     public function index(Request $request)
@@ -48,4 +50,12 @@ class PatientController extends Controller
 
         return redirect()->back()->with('success', 'Patient added successfully!');
     }
+
+    public function reportsDownload(Request $request)
+    {
+        // Fetch only the authenticated user's reports
+        $reports = PatientReport::where('user_id', Auth::id())->with('user')->get();
+        return view('patient.reports', compact('reports'));
+    }
 }
+

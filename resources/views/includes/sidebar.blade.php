@@ -5,7 +5,8 @@
      <!-- Start::main-sidebar-header -->
      <div class="main-sidebar-header">
          <a href="" class="header-logo">
-             <img class="mb-2 mt-3" src="{{ asset('assets/images/getwell.png') }}"" alt="" width="100px" height="100px">
+             <img class="mb-2 mt-3" src="{{ asset('assets/images/getwell.png') }}"" alt="" width="100px"
+                 height="100px">
 
              {{-- <img src="/.svg" alt="logo" class="toggle-dark">
             <img src="/assets/images/others/logo.svg" alt="logo" class="desktop-white">
@@ -66,6 +67,18 @@
                          </li>
                      @endif
                  @endauth
+
+                 @auth
+                     @if (strtolower(auth()->user()->user_type) === 'patient')
+                         <li class="slide mt-2">
+                             <a href="{{ url('reports-download') }}" class="side-menu__item d-flex align-items-center">
+                                 <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
+                                 <span class="side-menu__label">My Reports</span>
+                             </a>
+                         </li>
+                     @endif
+                 @endauth
+
 
                  {{-- Reception-specific menu --}}
                  @auth

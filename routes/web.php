@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     // Routes only for patient users
     Route::middleware('patient')->group(function () {
         Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
+        Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])
+            ->name('patient.reports.download');
+
     });
 
     // Routes only for reception users
@@ -45,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('reception', ReceptionController::class);
         Route::resource('appointment', AppointmentController::class);
         Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+        
         Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])
     ->name('patients.patientReports');
 Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
