@@ -51,7 +51,7 @@ class AppointmentController extends Controller
             'patient_id' => $request->patient_id,
             'date' => $request->date,
             'time' => $request->time,
-            'doctor_fee' => $request->doctor_fee,
+            'fee' => $request->fee,
             'discount' => $request->discount,
             'final_fee' => $request->final_fee,
         ]);
