@@ -5,8 +5,9 @@
      <!-- Start::main-sidebar-header -->
      <div class="main-sidebar-header">
          <a href="" class="header-logo">
-             <img class="mb-2 mt-3" src="{{ asset('assets/images/getwell.png') }}"" alt="" width="100px"
-                 height="100px">
+             <img src="{{ asset('assets/images/getwell.png') }}" alt="Get Well" height="100"
+                 style="margin-top: 12px; margin-bottom: 8px; padding: -22px; background-color: #fff; border-radius: 8px;">
+
 
              {{-- <img src="/.svg" alt="logo" class="toggle-dark">
             <img src="/assets/images/others/logo.svg" alt="logo" class="desktop-white">
