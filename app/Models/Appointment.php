@@ -28,5 +28,9 @@ class Appointment extends Model
 
     protected $dates = ['date', 'time'];
 
-
+ public function services()
+    {
+        return $this->belongsToMany(Service::class, 'appointment_services', 'appointment_id', 'services_id')
+                    ->withTimestamps();
+    }
 }

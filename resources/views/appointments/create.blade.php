@@ -38,8 +38,8 @@
                             </div>
 
                             <div class="mb-3 col-6">
-                                <label for="patient_id" class="form-label">Select Patient</label>
-                                <select name="patient_id" class="form-control select2" required>
+                                <label for="patient_id" class="form-label fw-bold text-primary">Select Patient</label>
+                                <select name="patient_id" id="patient_id" class="form-control select2" required>
                                     <option value="">-- Select Patient --</option>
                                     @foreach ($patients as $patient)
                                         <option value="{{ $patient->id }}">
@@ -48,6 +48,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
 
                             <div class="mb-3 col-6">
                                 <label for="date" class="form-label">Date</label>
@@ -58,6 +59,16 @@
                                 <label for="time" class="form-label">Time</label>
                                 <input type="time" name="time" class="form-control" required>
                             </div>
+                            <div class="mb-3 col-6">
+                                <label for="services" class="form-label">Select Services</label>
+                                <select name="services[]" id="services" class="form-control select2" multiple>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}">{{ $service->name }} - {{ $service->price }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                         </div>
 
                         <!-- Doctor-specific fields -->

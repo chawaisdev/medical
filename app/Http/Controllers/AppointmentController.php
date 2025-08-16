@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Appointment;
+use App\Models\Service;
 use Carbon\Carbon;
 class AppointmentController extends Controller
 {
@@ -30,8 +31,9 @@ class AppointmentController extends Controller
     public function create()
     {
         $doctors = User::where('user_type', 'doctor')->get();
+        $services = Service::all();
         $patients = User::where('user_type', 'patient')->get();
-        return view('appointments.create', compact('doctors', 'patients'));
+        return view('appointments.create', compact('doctors', 'patients', 'services'));
     }
 
     /**
@@ -46,7 +48,7 @@ class AppointmentController extends Controller
             'time' => 'required|date_format:H:i',
         ]);
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'doctor_id' => $request->doctor_id,
             'patient_id' => $request->patient_id,
             'date' => $request->date,
@@ -56,7 +58,12 @@ class AppointmentController extends Controller
             'final_fee' => $request->final_fee,
         ]);
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment scheduled successfully.');
+        if ($request->has('services')) {
+            $appointment->services()->attach($request->services);
+        }
+
+        return redirect()->route('appointment.index')
+                        ->with('success', 'Appointment scheduled successfully with services.');
     }
 
     /**

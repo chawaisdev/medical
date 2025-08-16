@@ -10,4 +10,11 @@ class Service extends Model
         'name',
         'price',
     ];
+
+    public function appointments()
+    {
+        return $this->belongsToMany(Appointment::class, 'appointment_services', 'services_id', 'appointment_id')
+                ->withTimestamps();
+    }
+
 }

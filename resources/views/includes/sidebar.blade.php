@@ -54,6 +54,12 @@
                                  <span class="side-menu__label">Clinics</span>
                              </a>
                          </li>
+                         <li class="slide mt-2">
+                             <a href="{{ route('services.index') }}" class="side-menu__item">
+                                 <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                                 <span class="side-menu__label">Services</span>
+                             </a>
+                         </li>
                      @endif
                  @endauth
 
@@ -72,7 +78,7 @@
                  @auth
                      @if (strtolower(auth()->user()->user_type) === 'patient')
                          <li class="slide mt-2">
-                             <a href="{{ url('reports-download') }}" class="side-menu__item d-flex align-items-center">
+                             <a href="{{ url('patient-reports/download') }}" class="side-menu__item d-flex align-items-center">
                                  <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
                                  <span class="side-menu__label">My Reports</span>
                              </a>
@@ -96,12 +102,7 @@
                                  <span class="side-menu__label">Appointments</span>
                              </a>
                          </li>
-                         <li class="slide mt-2">
-                             <a href="{{ route('services.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                                 <span class="side-menu__label">Services</span>
-                             </a>
-                         </li>
+                         
                      @endif
                  @endauth
 

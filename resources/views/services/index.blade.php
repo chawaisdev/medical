@@ -11,7 +11,11 @@
                     <li class="breadcrumb-item active">Services Index</li>
                 </ol>
             </nav>
-            <a href="{{ route('services.create') }}" class="btn btn-primary btn-sm">Add Services</a>
+            <<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="openCreateModal()" data-bs-toggle="modal"
+                data-bs-target="#serviceModal">
+                Add Service
+                </a>
+
         </div>
 
         <div class="col-xl-12">
