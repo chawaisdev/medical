@@ -8,6 +8,8 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RolePermissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +40,8 @@ Route::middleware('auth')->group(function () {
             ->name('patient.reports.download');
 
     });
+    Route::resource('roles', RoleController::class);
+    Route::resource('rolepermission', RolePermissionController::class);
 
     // Routes only for reception users
     Route::middleware('reception')->group(function () {
