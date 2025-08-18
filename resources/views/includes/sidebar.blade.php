@@ -51,14 +51,6 @@
                      </a>
                  </li>
 
-                 <!-- Role Permissions -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('rolepermission.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
-                         <span class="side-menu__label">Role Permissions</span>
-                     </a>
-                 </li>
-
                  <!-- Clinics -->
                  <li class="slide mt-2">
                      <a href="{{ route('clinic.index') }}" class="side-menu__item">
