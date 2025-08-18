@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="mb-3 col-6">
                                 <label for="doctor_id" class="form-label">Select Doctor</label>
-                                <select name="doctor_id" id="doctor_id" class="form-control" required>
+                                <select name="doctor_id" id="doctor_id" class="form-control select2" required>
                                     <option value="">-- Select Doctor --</option>
                                     @foreach ($doctors as $doctor)
                                         {{-- Add a data-fee attribute to store the doctor's fee --}}
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="mb-3 col-6">
-                                <label for="patient_id" class="form-label fw-bold text-primary">Select Patient</label>
+                                <label for="patient_id" class="form-label fw-bold ">Select Patient</label>
                                 <select name="patient_id" id="patient_id" class="form-control select2" required>
                                     <option value="">-- Select Patient --</option>
                                     @foreach ($patients as $patient)
@@ -59,9 +59,9 @@
                                 <label for="time" class="form-label">Time</label>
                                 <input type="time" name="time" class="form-control" required>
                             </div>
-                            <div class="mb-3 col-6">
+                            <div class="mb-3 col-12">
                                 <label for="services" class="form-label">Select Services</label>
-                                <select name="services[]" id="services" class="form-control select2" multiple>
+                                <select name="services[]" id="services" class="form-select select2" multiple placeholder="Select Services" required>
                                     @foreach ($services as $service)
                                         <option value="{{ $service->id }}">{{ $service->name }} - {{ $service->price }}
                                         </option>

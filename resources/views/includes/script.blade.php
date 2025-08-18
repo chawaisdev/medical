@@ -67,19 +67,21 @@
         <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.3.1/js/dataTables.bootstrap4.js"></script>
 
-        <!-- jQuery -->
+        <!-- jQuery (required by Select2) -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script>
             $(document).ready(function() {
                 $('.select2').select2({
                     theme: 'bootstrap4',
-                    placeholder: 'Select an option',
-                    allowClear: true,
-                    width: '100%'
+                    placeholder: $(this).data('placeholder'),
+                    allowClear: true
                 });
             });
         </script>
@@ -87,6 +89,16 @@
         <script>
             $(document).ready(function() {
                 $('#example').DataTable();
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2({
+                    placeholder: "Select Services",
+                    allowClear: true,
+                    width: '100%' // ensure full width
+                });
             });
         </script>
         @yield('js')
