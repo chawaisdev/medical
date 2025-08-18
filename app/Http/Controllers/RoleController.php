@@ -21,6 +21,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
             'permissions.*' => 'string',
+            'dashboard_access' => 'required|string|in:patient,reception,admin',
         ]);
 
         $role = Role::create([
@@ -31,10 +32,28 @@ class RoleController extends Controller
             RolePermission::create([
                 'role_id' => $role->id,
                 'name' => $permission,
+                'dashboard_access' => $request->dashboard_access,
             ]);
+            // dd($request->dashboard_access);
         }
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+    }
+
+
+    public function edit($id)
+    {
+        $role = Role::with('permission')->findOrFail($id);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'id' => $role->id,
+                'name' => $role->name,
+                'dashboard_access' => $role->permission->first()?->dashboard_access,
+            ]);
+        }
+
+        return view('roles.edit', compact('role'));
     }
 
 
@@ -44,6 +63,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
             'permissions.*' => 'string',
+            'dashboard_access' => 'required|string|in:patient,reception,admin',
         ]);
 
         $role = Role::findOrFail($id);
@@ -53,12 +73,11 @@ class RoleController extends Controller
 
         RolePermission::where('role_id', $role->id)->delete();
 
-        foreach ($request->permissions as $permission) {
-            RolePermission::create([
-                'role_id' => $role->id,
-                'name' => $permission,
-            ]);
-        }
+        RolePermission::create([
+            'role_id' => $role->id,
+            'name' => $request->permissions[0], // Assuming only one permission is being updated
+            'dashboard_access' => $request->dashboard_access,
+        ]);
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }
