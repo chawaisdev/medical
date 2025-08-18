@@ -27,86 +27,87 @@
              </div>
              <li class="slide__category"><span class="category-name">Main</span></li>
              <ul class="main-menu">
+                 <!-- Dashboard -->
+                 <li class="slide">
+                     <a href="{{ route('dashboard') }}" class="side-menu__item">
+                         <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                         <span class="side-menu__label">Dashboard</span>
+                     </a>
+                 </li>
 
-                 {{-- Dashboard for admin or reception --}}
-                 @if (in_array(auth()->user()->user_type, ['admin', 'reception']))
-                     <li class="slide">
-                         <a href="{{ auth()->user()->user_type === 'admin' ? route('dashboard') : route('reception.dashboard') }}"
-                             class="side-menu__item">
-                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
-                             <span class="side-menu__label">Dashboard</span>
-                         </a>
-                     </li>
-                 @endif
+                 <!-- User Management -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('adduser.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                         <span class="side-menu__label">User Management</span>
+                     </a>
+                 </li>
 
-                 {{-- Admin-specific menu --}}
-                 @auth
-                     @if (strtolower(auth()->user()->user_type) === 'admin')
-                         <li class="slide mt-2">
-                             <a href="{{ route('adduser.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-users-gear side-menu__icon"></i>
-                                 <span class="side-menu__label">User Management</span>
-                             </a>
-                         </li>
-                         <li class="slide mt-2">
-                             <a href="{{ route('clinic.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-hospital side-menu__icon"></i>
-                                 <span class="side-menu__label">Clinics</span>
-                             </a>
-                         </li>
-                         <li class="slide mt-2">
-                             <a href="{{ route('services.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                                 <span class="side-menu__label">Services</span>
-                             </a>
-                         </li>
-                     @endif
-                 @endauth
+                 <!-- Roles -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('roles.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                         <span class="side-menu__label">Roles</span>
+                     </a>
+                 </li>
 
-                 {{-- Patient-specific menu --}}
-                 @auth
-                     @if (strtolower(auth()->user()->user_type) === 'patient')
-                         <li class="slide mt-2">
-                             <a href="{{ url('get-patient') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-calendar-check side-menu__icon"></i>
-                                 <span class="side-menu__label">My Appointments</span>
-                             </a>
-                         </li>
-                     @endif
-                 @endauth
+                 <!-- Role Permissions -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('rolepermission.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                         <span class="side-menu__label">Role Permissions</span>
+                     </a>
+                 </li>
 
-                 @auth
-                     @if (strtolower(auth()->user()->user_type) === 'patient')
-                         <li class="slide mt-2">
-                             <a href="{{ url('patient-reports/download') }}" class="side-menu__item d-flex align-items-center">
-                                 <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
-                                 <span class="side-menu__label">My Reports</span>
-                             </a>
-                         </li>
-                     @endif
-                 @endauth
+                 <!-- Clinics -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('clinic.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-hospital side-menu__icon"></i>
+                         <span class="side-menu__label">Clinics</span>
+                     </a>
+                 </li>
 
+                 <!-- Services -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('services.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                         <span class="side-menu__label">Services</span>
+                     </a>
+                 </li>
 
-                 {{-- Reception-specific menu --}}
-                 @auth
-                     @if (strtolower(auth()->user()->user_type) === 'reception')
-                         <li class="slide mt-2">
-                             <a href="{{ route('reception.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-user-injured side-menu__icon"></i>
-                                 <span class="side-menu__label">Patients</span>
-                             </a>
-                         </li>
-                         <li class="slide mt-2">
-                             <a href="{{ route('appointment.index') }}" class="side-menu__item">
-                                 <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                                 <span class="side-menu__label">Appointments</span>
-                             </a>
-                         </li>
-                         
-                     @endif
-                 @endauth
+                 <!-- My Appointments -->
+                 <li class="slide mt-2">
+                     <a href="{{ url('get-patient') }}" class="side-menu__item">
+                         <i class="fa-solid fa-calendar-check side-menu__icon"></i>
+                         <span class="side-menu__label">My Appointments</span>
+                     </a>
+                 </li>
 
-                 {{-- Logout --}}
+                 <!-- My Reports -->
+                 <li class="slide mt-2">
+                     <a href="{{ url('patient-reports/download') }}" class="side-menu__item d-flex align-items-center">
+                         <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
+                         <span class="side-menu__label">My Reports</span>
+                     </a>
+                 </li>
+
+                 <!-- Patients -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('reception.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                         <span class="side-menu__label">Patients</span>
+                     </a>
+                 </li>
+
+                 <!-- Appointments -->
+                 <li class="slide mt-2">
+                     <a href="{{ route('appointment.index') }}" class="side-menu__item">
+                         <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                         <span class="side-menu__label">Appointments</span>
+                     </a>
+                 </li>
+
+                 <!-- Logout -->
                  <li class="slide mt-2">
                      <a href="#" class="side-menu__item"
                          onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
@@ -118,6 +119,7 @@
                      </form>
                  </li>
              </ul>
+
 
              <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                      width="24" height="24" viewBox="0 0 24 24">
