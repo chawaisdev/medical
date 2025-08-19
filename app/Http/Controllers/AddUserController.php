@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserSchedule; // Make sure this is imported
@@ -20,7 +21,8 @@ class AddUserController extends Controller
     // Return the create user form where admin can input user details
     public function create()
     {
-        return view('adduser.create');
+        $role = Role::all();
+        return view('adduser.create', compact('role'));
     }
 
     // Validate and store new user details including hashed password into database
@@ -43,6 +45,7 @@ class AddUserController extends Controller
             'email' => $request->email,
             'user_type' => $request->user_type,
             'fee' => $request->fee,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
         ]);
 
@@ -54,7 +57,8 @@ class AddUserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('adduser.edit', compact('user'));
+        $role = Role::all();
+        return view('adduser.edit', compact('user', 'role'));
     }
 
     // Validate and update the user details including optional password update
@@ -75,6 +79,7 @@ class AddUserController extends Controller
         $user->email = $request->email;
         $user->user_type = $request->user_type;
         $user->fee = $request->fee;
+        $user->role_id = $request->role_id;
 
         if ($request->password) {
             $user->password = Hash::make($request->password);

@@ -44,6 +44,16 @@
                             </div>
 
                             <div class="mb-3 col-6">
+                                <label for="role_id" class="form-label">User Role</label>
+                                <select name="role_id" id="role_id" class="form-select" required>
+                                    <option value="">-- Select Role --</option>
+                                    @foreach ($role as $r)
+                                        <option value="{{ $r->id }}">{{ $r->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" class="form-control" placeholder="Enter password"
                                     required>
@@ -54,8 +64,7 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="fee" class="form-label">Doctor Fee</label>
-                                    <input type="number" name="fee" class="form-control"
-                                        placeholder="Fee">
+                                    <input type="number" name="fee" class="form-control" placeholder="Fee">
                                 </div>
                             </div>
                         </div>

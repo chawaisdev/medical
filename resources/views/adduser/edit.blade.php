@@ -50,6 +50,19 @@
                                     </option>
                                 </select>
                             </div>
+                            
+                            <div class="mb-3 col-6">
+                                <label for="role_id" class="form-label">User Role</label>
+                                <select name="role_id" id="role_id" class="form-select" required>
+                                    <option value="">-- Select Role --</option>
+                                    @foreach ($role as $r)
+                                        <option value="{{ $r->id }}"
+                                            {{ isset($user) && $user->role_id == $r->id ? 'selected' : '' }}>
+                                            {{ $r->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="mb-3 col-6">
                                 <label for="password" class="form-label">Password (optional)</label>

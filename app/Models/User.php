@@ -38,6 +38,7 @@ class User extends Authenticatable
         'mr_number',
         'fee',
         'discount',
+        'role_id',
         'final_fee',
     ];
 
