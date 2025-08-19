@@ -13,8 +13,7 @@ class AddUserController extends Controller
     // Retrieve all users and pass them to the adduser index blade view
     public function index(Request $request)
     {
-        $query = User::query();
-        $users = $query->paginate(10);
+        $users = User::all();
         return view('adduser.index', compact('users'));
     }
 
