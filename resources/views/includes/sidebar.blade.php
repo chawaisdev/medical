@@ -27,89 +27,112 @@
              </div>
              <li class="slide__category"><span class="category-name">Main</span></li>
              <ul class="main-menu">
+                 @php
+                     $permissions = auth()->check() ? auth()->user()->getPermissions() : [];
+                 @endphp
+
                  <!-- Dashboard -->
-                 <li class="slide">
-                     <a href="{{ route('dashboard') }}" class="side-menu__item">
-                         <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
-                         <span class="side-menu__label">Dashboard</span>
-                     </a>
-                 </li>
+                 @if (in_array('Dashboard', $permissions))
+                     <li class="slide">
+                         <a href="{{ route('dashboard') }}" class="side-menu__item">
+                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- User Management -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('adduser.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
-                         <span class="side-menu__label">User Management</span>
-                     </a>
-                 </li>
+                 @if (in_array('User Management', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('adduser.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <span class="side-menu__label">User Management</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Roles -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('roles.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-users-gear side-menu__icon"></i>
-                         <span class="side-menu__label">Roles</span>
-                     </a>
-                 </li>
+                 @if (in_array('Roles', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('roles.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <span class="side-menu__label">Roles</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Clinics -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('clinic.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-hospital side-menu__icon"></i>
-                         <span class="side-menu__label">Clinics</span>
-                     </a>
-                 </li>
+                 @if (in_array('Clinics', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('clinic.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-hospital side-menu__icon"></i>
+                             <span class="side-menu__label">Clinics</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Services -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('services.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                         <span class="side-menu__label">Services</span>
-                     </a>
-                 </li>
+                 @if (in_array('Services', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('services.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                             <span class="side-menu__label">Services</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- My Appointments -->
-                 <li class="slide mt-2">
-                     <a href="{{ url('get-patient') }}" class="side-menu__item">
-                         <i class="fa-solid fa-calendar-check side-menu__icon"></i>
-                         <span class="side-menu__label">My Appointments</span>
-                     </a>
-                 </li>
+                 @if (in_array('My Appointments', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ url('get-patient') }}" class="side-menu__item">
+                             <i class="fa-solid fa-calendar-check side-menu__icon"></i>
+                             <span class="side-menu__label">My Appointments</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- My Reports -->
-                 <li class="slide mt-2">
-                     <a href="{{ url('patient-reports/download') }}" class="side-menu__item d-flex align-items-center">
-                         <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
-                         <span class="side-menu__label">My Reports</span>
-                     </a>
-                 </li>
+                 @if (in_array('My Reports', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ url('patient-reports/download') }}"
+                             class="side-menu__item d-flex align-items-center">
+                             <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
+                             <span class="side-menu__label">My Reports</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Patients -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('reception.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-user-injured side-menu__icon"></i>
-                         <span class="side-menu__label">Patients</span>
-                     </a>
-                 </li>
+                 @if (in_array('Patients', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('reception.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                             <span class="side-menu__label">Patients</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Appointments -->
-                 <li class="slide mt-2">
-                     <a href="{{ route('appointment.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                         <span class="side-menu__label">Appointments</span>
-                     </a>
-                 </li>
+                 @if (in_array('Appointments', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('appointment.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                             <span class="side-menu__label">Appointments</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <!-- Logout -->
-                 <li class="slide mt-2">
-                     <a href="#" class="side-menu__item"
-                         onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
-                         <i class="fa-solid fa-right-from-bracket side-menu__icon"></i>
-                         <span class="side-menu__label">Logout</span>
-                     </a>
-                     <form id="logout-link" action="{{ route('logout') }}" method="POST" style="display: none;">
-                         @csrf
-                     </form>
-                 </li>
+                     <li class="slide mt-2">
+                         <a href="#" class="side-menu__item"
+                             onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
+                             <i class="fa-solid fa-right-from-bracket side-menu__icon"></i>
+                             <span class="side-menu__label">Logout</span>
+                         </a>
+                         <form id="logout-link" action="{{ route('logout') }}" method="POST" style="display: none;">
+                             @csrf
+                         </form>
+                     </li>
              </ul>
 
 

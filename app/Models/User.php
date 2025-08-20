@@ -82,4 +82,18 @@ class User extends Authenticatable
         return $this->hasMany(PatientReport::class, 'user_id');
     }
 
+public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function getPermissions(): array
+    {
+        // return array of permission names for the user's role
+        if ($this->role && $this->role->permissions) {
+            return $this->role->permissions->pluck('name')->toArray();
+        }
+        return [];
+    }
+
 }

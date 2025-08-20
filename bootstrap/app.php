@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'reception' => \App\Http\Middleware\RestrictToReception::class,
             'admin' => \App\Http\Middleware\Doctormiddleware::class,
             'patient' => \App\Http\Middleware\Patientmiddleware::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

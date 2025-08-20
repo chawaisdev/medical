@@ -14,8 +14,8 @@ class RolePermission extends Model
         'name',
     ];
 
-    public function role()
+      public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
 }

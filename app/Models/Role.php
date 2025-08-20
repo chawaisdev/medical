@@ -10,9 +10,15 @@ class Role extends Model
 
     protected $fillable = ['name'];
     
-public function permission()
-{
-    return $this->hasMany(RolePermission::class, 'role_id');
-}
+    public function permissions()
+    {
+        return $this->hasMany(RolePermission::class, 'role_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }
 

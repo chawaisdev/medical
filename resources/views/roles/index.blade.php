@@ -22,7 +22,7 @@
         <div class="col-xl-12">
             <div class="card custom-card overflow-hidden">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="card-title">All Roles</h6>
+                    <h6 c lass="card-title">All Roles</h6>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">
@@ -42,7 +42,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $role->name }}</td>
                                         <td>
-                                            @foreach ($role->permission as $perm)
+                                            @foreach ($role->permissions as $perm)
                                                 <span class="badge bg-primary">{{ $perm->name }}</span>
                                             @endforeach
                                         </td>
@@ -64,9 +64,6 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">No roles found.</td>
-                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>

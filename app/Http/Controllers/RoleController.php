@@ -10,11 +10,12 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $jobroles = Role::with('permission')->get();
+        $jobroles = Role::with('permissions')->get();
         // dd(Role::with('permission')->get());
         return view('roles.index', compact('jobroles'));
     }
 
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -41,20 +42,19 @@ class RoleController extends Controller
     }
 
 
-    public function edit($id)
-    {
-        $role = Role::with('permission')->findOrFail($id);
-
-        if (request()->ajax()) {
-            return response()->json([
-                'id' => $role->id,
-                'name' => $role->name,
-                'dashboard_access' => $role->permission->first()?->dashboard_access,
-            ]);
-        }
-
-        return view('roles.edit', compact('role'));
+public function edit($id)
+{
+    try {
+        $role = Role::with('permissions')->findOrFail($id);
+        return response()->json([
+            'name' => $role->name,
+            'dashboard_access' => $role->dashboard_access,
+            'permissions' => $role->permissions->pluck('name')
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Role not found'], 404);
     }
+}
 
 
     public function update(Request $request, $id)
