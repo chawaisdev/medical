@@ -41,20 +41,19 @@ class RoleController extends Controller
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
     }
 
-
-public function edit($id)
-{
+   public function edit($id)
+    {
     try {
         $role = Role::with('permissions')->findOrFail($id);
         return response()->json([
             'name' => $role->name,
-            'dashboard_access' => $role->dashboard_access,
+            'dashboard_access' => strtolower($role->dashboard_access),
             'permissions' => $role->permissions->pluck('name')
         ]);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Role not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Role not found'], 404);
+        }
     }
-}
 
 
     public function update(Request $request, $id)
@@ -69,15 +68,18 @@ public function edit($id)
         $role = Role::findOrFail($id);
         $role->update([
             'name' => $request->name,
+            'dashboard_access' => $request->dashboard_access,
         ]);
 
         RolePermission::where('role_id', $role->id)->delete();
 
-        RolePermission::create([
-            'role_id' => $role->id,
-            'name' => $request->permissions[0], // Assuming only one permission is being updated
-            'dashboard_access' => $request->dashboard_access,
-        ]);
+        foreach ($request->permissions as $permission) {
+            RolePermission::create([
+                'role_id' => $role->id,
+                'name' => $permission,
+                'dashboard_access' => $request->dashboard_access,
+            ]);
+        }
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }

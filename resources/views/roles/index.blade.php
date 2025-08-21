@@ -18,11 +18,10 @@
             </button>
         </div>
 
-
         <div class="col-xl-12">
             <div class="card custom-card overflow-hidden">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 c lass="card-title">All Roles</h6>
+                    <h6 class="card-title">All Roles</h6>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">
@@ -92,9 +91,9 @@
                                             @foreach (['Dashboard', 'User Management', 'Roles', 'Clinics', 'Services', 'My Appointments', 'My Reports', 'Patients', 'Appointments'] as $perm)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                        value="{{ $perm }}" id="perm_{{ $loop->index }}">
+                                                        value="{{ $perm }}" id="perm_{{ $perm }}">
                                                     <label class="form-check-label"
-                                                        for="perm_{{ $loop->index }}">{{ $perm }}</label>
+                                                        for="perm_{{ $perm }}">{{ $perm }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -105,15 +104,14 @@
                                             @foreach (['Patient', 'Reception', 'Admin'] as $type)
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="dashboard_access"
-                                                        value="{{ strtolower($type) }}" id="dashboard_{{ $loop->index }}"
+                                                        value="{{ strtolower($type) }}" id="dashboard_{{ $type }}"
                                                         required>
                                                     <label class="form-check-label"
-                                                        for="dashboard_{{ $loop->index }}">{{ $type }}</label>
+                                                        for="dashboard_{{ $type }}">{{ $type }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -132,6 +130,8 @@
             const modal = new bootstrap.Modal(document.getElementById('roleModal'));
             const form = $('#roleForm');
             form[0].reset();
+            $('input[name="permissions[]"]').prop('checked', false);
+            $('input[name="dashboard_access"]').prop('checked', false);
 
             if (button) {
                 const roleId = button.getAttribute('data-role-id');
@@ -144,9 +144,13 @@
                     method: 'GET',
                     success: function(response) {
                         $('#role_name').val(response.name);
+                        // Auto-fill permissions checkboxes
+                        response.permissions.forEach(function(permission) {
+                            $(`input[name="permissions[]"][value="${permission}"]`).prop('checked', true);
+                        });
+                        // Auto-fill dashboard access radio button
                         if (response.dashboard_access) {
-                            $(`input[name="dashboard_access"][value="${response.dashboard_access}"]`).prop(
-                                'checked', true);
+                            $(`input[name="dashboard_access"][value="${response.dashboard_access}"]`).prop('checked', true);
                         }
                         modal.show();
                     },

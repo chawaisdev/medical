@@ -32,14 +32,30 @@
                  @endphp
 
                  <!-- Dashboard -->
-                 @if (in_array('Dashboard', $permissions))
+                 <!-- Dashboard -->
+                 @if (auth()->user()->user_type === 'admin')
                      <li class="slide">
                          <a href="{{ route('dashboard') }}" class="side-menu__item">
                              <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
+                 @elseif (auth()->user()->user_type === 'reception')
+                     <li class="slide">
+                         <a href="{{ route('reception.dashboard') }}" class="side-menu__item">
+                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
+                 @elseif (auth()->user()->user_type === 'patient')
+                     <li class="slide">
+                         <a href="{{ route('patient.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
                  @endif
+
 
                  <!-- User Management -->
                  @if (in_array('User Management', $permissions))
@@ -123,16 +139,16 @@
                  @endif
 
                  <!-- Logout -->
-                     <li class="slide mt-2">
-                         <a href="#" class="side-menu__item"
-                             onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
-                             <i class="fa-solid fa-right-from-bracket side-menu__icon"></i>
-                             <span class="side-menu__label">Logout</span>
-                         </a>
-                         <form id="logout-link" action="{{ route('logout') }}" method="POST" style="display: none;">
-                             @csrf
-                         </form>
-                     </li>
+                 <li class="slide mt-2">
+                     <a href="#" class="side-menu__item"
+                         onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
+                         <i class="fa-solid fa-right-from-bracket side-menu__icon"></i>
+                         <span class="side-menu__label">Logout</span>
+                     </a>
+                     <form id="logout-link" action="{{ route('logout') }}" method="POST" style="display: none;">
+                         @csrf
+                     </form>
+                 </li>
              </ul>
 
 
