@@ -101,17 +101,31 @@
                                     <div class="mb-3">
                                         <label>Dashboard Access</label>
                                         <div class="border rounded p-2">
-                                            @foreach (['Patient', 'Reception', 'Admin'] as $type)
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="dashboard_access"
-                                                        value="{{ strtolower($type) }}" id="dashboard_{{ $type }}"
-                                                        required>
-                                                    <label class="form-check-label"
-                                                        for="dashboard_{{ $type }}">{{ $type }}</label>
-                                                </div>
-                                            @endforeach
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="dashboard_access"
+                                                    value="patient" id="dashboard_patient" required
+                                                    {{ isset($role) && $role->dashboard_access === 'patient' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="dashboard_patient">Patient</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="dashboard_access"
+                                                    value="reception" id="dashboard_reception" required
+                                                    {{ isset($role) && $role->dashboard_access === 'reception' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="dashboard_reception">Reception</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="dashboard_access"
+                                                    value="admin" id="dashboard_admin" required
+                                                    {{ isset($role) && $role->dashboard_access === 'admin' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="dashboard_admin">Admin</label>
+                                            </div>
+
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -146,11 +160,13 @@
                         $('#role_name').val(response.name);
                         // Auto-fill permissions checkboxes
                         response.permissions.forEach(function(permission) {
-                            $(`input[name="permissions[]"][value="${permission}"]`).prop('checked', true);
+                            $(`input[name="permissions[]"][value="${permission}"]`).prop('checked',
+                                true);
                         });
                         // Auto-fill dashboard access radio button
                         if (response.dashboard_access) {
-                            $(`input[name="dashboard_access"][value="${response.dashboard_access}"]`).prop('checked', true);
+                            $(`input[name="dashboard_access"][value="${response.dashboard_access}"]`).prop(
+                                'checked', true);
                         }
                         modal.show();
                     },

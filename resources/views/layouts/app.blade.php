@@ -10,7 +10,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="/assets/docimage/sarzonelogo.png">
+    <link rel="icon" href="{ asset('assets/images/getwell.png') }}">
     <!-- TITLE -->
     <title> @yield('title')</title>
     @include('includes.style')
@@ -84,7 +84,7 @@
         <footer class="footer mt-auto py-3 bg-white text-center">
             <div class="container">
                 <span class="text-muted"> Copyright © <span id="year"></span> <a href="javascript:void(0);"
-                        class="text-dark fw-semibold">Medical</a>
+                        class="text-dark fw-semibold">GetWell</a>
             </div>
         </footer>
         <!-- END FOOTER -->

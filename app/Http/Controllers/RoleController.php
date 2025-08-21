@@ -41,20 +41,19 @@ class RoleController extends Controller
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
     }
 
-   public function edit($id)
+    public function edit($id)
     {
-    try {
-        $role = Role::with('permissions')->findOrFail($id);
-        return response()->json([
-            'name' => $role->name,
-            'dashboard_access' => strtolower($role->dashboard_access),
-            'permissions' => $role->permissions->pluck('name')
-        ]);
+        try {
+            $role = Role::with('permissions')->findOrFail($id);
+            return response()->json([
+                'name' => $role->name,
+                'dashboard_access' => $role->dashboard_access,
+                'permissions' => $role->permissions->pluck('name')
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Role not found'], 404);
         }
     }
-
 
     public function update(Request $request, $id)
     {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Roles
+    Setting Index
 @endsection
 
 @section('body')
@@ -10,7 +10,7 @@
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Roles Index</li>
+                    <li class="breadcrumb-item active">Setting Index</li>
                 </ol>
             </nav>
         </div>
