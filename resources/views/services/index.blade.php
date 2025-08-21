@@ -11,7 +11,7 @@
                     <li class="breadcrumb-item active">Services Index</li>
                 </ol>
             </nav>
-            <<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="openCreateModal()" data-bs-toggle="modal"
+            <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="openCreateModal()" data-bs-toggle="modal"
                 data-bs-target="#serviceModal">
                 Add Service
                 </a>
