@@ -82,7 +82,7 @@ class User extends Authenticatable
         return $this->hasMany(PatientReport::class, 'user_id');
     }
 
-public function role()
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }
