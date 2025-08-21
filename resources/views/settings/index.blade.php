@@ -1,0 +1,95 @@
+@extends('layouts.app')
+
+@section('title')
+    Roles
+@endsection
+
+@section('body')
+    <div class="container-fluid">
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Roles Index</li>
+                </ol>
+            </nav>
+        </div>
+        <form action="{{ route('settings.update', ['setting' => Auth::id()]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="row mb-5">
+                <div class="col-xl-12">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="personal-info" role="tabpanel">
+                                    <div class="p-sm-3 p-0">
+                                        <div class="row gy-4 mb-4">
+                                            <div class="col-xl-6">
+                                                <label for="first-name" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="first-name" name="name"
+                                                    value="{{ $user->name }}" placeholder="First Name">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label for="last-name" class="form-label">Father Name</label>
+                                                <input type="text" class="form-control" id="last-name" name="father_name"
+                                                    value="{{ $user->father_name }}" placeholder="Father Name">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">Age</label>
+                                                <input type="number" class="form-control" name="age"
+                                                    value="{{ $user->age }}" placeholder="Age">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">CNIC</label>
+                                                <input type="text" class="form-control" name="cnic"
+                                                    value="{{ $user->cnic }}" placeholder="CNIC">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_number"
+                                                    value="{{ $user->contact_number }}" placeholder="Contact Number">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">Address</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    value="{{ $user->address }}" placeholder="Address">
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" name="email"
+                                                    value="{{ $user->email }}" placeholder="Email">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" name="password"
+                                                    placeholder="Leave blank to keep current">
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" name="password_confirmation"
+                                                    placeholder="Confirm Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary m-1">Update Setting</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- JS for live preview -->
+    <script>
+        document.getElementById('profile-img').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                document.getElementById('profile-img-preview').src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+@endsection

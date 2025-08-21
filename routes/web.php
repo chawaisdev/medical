@@ -10,6 +10,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,7 @@ Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSch
 // Admin Resource Controllers
 Route::resource('adduser', AddUserController::class);
 Route::resource('clinic', ClinicController::class);
+Route::resource('settings', SettingController::class);
 
 // Patient Routes
 Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
