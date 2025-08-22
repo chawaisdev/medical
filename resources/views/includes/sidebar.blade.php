@@ -137,14 +137,17 @@
                          </a>
                      </li>
                  @endif
+                 
+                 @if (auth()->user()->user_type === 'admin')
+                     <li class="slide mt-2">
+                         <a href="{{ route('settings.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-sliders side-menu__icon"></i>
 
-                 <li class="slide mt-2">
-                     <a href="{{ route('settings.index') }}" class="side-menu__item">
-                         <i class="fa-solid fa-sliders side-menu__icon"></i>
+                             <span class="side-menu__label">Settings</span>
+                         </a>
+                     </li>
+                 @endif
 
-                         <span class="side-menu__label">Settings</span>
-                     </a>
-                 </li>
 
 
                  <!-- Logout -->

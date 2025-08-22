@@ -55,34 +55,23 @@ class SettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Auth::user(); // Always use logged-in user
+        $user = Auth::user(); // logged-in user
 
+        // Validate only the fields present in the Blade
         $request->validate([
             'name' => 'required|string|max:255',
-            'father_name' => 'nullable|string|max:255',
-            'age' => 'nullable|integer|min:1',
-            'cnic' => 'nullable|string|max:15',
-            'contact_number' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:6|confirmed',
-            'profile_pic_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $user->fill($request->only([
-            'name', 'father_name', 'age', 'cnic', 'contact_number', 'address', 'email'
-        ]));
+        // Update only name + email
+        $user->fill($request->only(['name', 'email']));
 
+        // Update password if provided
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
+    $user->password = Hash::make($request->password);
+}
 
-        if ($request->hasFile('profile_pic_path')) {
-            $file = $request->file('profile_pic_path');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/profile'), $filename);
-            $user->profile_pic_path = 'uploads/profile/' . $filename;
-        }
 
         $user->save();
 

@@ -98,34 +98,6 @@
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label>Dashboard Access</label>
-                                        <div class="border rounded p-2">
-
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="dashboard_access"
-                                                    value="patient" id="dashboard_patient" required
-                                                    {{ isset($role) && $role->dashboard_access === 'patient' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="dashboard_patient">Patient</label>
-                                            </div>
-
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="dashboard_access"
-                                                    value="reception" id="dashboard_reception" required
-                                                    {{ isset($role) && $role->dashboard_access === 'reception' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="dashboard_reception">Reception</label>
-                                            </div>
-
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="dashboard_access"
-                                                    value="admin" id="dashboard_admin" required
-                                                    {{ isset($role) && $role->dashboard_access === 'admin' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="dashboard_admin">Admin</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

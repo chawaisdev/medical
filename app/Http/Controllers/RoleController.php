@@ -22,7 +22,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
             'permissions.*' => 'string',
-            'dashboard_access' => 'required|string|in:patient,reception,admin',
+            // 'dashboard_access' => 'required|string|in:patient,reception,admin',
         ]);
 
         $role = Role::create([
@@ -33,7 +33,6 @@ class RoleController extends Controller
             RolePermission::create([
                 'role_id' => $role->id,
                 'name' => $permission,
-                'dashboard_access' => $request->dashboard_access,
             ]);
             // dd($request->dashboard_access);
         }
@@ -61,13 +60,11 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
             'permissions' => 'required|array',
             'permissions.*' => 'string',
-            'dashboard_access' => 'required|string|in:patient,reception,admin',
         ]);
 
         $role = Role::findOrFail($id);
         $role->update([
             'name' => $request->name,
-            'dashboard_access' => $request->dashboard_access,
         ]);
 
         RolePermission::where('role_id', $role->id)->delete();
@@ -76,7 +73,6 @@ class RoleController extends Controller
             RolePermission::create([
                 'role_id' => $role->id,
                 'name' => $permission,
-                'dashboard_access' => $request->dashboard_access,
             ]);
         }
 

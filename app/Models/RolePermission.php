@@ -10,7 +10,6 @@ class RolePermission extends Model
 
     protected $fillable = [
         'role_id',
-        'dashboard_access',
         'name',
     ];
 
