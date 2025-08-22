@@ -26,9 +26,9 @@
                                     <div class="p-sm-3 p-0">
                                         <div class="row gy-4 mb-4">
                                             <div class="col-xl-6">
-                                                <label for="first-name" class="form-label">First Name</label>
+                                                <label for="first-name" class="form-label">Name</label>
                                                 <input type="text" class="form-control" id="first-name" name="name"
-                                                    value="{{ $user->name }}" placeholder="First Name">
+                                                    value="{{ $user->name }}" placeholder="Name">
                                             </div>
                                             <div class="col-xl-12">
                                                 <label class="form-label">Email</label>
