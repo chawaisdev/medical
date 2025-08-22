@@ -91,15 +91,6 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
-                            <div class="mb-3 col-6">
-                                <label for="mr_number" class="form-label">Patient ID / MR Number</label>
-                                <input type="text" name="mr_number" class="form-control" placeholder="Enter MR number"
-                                    value="{{ old('mr_number') }}">
-                                @error('mr_number')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save Patient </button>

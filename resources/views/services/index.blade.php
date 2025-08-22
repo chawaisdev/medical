@@ -14,7 +14,7 @@
             <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="openCreateModal()" data-bs-toggle="modal"
                 data-bs-target="#serviceModal">
                 Add Service
-                </a>
+            </a>
 
         </div>
 
@@ -95,7 +95,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                             <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
                         </div>
                     </div>
@@ -124,5 +125,10 @@
                     new bootstrap.Modal(document.getElementById('serviceModal')).show();
                 });
         }
+        document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
+            button.addEventListener('click', () => {
+                modal.hide();
+            });
+        });
     </script>
 @endsection

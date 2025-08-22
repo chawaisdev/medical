@@ -41,7 +41,6 @@ class ReceptionController extends Controller
             'cnic'           => 'nullable|string|max:20',
             'contact_number' => 'nullable|string|max:20',
             'address'        => 'nullable|string',
-            'mr_number'      => 'nullable|string|max:50',
         ]);
 
         User::create([
@@ -54,7 +53,6 @@ class ReceptionController extends Controller
             'cnic'           => $request->cnic,
             'contact_number' => $request->contact_number,
             'address'        => $request->address,
-            'mr_number'      => $request->mr_number ?: 'MR-' . str_pad(User::max('id') + 1, 5, '0', STR_PAD_LEFT),
         ]);
 
         return redirect()->route('reception.index')->with('success', 'Patient added successfully.');
@@ -79,7 +77,6 @@ class ReceptionController extends Controller
             'cnic'           => 'nullable|string|max:20',
             'contact_number' => 'nullable|string|max:20',
             'address'        => 'nullable|string',
-            'mr_number'      => 'nullable|string|max:50',
         ]);
 
         $user = User::findOrFail($id);
@@ -92,7 +89,6 @@ class ReceptionController extends Controller
         $user->cnic           = $request->cnic;
         $user->contact_number = $request->contact_number;
         $user->address        = $request->address;
-        $user->mr_number      = $request->mr_number;
 
         if (!empty($request->password)) {
             $user->password = Hash::make($request->password);

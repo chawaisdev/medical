@@ -48,7 +48,7 @@
                                         <td>{{ $user->cnic ?? 'N/A' }}</td>
                                         <td>{{ $user->contact_number ?? 'N/A' }}</td>
                                         <td>{{ $user->address ?? 'N/A' }}</td>
-                                        <td>{{ $user->mr_number ?? 'N/A' }}</td>
+                                        <td>{{ $user->id ?? 'N/A' }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
                                             <form action="{{ route('reception.destroy', $user->id) }}" method="POST"

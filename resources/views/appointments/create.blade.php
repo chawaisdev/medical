@@ -187,12 +187,6 @@
                             <label class="form-label">Address</label>
                             <textarea name="address" class="form-control" rows="2"></textarea>
                         </div>
-
-                        <!-- Patient ID / MR Number -->
-                        <div class="col-md-6">
-                            <label class="form-label">Patient ID / MR Number</label>
-                            <input type="text" name="mr_number" class="form-control">
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

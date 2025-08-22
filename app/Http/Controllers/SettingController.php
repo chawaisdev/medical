@@ -64,17 +64,12 @@ class SettingController extends Controller
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        // Update only name + email
         $user->fill($request->only(['name', 'email']));
 
-        // Update password if provided
-        if ($request->filled('password')) {
-    $user->password = Hash::make($request->password);
-}
-
-
+            if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
         $user->save();
-
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 

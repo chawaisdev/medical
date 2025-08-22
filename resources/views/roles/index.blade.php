@@ -100,7 +100,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                                     <button type="submit" class="btn btn-primary">Save Role</button>
                                 </div>
                             </div>
@@ -152,6 +153,12 @@
                 form.attr('action', `{{ route('roles.store') }}`);
                 modal.show();
             }
+            document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
+    button.addEventListener('click', () => {
+        modal.hide();
+    });
+});
+
         }
     </script>
 @endsection

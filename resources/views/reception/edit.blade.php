@@ -67,12 +67,6 @@
                                     <label for="address" class="form-label">Address</label>
                                     <textarea name="address" class="form-control" rows="2">{{ old('address', $user->address) }}</textarea>
                                 </div>
-
-                                <div class="mb-3 col-6">
-                                    <label for="mr_number" class="form-label">Patient ID / MR Number</label>
-                                    <input type="text" name="mr_number" class="form-control"
-                                        value="{{ old('mr_number', $user->mr_number) }}">
-                                </div>
                             </div>
                         <button type="submit" class="btn btn-primary">Update Patient</button>
                     </form>
