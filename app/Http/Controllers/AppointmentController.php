@@ -83,30 +83,46 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
         $doctors = User::where('user_type', 'doctor')->get();
         $patients = User::where('user_type', 'patient')->get();
-        return view('appointments.edit', compact('appointment', 'doctors', 'patients'));
+        $services = Service::all();
+        return view('appointments.edit', compact('appointment', 'doctors', 'patients','services'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'doctor_id' => 'required|exists:users,id',
-            'patient_id' => 'required|exists:users,id',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'doctor_id' => 'required|exists:users,id',
+        'patient_id' => 'required|exists:users,id',
+        'date' => 'required|date',
+        'time' => 'required|date_format:H:i',
+    ]);
 
-        $appointment = Appointment::findOrFail($id);
-        $appointment->doctor_id = $request->doctor_id;
-        $appointment->patient_id = $request->patient_id;
-        $appointment->date = $request->date;
-        $appointment->time = $request->time;
-        $appointment->save();
+    $appointment = Appointment::findOrFail($id);
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment updated successfully.');
+    $appointment->doctor_id = $request->doctor_id;
+    $appointment->patient_id = $request->patient_id;
+    $appointment->date = $request->date;
+    $appointment->time = $request->time;
+
+    // Update fee, discount, and final_fee
+    $appointment->fee = $request->fee ?? 0;
+    $appointment->discount = $request->discount ?? 0;
+    $appointment->final_fee = $request->final_fee ?? 0;
+
+    $appointment->save();
+
+    // Update services (sync replaces old services with new ones)
+    if ($request->has('services')) {
+        $appointment->services()->sync($request->services);
+    } else {
+        $appointment->services()->detach(); // remove all if none selected
     }
+
+    return redirect()->route('appointment.index')
+                     ->with('success', 'Appointment updated successfully with services.');
+}
 
     /**
      * Remove the specified resource from storage.
