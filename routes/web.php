@@ -32,6 +32,8 @@ Route::resource('settings', SettingController::class);
 // Patient Routes
 Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
 Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
+Route::get('/appointments/{id}/print', [AppointmentController::class, 'print'])
+    ->name('appointments.print');
 
 // Roles & Permissions
 Route::resource('roles', RoleController::class);

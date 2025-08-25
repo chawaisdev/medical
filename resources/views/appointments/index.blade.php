@@ -63,6 +63,11 @@
                                                 class="btn btn-sm btn-warning">
                                                 <i class="fa fa-pen-to-square"></i>
                                             </a>
+<a href="{{ route('appointments.print', $appointment->id) }}" target="_blank" 
+   class="btn btn-sm btn-info">
+    <i class="fa fa-print"></i>
+</a>
+
                                         </td>
                                     </tr>
                                 @empty

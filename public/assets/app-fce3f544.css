@@ -20039,7 +20039,7 @@ code[class*=language-] {
 
 .app-sidebar .main-sidebar-header {
     height: 3.75rem;
-    width: 15rem;
+    /* width: 15rem; */
     position: fixed;
     display: flex;
     background: var(--menu-bg);
@@ -20047,8 +20047,8 @@ code[class*=language-] {
     align-items: center;
     justify-content: center;
     padding: .813rem 1.25rem;
-    border-inline-end: 1px solid var(--menu-border-color);
-    border-block-end: 1px solid var(--menu-border-color);
+    /* border-inline-end: 1px solid var(--menu-border-color); */
+    /* border-block-end: 1px solid var(--menu-border-color); */
     transition: all .05s ease
 }
 

@@ -15,11 +15,11 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $query = Appointment::with(['doctor', 'patient']);
-        if ($request->has('date')) {
-            $query->whereDate('date', $request->query('date'));
-        } else {
-            $query->whereDate('date', \Carbon\Carbon::today());
-        }
+        // if ($request->has('date')) {
+        //     $query->whereDate('date', $request->query('date'));
+        // } else {
+        //     $query->whereDate('date', \Carbon\Carbon::today());
+        // }
         return view('appointments.index', [
             'appointments' => $query->get(),
         ]);
@@ -117,4 +117,12 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
     }
+
+    public function print($id)
+{
+    $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($id);
+
+    return view('appointments.print', compact('appointment'));
+}
+
 }

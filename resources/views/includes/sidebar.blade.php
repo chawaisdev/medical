@@ -6,7 +6,7 @@
      <div class="main-sidebar-header">
          <a href="" class="header-logo">
              <img src="{{ asset('assets/images/getwell.png') }}" alt="Get Well" height="100"
-                 style="margin-top: 12px; margin-bottom: 8px; padding: -22px; background-color: #fff; border-radius: 8px;">
+                 style="margin-top: 12px; margin-bottom: 8px; background-color: #fff; border-radius: 8px;">
 
 
              {{-- <img src="/.svg" alt="logo" class="toggle-dark">
