@@ -4,6 +4,12 @@
 <head>
     <title>Appointment Invoice</title>
     <style>
+        :root {
+            --primary-rgb: 71, 143, 55;
+            --primary-color: rgb(var(--primary-rgb));
+            --primary-gradient: linear-gradient(90deg, rgb(var(--primary-rgb)), rgb(var(--primary-rgb)));
+        }
+
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #2d3748;
@@ -15,7 +21,6 @@
         .invoice-container {
             width: 100%;
             max-width: 500px;
-            /* Adjusted for A5 width (148mm ≈ 560px at 96dpi) */
             margin: 15px auto;
             padding: 15px;
             background: #ffffff;
@@ -34,7 +39,6 @@
 
         .invoice-header img {
             max-height: 60px;
-            /* Reduced for A5 proportions */
             border-radius: 6px;
             background: #fff;
             padding: 3px;
@@ -42,16 +46,14 @@
 
         .invoice-header h1 {
             font-size: 20px;
-            /* Scaled down for A5 */
             font-weight: 700;
             margin: 0;
-            color: #1a73e8;
+            color: var(--primary-color);
         }
 
         .invoice-header .details {
             text-align: right;
             font-size: 12px;
-            /* Adjusted for readability */
             color: #4a5568;
             line-height: 1.4;
         }
@@ -63,7 +65,7 @@
         .section-title {
             font-weight: 600;
             font-size: 14px;
-            color: #2b6cb0;
+            color: var(--primary-color);
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
@@ -98,7 +100,7 @@
         }
 
         .services-table th {
-            background: linear-gradient(90deg, #1a73e8, #2563eb);
+            background: var(--primary-gradient);
             color: #fff;
             font-weight: 600;
             text-transform: uppercase;
@@ -139,7 +141,6 @@
             @page {
                 size: A5 portrait;
                 margin: 5mm;
-                /* Consistent margin for A5 */
             }
 
             .invoice-container {
@@ -147,7 +148,6 @@
                 margin: 0;
                 width: 90%;
                 max-width: none;
-                /* Ensure full A5 width usage */
                 padding: 10mm;
             }
 

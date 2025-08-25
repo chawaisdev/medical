@@ -15,7 +15,7 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $query = Appointment::with(['doctor', 'patient']);
-        // dd($query)
+        // dd($query);
         // if ($request->has('date')) {
         //     $query->whereDate('date', $request->query('date'));
         // } else {
