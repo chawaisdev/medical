@@ -15,6 +15,7 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $query = Appointment::with(['doctor', 'patient']);
+        // dd($query)
         // if ($request->has('date')) {
         //     $query->whereDate('date', $request->query('date'));
         // } else {
@@ -88,7 +89,7 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'doctor_id' => 'required|exists:users,id',
@@ -119,10 +120,10 @@ class AppointmentController extends Controller
     }
 
     public function print($id)
-{
-    $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($id);
+    {
+        $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($id);
 
-    return view('appointments.print', compact('appointment'));
-}
+        return view('appointments.print', compact('appointment'));
+    }
 
 }

@@ -1,97 +1,249 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Appointment Invoice</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; color: #333; margin:0; padding:0; }
-        .invoice-box { width: 100%; max-width: 520px; margin: 0 auto; border: 1px solid #ddd; padding: 18px; box-shadow: 0 0 8px rgba(0,0,0,0.1); border-radius: 6px; background: #fff; }
-        .header { text-align: center; border-bottom: 2px solid #4CAF50; padding-bottom: 8px; margin-bottom: 15px; }
-        .header h2 { margin: 0; font-size: 20px; color: #4CAF50; }
-        .header p { margin: 3px 0 0; font-size: 13px; color: #555; }
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; word-wrap: break-word; }
-        th, td { padding: 6px 8px; border: 1px solid #ddd; text-align: left; }
-        th { background: #f8f8f8; font-weight: 600; }
-        .section-title { margin-top: 15px; font-size: 15px; font-weight: 600; color: #4CAF50; border-bottom: 1px solid #ccc; padding-bottom: 3px; }
-        .total { text-align: right; font-weight: bold; background: #f0fdf4; }
-        .footer { margin-top: 15px; text-align: center; font-size: 12px; color: #777; border-top: 1px dashed #aaa; padding-top: 8px; }
-        @media print { @page { size: A5 portrait; margin: 8mm; } body { margin:0; padding:0; } .invoice-box { box-shadow:none; border:none; width:90%; max-width:none; } table, th, td { page-break-inside: avoid; } }
-        @media screen and (max-width: 600px) { .invoice-box { padding: 10px; } table, th, td { font-size: 12px; } }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+
+        .invoice-container {
+            width: 100%;
+            max-width: 500px;
+            /* Adjusted for A5 width (148mm ≈ 560px at 96dpi) */
+            margin: 15px auto;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .invoice-header img {
+            max-height: 60px;
+            /* Reduced for A5 proportions */
+            border-radius: 6px;
+            background: #fff;
+            padding: 3px;
+        }
+
+        .invoice-header h1 {
+            font-size: 20px;
+            /* Scaled down for A5 */
+            font-weight: 700;
+            margin: 0;
+            color: #1a73e8;
+        }
+
+        .invoice-header .details {
+            text-align: right;
+            font-size: 12px;
+            /* Adjusted for readability */
+            color: #4a5568;
+            line-height: 1.4;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2b6cb0;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .info-table {
+            width: 100%;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .info-table td {
+            vertical-align: top;
+            padding: 5px 8px;
+        }
+
+        .services-table,
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .services-table th,
+        .services-table td,
+        .payment-table th,
+        .payment-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .services-table th {
+            background: linear-gradient(90deg, #1a73e8, #2563eb);
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .services-table tbody tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+
+        .services-table tbody tr:hover {
+            background-color: #edf2ff;
+        }
+
+        .payment-table td {
+            background-color: #f7fafc;
+        }
+
+        .total-row td {
+            font-weight: 700;
+            background: linear-gradient(90deg, #edf2ff, #e2e8f0);
+            color: #1a202c;
+        }
+
+        .footer {
+            font-size: 11px;
+            text-align: center;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .footer strong {
+            color: #2d3748;
+        }
+
+        @media print {
+            @page {
+                size: A5 portrait;
+                margin: 5mm;
+                /* Consistent margin for A5 */
+            }
+
+            .invoice-container {
+                box-shadow: none;
+                margin: 0;
+                width: 90%;
+                max-width: none;
+                /* Ensure full A5 width usage */
+                padding: 10mm;
+            }
+
+            body {
+                background: #fff;
+            }
+        }
     </style>
 </head>
+
 <body onload="window.print()">
-    <div class="invoice-box">
-        <div class="header">
-            <h2>🩺 My Medical Center</h2>
-            <p><strong>Appointment Receipt</strong></p>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="invoice-header">
+            <img src="{{ asset('assets/images/getwell.png') }}" alt="GetWell Logo">
+            <div class="details">
+                <h1>Appointment Invoice</h1>
+                <div>Invoice #: {{ $appointment->id }}</div>
+                <div>Date: {{ $appointment->date }}</div>
+                <div>Time: {{ $appointment->time }}</div>
+            </div>
         </div>
 
-        <!-- Appointment Info -->
-        <div class="section-title">Appointment Info</div>
-        <table>
-            <tr>
-                <td><strong>Appointment ID:</strong> {{ $appointment->id }}</td>
-                <td><strong>Date:</strong> {{ $appointment->date }}</td>
-                <td><strong>Time:</strong> {{ $appointment->time }}</td>
-            </tr>
-            <tr>
-                <td><strong>Doctor:</strong> {{ $appointment->doctor->name ?? 'N/A' }}</td>
-                <td colspan="2"><strong>Patient:</strong> {{ $appointment->patient->name ?? 'N/A' }}</td>
-            </tr>
-        </table>
-
-        <!-- Services with Price -->
-        <div class="section-title">Services</div>
-        <table>
-            <thead>
+        <!-- From / Bill To -->
+        <div class="section">
+            <table class="info-table">
                 <tr>
-                    <th style="width:40px;">#</th>
-                    <th>Service</th>
-                    <th>Price</th>
+                    <td>
+                        <div class="section-title">From</div>
+                        <strong>GetWell Medical Center</strong><br>
+                        Doctor: {{ $appointment->doctor->name ?? 'N/A' }}<br>
+                        Phone: +92-300-1234567<br>
+                        Address: 123 Health Street, Medical City
+                    </td>
+                    <td>
+                        <div class="section-title">Bill To</div>
+                        <strong>{{ $appointment->patient->name ?? 'N/A' }}</strong><br>
+                        Email: {{ $appointment->patient->email ?? 'N/A' }}<br>
+                        Phone: {{ $appointment->patient->phone ?? 'N/A' }}
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @php
-                    $total_service_fee = 0;
-                @endphp
-                @foreach($appointment->services as $index => $service)
-                    @php
-                        $total_service_fee += $service->price; // assuming each service has a price column
-                    @endphp
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $service->name }}</td>
-                        <td>{{ number_format($service->price, 2) }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+            </table>
+        </div>
 
-        <!-- Payment -->
-        <div class="section-title">Payment Details</div>
-        <table>
-            <tr>
-                <td><strong>Appointment Fee</strong></td>
-                <td>{{ number_format($appointment->fee, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Discount</strong></td>
-                <td>{{ number_format($appointment->discount, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Service Total</strong></td>
-                <td>{{ number_format($total_service_fee, 2) }}</td>
-            </tr>
-            <tr>
-                <td class="total">Final Fee</td>
-                <td class="total">{{ number_format($appointment->final_fee + $total_service_fee, 2) }}</td>
-            </tr>
-        </table>
+        <!-- Services Table -->
+        <div class="section">
+            <table class="services-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Service</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $total_service_fee = 0; @endphp
+                    @foreach ($appointment->services as $index => $service)
+                        @php $total_service_fee += $service->price; @endphp
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $service->name }}</td>
+                            <td>{{ number_format($service->price, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Payment Summary -->
+        <div class="section">
+            <table class="payment-table">
+                <tr>
+                    <td>Appointment Fee</td>
+                    <td>{{ number_format($appointment->fee, 2) }}</td>
+                </tr>
+                <tr>
+                    <td>Discount</td>
+                    <td>{{ number_format($appointment->discount, 2) }}</td>
+                </tr>
+                <tr>
+                    <td>Service Total</td>
+                    <td>{{ number_format($total_service_fee, 2) }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Total Amount</td>
+                    <td>{{ number_format($appointment->final_fee + $total_service_fee, 2) }}</td>
+                </tr>
+            </table>
+        </div>
 
         <!-- Footer -->
         <div class="footer">
-            <p>Thank you for choosing <strong>My Medical Center</strong><br>
-            For inquiries, call: +92-300-1234567</p>
+            Thank you for choosing <strong>GetWell Medical Center</strong><br>
+            For inquiries, please contact: +92-300-1234567 | info@getwellcenter.com
         </div>
     </div>
 </body>
+
 </html>
