@@ -5,8 +5,17 @@
      <!-- Start::main-sidebar-header -->
      <div class="main-sidebar-header">
          <a href="" class="header-logo">
-             <img src="{{ asset('assets/images/getwell.png') }}" alt="Get Well" height="100"
-                 style="margin-top: 12px; margin-bottom: 8px; background-color: #fff; border-radius: 8px;">
+             <img src="{{ asset('assets/images/getwell.png') }}" alt="Get Well"
+                 style="
+         display: block;
+         margin: 12px auto 8px auto; 
+         background-color: #fff; 
+         padding: 3px; 
+         border-radius: 12px; 
+         box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+         max-height: 100px;
+         object-fit: contain;
+     ">
 
 
              {{-- <img src="/.svg" alt="logo" class="toggle-dark">
@@ -137,7 +146,7 @@
                          </a>
                      </li>
                  @endif
-                 
+
                  @if (auth()->user()->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('settings.index') }}" class="side-menu__item">

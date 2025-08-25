@@ -4,93 +4,18 @@
     <title>Appointment Invoice</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; color: #333; margin:0; padding:0; }
-
-        /* General page styling */
-        .invoice-box {
-            width: 100%;
-            max-width: 520px; /* A5 width ~ 148mm */
-            margin: 0 auto;
-            border: 1px solid #ddd;
-            padding: 18px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            border-radius: 6px;
-            background: #fff;
-        }
-
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-
-        .header h2 {
-            margin: 0;
-            font-size: 20px;
-            color: #4CAF50;
-        }
-
-        .header p {
-            margin: 3px 0 0;
-            font-size: 13px;
-            color: #555;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-            word-wrap: break-word;
-        }
-
-        th, td {
-            padding: 6px 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background: #f8f8f8;
-            font-weight: 600;
-        }
-
-        .section-title {
-            margin-top: 15px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #4CAF50;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 3px;
-        }
-
-        .total {
-            text-align: right;
-            font-weight: bold;
-            background: #f0fdf4;
-        }
-
-        .footer {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 12px;
-            color: #777;
-            border-top: 1px dashed #aaa;
-            padding-top: 8px;
-        }
-
-        /* Print-specific styling */
-        @media print {
-            @page { size: A5 portrait; margin: 8mm; }
-            body { margin: 0; padding: 0; }
-            .invoice-box { box-shadow: none; border: none; width: 100%; max-width: none; }
-            table, th, td { page-break-inside: avoid; }
-        }
-
-        /* Responsive on small screens */
-        @media screen and (max-width: 600px) {
-            .invoice-box { padding: 10px; }
-            table, th, td { font-size: 12px; }
-        }
+        .invoice-box { width: 100%; max-width: 520px; margin: 0 auto; border: 1px solid #ddd; padding: 18px; box-shadow: 0 0 8px rgba(0,0,0,0.1); border-radius: 6px; background: #fff; }
+        .header { text-align: center; border-bottom: 2px solid #4CAF50; padding-bottom: 8px; margin-bottom: 15px; }
+        .header h2 { margin: 0; font-size: 20px; color: #4CAF50; }
+        .header p { margin: 3px 0 0; font-size: 13px; color: #555; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; word-wrap: break-word; }
+        th, td { padding: 6px 8px; border: 1px solid #ddd; text-align: left; }
+        th { background: #f8f8f8; font-weight: 600; }
+        .section-title { margin-top: 15px; font-size: 15px; font-weight: 600; color: #4CAF50; border-bottom: 1px solid #ccc; padding-bottom: 3px; }
+        .total { text-align: right; font-weight: bold; background: #f0fdf4; }
+        .footer { margin-top: 15px; text-align: center; font-size: 12px; color: #777; border-top: 1px dashed #aaa; padding-top: 8px; }
+        @media print { @page { size: A5 portrait; margin: 8mm; } body { margin:0; padding:0; } .invoice-box { box-shadow:none; border:none; width:90%; max-width:none; } table, th, td { page-break-inside: avoid; } }
+        @media screen and (max-width: 600px) { .invoice-box { padding: 10px; } table, th, td { font-size: 12px; } }
     </style>
 </head>
 <body onload="window.print()">
@@ -114,21 +39,29 @@
             </tr>
         </table>
 
-        <!-- Services -->
+        <!-- Services with Price -->
         <div class="section-title">Services</div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40px;">#</th>
+                    <th style="width:40px;">#</th>
                     <th>Service</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $total_service_fee = 0;
+                @endphp
                 @foreach($appointment->services as $index => $service)
-                <tr>
-                    <td>{{ $index+1 }}</td>
-                    <td>{{ $service->name }}</td>
-                </tr>
+                    @php
+                        $total_service_fee += $service->price; // assuming each service has a price column
+                    @endphp
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $service->name }}</td>
+                        <td>{{ number_format($service->price, 2) }}</td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -137,7 +70,7 @@
         <div class="section-title">Payment Details</div>
         <table>
             <tr>
-                <td><strong>Fee</strong></td>
+                <td><strong>Appointment Fee</strong></td>
                 <td>{{ number_format($appointment->fee, 2) }}</td>
             </tr>
             <tr>
@@ -145,8 +78,12 @@
                 <td>{{ number_format($appointment->discount, 2) }}</td>
             </tr>
             <tr>
+                <td><strong>Service Total</strong></td>
+                <td>{{ number_format($total_service_fee, 2) }}</td>
+            </tr>
+            <tr>
                 <td class="total">Final Fee</td>
-                <td class="total">{{ number_format($appointment->final_fee, 2) }}</td>
+                <td class="total">{{ number_format($appointment->final_fee + $total_service_fee, 2) }}</td>
             </tr>
         </table>
 
