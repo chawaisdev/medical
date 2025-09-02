@@ -95,7 +95,7 @@
                  <!-- My Appointments -->
                  @if (in_array('My Appointments', $permissions))
                      <li class="slide mt-2">
-                         <a href="{{ url('get-patient') }}" class="side-menu__item">
+                         <a href="{{ url('appointments') }}" class="side-menu__item">
                              <i class="fa-solid fa-calendar-check side-menu__icon"></i>
                              <span class="side-menu__label">My Appointments</span>
                          </a>
