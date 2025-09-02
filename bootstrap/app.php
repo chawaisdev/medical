@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use Illuminate\Support\Facades\Auth;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -14,11 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Register the 'reception' middleware alias
         $middleware->alias([
-            'reception' => \App\Http\Middleware\RestrictToReception::class,
-            'admin' => \App\Http\Middleware\Doctormiddleware::class,
-            'patient' => \App\Http\Middleware\Patientmiddleware::class,
-            'permission' => \App\Http\Middleware\CheckPermission::class,
-
+                'userType' => \App\Http\Middleware\UserTypeMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -19,43 +19,44 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Schedule assign routes
-Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
-Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
+    // Admin routes
+    Route::middleware(['userType:admin'])->group(function () {
+        Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
+        Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
 
-// Admin Resource Controllers
-Route::resource('adduser', AddUserController::class);
-Route::resource('clinic', ClinicController::class);
-Route::resource('settings', SettingController::class);
+        Route::resource('adduser', AddUserController::class);
+        Route::resource('clinic', ClinicController::class);
+        Route::resource('settings', SettingController::class);
 
-// Patient Routes
-Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
-Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
-Route::get('/appointments/{id}/print', [AppointmentController::class, 'print'])
-    ->name('appointments.print');
+        Route::resource('roles', RoleController::class);
+        Route::resource('rolepermission', RolePermissionController::class);
+        Route::resource('services', ServiceController::class);
+    });
 
-// Roles & Permissions
-Route::resource('roles', RoleController::class);
-Route::resource('rolepermission', RolePermissionController::class);
+    // Reception routes
+    Route::middleware(['userType:reception'])->group(function () {
+        Route::resource('reception', ReceptionController::class);
+        Route::resource('appointment', AppointmentController::class);
 
-// Reception Routes
-// Appointment routes
-Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
-Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointment.edit');
+        Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
+        Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointment.edit');
+        Route::get('/appointments/{id}/print', [AppointmentController::class, 'print'])->name('appointments.print');
 
-// Reception resource controllers
-Route::resource('reception', ReceptionController::class);
-Route::resource('appointment', AppointmentController::class);
-Route::resource('services', ServiceController::class);
+        Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+        Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
+        Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
 
-Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
-Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
-Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
+        Route::get('/get-top-patient', [ReceptionController::class, 'topPatientGet'])->name('reception.dashboard');
+    });
 
-Route::get('/get-top-patient', [ReceptionController::class, 'topPatientGet'])->name('reception.dashboard');
+    // Patient routes
+    Route::middleware(['userType:patient'])->group(function () {
+        Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
+        Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
+    });
+
 
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
