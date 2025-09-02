@@ -20039,7 +20039,7 @@ code[class*=language-] {
 
 .app-sidebar .main-sidebar-header {
     height: 3.75rem;
-    /* width: 15rem; */
+    width: 15rem;
     position: fixed;
     display: flex;
     background: var(--menu-bg);

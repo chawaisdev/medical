@@ -4,23 +4,9 @@
 
      <!-- Start::main-sidebar-header -->
      <div class="main-sidebar-header">
-         <a href="" class="header-logo">
-             <img src="{{ asset('assets/images/getwell.png') }}" alt="Get Well"
-                 style="
-         display: block;
-         margin: 12px auto 8px auto; 
-         background-color: #fff; 
-         padding: 3px; 
-         border-radius: 12px; 
-         box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-         max-height: 100px;
-         object-fit: contain;
-     ">
+         <a href="" class="header-logo text-center">
+             <img src="{{ asset('assets/images/logo getwelll.png') }}" alt="Get Well">
 
-
-             {{-- <img src="/.svg" alt="logo" class="toggle-dark">
-            <img src="/assets/images/others/logo.svg" alt="logo" class="desktop-white">
-            <img src="/assets/images/others/logo.svg" alt="logo" class="toggle-white"> --}}
          </a>
      </div>
 
