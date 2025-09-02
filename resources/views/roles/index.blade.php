@@ -51,15 +51,22 @@
                                                 onclick="openRoleModal(this)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @php
+                                                $hasPatientUsers = \App\Models\User::where('role_id', $role->id)
+                                                    ->where('user_type', 'patient')
+                                                    ->exists();
+                                            @endphp
                                             <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure?')">
+                                                    onclick="return confirm('Are you sure?')"
+                                                    {{ $hasPatientUsers ? 'disabled' : '' }}>
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @empty
@@ -100,7 +107,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                                     <button type="submit" class="btn btn-primary">Save Role</button>
                                 </div>
@@ -154,10 +161,10 @@
                 modal.show();
             }
             document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
-    button.addEventListener('click', () => {
-        modal.hide();
-    });
-});
+                button.addEventListener('click', () => {
+                    modal.hide();
+                });
+            });
 
         }
     </script>

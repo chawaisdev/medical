@@ -44,6 +44,7 @@ class PatientController extends Controller
             'mr_number'      => $request->mr_number ?: 'MR-' . str_pad(User::max('id') + 1, 5, '0', STR_PAD_LEFT),
             'email'          => $request->email,
             'user_type'      => 'patient',
+            'role_id'      => 3,
             'password'       => bcrypt($request->password),
         ]);
 
