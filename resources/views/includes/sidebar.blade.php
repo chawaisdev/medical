@@ -42,13 +42,6 @@
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
-                 @elseif (auth()->user()->user_type === 'patient')
-                     <li class="slide">
-                         <a href="{{ route('patient.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
-                             <span class="side-menu__label">Dashboard</span>
-                         </a>
-                     </li>
                  @endif
 
 
@@ -95,7 +88,7 @@
                  <!-- My Appointments -->
                  @if (in_array('My Appointments', $permissions))
                      <li class="slide mt-2">
-                         <a href="{{ url('appointments') }}" class="side-menu__item">
+                         <a href="{{ url('get-patient') }}" class="side-menu__item">
                              <i class="fa-solid fa-calendar-check side-menu__icon"></i>
                              <span class="side-menu__label">My Appointments</span>
                          </a>
