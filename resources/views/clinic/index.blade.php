@@ -22,7 +22,7 @@
                 <h6 class="card-title">Clinic Schedule List</h6>
             </div>
             <div class="card-body table-responsive">
-                <table class="table table-bordered table-hover">
+                <table  id="example" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
