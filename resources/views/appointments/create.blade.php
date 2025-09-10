@@ -98,7 +98,6 @@
             </div>
         </div>
     </div>
-    <!-- Patient Modal -->
     <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -109,28 +108,55 @@
                 <div class="modal-body">
                     <form id="addPatientForm" action="{{ route('patients.store') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
-                            <label for="patient_name" class="form-label">Patient Name</label>
-                            <input type="text" name="name" id="patient_name" class="form-control" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="patient_name" class="form-label">Patient Name</label>
+                                <input type="text" name="name" id="patient_name" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="patient_age" class="form-label">Age</label>
+                                <input type="number" name="age" id="patient_age" class="form-control"
+                                    placeholder="Enter age">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="patient_cnic" class="form-label">CNIC</label>
+                                <input type="text" name="cnic" id="patient_cnic" class="form-control"
+                                    placeholder="Enter CNIC">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="patient_contact" class="form-label">Contact Number</label>
+                                <input type="text" name="contact_number" id="patient_contact" class="form-control"
+                                    placeholder="Enter contact number">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="patient_email" class="form-label">Email</label>
+                                <input type="email" name="email" id="patient_email" class="form-control"
+                                    placeholder="Enter email">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="text" name="password" id="password" class="form-control"
+                                    placeholder="Enter password">
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="patient_address" class="form-label">Address</label>
+                                <textarea name="address" id="patient_address" class="form-control" rows="2" placeholder="Enter address"></textarea>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="patient_contact" class="form-label">Contact Number</label>
-                            <input type="text" name="contact_number" id="patient_contact" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="patient_email" class="form-label">Email</label>
-                            <input type="email" name="email" id="patient_email" class="form-control">
-                        </div>
-                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="text" name="password" id="password" class="form-control">
-                        </div>
+
                         <button type="submit" class="btn btn-primary">Save Patient</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script>
         $(document).ready(function() {
