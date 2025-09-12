@@ -67,8 +67,11 @@
                                                 class="btn btn-sm btn-info">
                                                 <i class="fa fa-print"></i>
                                             </a>
-
-                                        </td>
+                                            <a href="{{ route('refunds.show', $appointment->id) }}"
+                                                class="btn btn-sm btn-success">
+                                                <i class="fa fa-undo"></i> Refund
+                                            </a>
+                                         </td>
                                     </tr>
                                 @empty
                                 @endforelse

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\PatientReport;
+use App\Models\Refund;
+use App\Models\RefundService;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Hash;
 class ReceptionController extends Controller
 {
@@ -160,4 +163,79 @@ class ReceptionController extends Controller
         return redirect()->back()->with('success', 'Report deleted successfully.');
     }
 
+
+    public function showRefund($appointmentId)
+    {
+        $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($appointmentId);
+        $refundExists = Refund::where('appointment_id', $appointmentId)->exists();
+
+        return view('appointments.refund', compact('appointment', 'refundExists'));
+    }
+
+
+    // Receptionist creates refund request
+    public function refundStore(Request $request)
+    {
+        $request->validate([
+            'appointment_id'    => 'required|exists:appointments,id',
+            'patient_id'        => 'required|exists:users,id',
+            'requested_amount'  => 'required|numeric|min:0',
+        ]);
+
+        $refund = Refund::create([
+            'appointment_id'      => $request->appointment_id,
+            'patient_id'          => $request->patient_id,
+            'created_by_user_id'  => auth()->id(), // receptionist
+            'reason'              => $request->reason,
+            'requested_amount'    => $request->requested_amount,
+        ]);
+
+        if ($request->has('services')) {
+            foreach ($request->services as $serviceId) {
+                $refund->services()->create([
+                    'service_id' => $serviceId,
+                    'reason'     => $request->service_reason ?? null,
+                ]);
+            }
+        }
+
+        return back()->with('success','Refund request submitted');
+    }
+
+    public function refundIndex()
+    {
+        $refunds = Refund::with(['appointment','patient','creator','approver','services'])
+            ->latest()
+            ->get();
+        return view('refunds.index', compact('refunds'));
+    }
+
+    // Doctor approves refund
+    public function approve(Request $request, Refund $refund)
+    {
+        $request->validate([
+            'approved_amount' => 'required|numeric|min:0',
+        ]);
+
+        $refund->update([
+            'approved_by_user_id' => auth()->id(),
+            'approved_amount'     => $request->approved_amount,
+            'approved_at'         => now(),
+            'status'              => 'approved'
+        ]);
+
+        return back()->with('success','Refund approved successfully');
+    }
+
+    // Doctor rejects refund
+    public function reject(Refund $refund)
+    {
+        $refund->update([
+            'approved_by_user_id' => auth()->id(),
+            'approved_at'         => now(),
+            'status'              => 'rejected'
+        ]);
+
+        return back()->with('error','Refund rejected');
+    }
 }

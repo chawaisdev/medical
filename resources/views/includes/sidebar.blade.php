@@ -65,6 +65,7 @@
                      </li>
                  @endif
 
+
                  <!-- Clinics -->
                  @if (in_array('Clinics', $permissions))
                      <li class="slide mt-2">
@@ -126,6 +127,14 @@
                      </li>
                  @endif
 
+                 @if (in_array('Refunds', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('refunds.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <span class="side-menu__label">Refunds</span>
+                         </a>
+                     </li>
+                 @endif
                  @if (auth()->user()->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('settings.index') }}" class="side-menu__item">

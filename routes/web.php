@@ -26,6 +26,16 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
         Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
 
+        // Doctor approves refund
+        Route::post('/refunds/{refund}/approve', [ReceptionController::class, 'approve'])->name('refunds.approve');
+        
+        // Doctor rejects refund
+        Route::post('/refunds/{refund}/reject', [ReceptionController::class, 'reject'])->name('refunds.reject');
+        
+        // Show all refunds
+        Route::get('/refunds', [ReceptionController::class, 'refundIndex'])->name('refunds.index');
+        
+
         Route::resource('adduser', AddUserController::class);
         Route::resource('clinic', ClinicController::class);
         Route::resource('settings', SettingController::class);
@@ -49,6 +59,15 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
 
         Route::get('/get-top-patient', [ReceptionController::class, 'topPatientGet'])->name('reception.dashboard');
+
+
+        
+        // Receptionist creates refund request
+        Route::post('/refunds/store', [ReceptionController::class, 'refundStore'])->name('refunds.store');
+        
+        Route::get('/refunds/{appointment}', [ReceptionController::class, 'showRefund'])->name('refunds.show');
+
+
     });
 
     // Patient routes

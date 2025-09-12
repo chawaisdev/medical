@@ -1,0 +1,113 @@
+@extends('layouts.app')
+
+@section('title', 'Refund Approval')
+
+@section('body')
+    <div class="container-fluid">
+        {{-- Breadcrumb --}}
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Refund Approval</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="card-title">All Refunds</div>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="table-responsive">
+                            <table id="example" class="table table-hover text-nowrap table-bordered">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Doctor</th>
+                                        <th>Patient</th>
+                                        <th>Total Amount</th>
+                                        <th>Requested Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    @forelse($refunds as $index => $refund)
+                                        @php
+                                            $appointment = $refund->appointment;
+                                            $totalServicesFee = $appointment->services->sum('price');
+                                            $doctorFee = $appointment->fee;
+                                            $totalDiscount =
+                                                $appointment->discount +
+                                                $appointment->services->sum(function ($service) {
+                                                    return $service->discount ?? 0;
+                                                });
+                                            $finalFee = $doctorFee + $totalServicesFee - $totalDiscount;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $appointment->doctor->name ?? 'N/A' }}</td>
+                                            <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
+                                            <td>{{ number_format($finalFee, 2) }}</td>
+                                            <td>{{ number_format($refund->requested_amount, 2) }}</td>
+                                            <td>
+                                                @if ($refund->status == 'approved')
+                                                    <span class="badge bg-success">Approved</span>
+                                                @elseif($refund->status == 'rejected')
+                                                    <span class="badge bg-danger">Rejected</span>
+                                                @else
+                                                    <span
+                                                        class="badge bg-secondary">{{ ucfirst($refund->status) }}</span>
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if ($refund->status === 'pending')
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm btn-primary dropdown-toggle"
+                                                            type="button" id="actionDropdown{{ $refund->id }}"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            Action
+                                                        </button>
+                                                        <div class="dropdown-menu"
+                                                            aria-labelledby="actionDropdown{{ $refund->id }}">
+                                                            <form action="{{ route('refunds.approve', $refund->id) }}"
+                                                                method="POST" class="px-3 py-1 m-0">
+                                                                @csrf
+                                                                <input type="hidden" name="approved_amount"
+                                                                    value="{{ $refund->requested_amount }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item text-success">Approve</button>
+                                                            </form>
+                                                            <form action="{{ route('refunds.reject', $refund->id) }}"
+                                                                method="POST" class="px-3 py-1 m-0">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="dropdown-item text-danger">Reject</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <span class="text-dark">Action Done</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted">No refund requests found.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
