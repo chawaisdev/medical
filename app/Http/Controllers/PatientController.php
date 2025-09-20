@@ -58,16 +58,15 @@ class PatientController extends Controller
         return view('patient.reports', compact('reports'));
     }
 
-public function listPatient()
-{
-    // Sirf patient users laao aur unke creator bhi
-    $patients = User::with('creator')
-        ->where('user_type', 'patient')
-        ->latest()
-        ->get();
+    public function listPatient()
+    {
+        $patients = User::with('creator')
+            ->where('user_type', 'patient')
+            ->latest()
+            ->get();
 
-    return view('patient.list-patient', compact('patients'));
-}
+        return view('patient.list-patient', compact('patients'));
+    }
 
 }
 
