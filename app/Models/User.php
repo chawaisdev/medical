@@ -40,6 +40,7 @@ class User extends Authenticatable
         'discount',
         'role_id',
         'final_fee',
+        'created_by',
     ];
 
 
@@ -96,4 +97,8 @@ class User extends Authenticatable
         return [];
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

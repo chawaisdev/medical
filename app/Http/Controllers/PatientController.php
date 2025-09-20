@@ -57,5 +57,17 @@ class PatientController extends Controller
         $reports = PatientReport::where('user_id', Auth::id())->with('user')->get();
         return view('patient.reports', compact('reports'));
     }
+
+public function listPatient()
+{
+    // Sirf patient users laao aur unke creator bhi
+    $patients = User::with('creator')
+        ->where('user_type', 'patient')
+        ->latest()
+        ->get();
+
+    return view('patient.list-patient', compact('patients'));
+}
+
 }
 

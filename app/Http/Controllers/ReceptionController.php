@@ -56,6 +56,7 @@ class ReceptionController extends Controller
             'cnic'           => $request->cnic,
             'contact_number' => $request->contact_number,
             'address'        => $request->address,
+            'created_by'     => auth()->id(),
         ]);
 
         return redirect()->route('reception.index')->with('success', 'Patient added successfully.');

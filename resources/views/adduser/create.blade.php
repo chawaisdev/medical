@@ -39,7 +39,6 @@
                                     <option value="">-- Select User Type --</option>
                                     <option value="doctor">Doctor</option>
                                     <option value="reception">Reception</option>
-                                    <option value="patient">Patient</option>
                                 </select>
                             </div>
 

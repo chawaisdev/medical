@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['userType:admin'])->group(function () {
         Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
         Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
+        Route::get('/patients/list', [PatientController::class, 'listPatient'])->name('patients.list');
 
         // Doctor approves refund
         Route::post('/refunds/{refund}/approve', [ReceptionController::class, 'approve'])->name('refunds.approve');

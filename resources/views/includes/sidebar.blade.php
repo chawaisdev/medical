@@ -144,6 +144,16 @@
                      </li>
                  @endif
 
+                 @if (auth()->user()->user_type === 'admin')
+                     <li class="slide mt-2">
+                         <a href="{{ url('patients/list') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                             <span class="side-menu__label">All Patients List</span>
+                         </a>
+                     </li>
+                 @endif
+
+
                  <!-- Logout -->
                  <li class="slide mt-2">
                      <a href="#" class="side-menu__item"
