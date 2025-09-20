@@ -109,9 +109,6 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="9" class="text-center text-muted">No refund requests found.</td>
-                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>

@@ -27,29 +27,27 @@
                  @endphp
 
                  <!-- Dashboard -->
-                 <!-- Dashboard -->
                  @if (auth()->user()->user_type === 'admin')
                      <li class="slide">
                          <a href="{{ route('dashboard') }}" class="side-menu__item">
-                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                             <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
                  @elseif (auth()->user()->user_type === 'reception')
                      <li class="slide">
                          <a href="{{ route('reception.dashboard') }}" class="side-menu__item">
-                             <i class="fa-solid fa-chart-line side-menu__icon text-sm"></i>
+                             <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
                  @endif
 
-
                  <!-- User Management -->
                  @if (in_array('User Management', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('adduser.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <i class="fa-solid fa-user-gear side-menu__icon"></i>
                              <span class="side-menu__label">User Management</span>
                          </a>
                      </li>
@@ -59,12 +57,11 @@
                  @if (in_array('Roles', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('roles.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <i class="fa-solid fa-user-shield side-menu__icon"></i>
                              <span class="side-menu__label">Roles</span>
                          </a>
                      </li>
                  @endif
-
 
                  <!-- Clinics -->
                  @if (in_array('Clinics', $permissions))
@@ -80,7 +77,7 @@
                  @if (in_array('Services', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('services.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                             <i class="fa-solid fa-stethoscope side-menu__icon"></i>
                              <span class="side-menu__label">Services</span>
                          </a>
                      </li>
@@ -127,25 +124,25 @@
                      </li>
                  @endif
 
+                 <!-- Refunds -->
                  @if (in_array('Refunds', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('refunds.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-users-gear side-menu__icon"></i>
+                             <i class="fa-solid fa-rotate-left side-menu__icon"></i>
                              <span class="side-menu__label">Refunds</span>
                          </a>
                      </li>
                  @endif
+
+                 <!-- Settings -->
                  @if (auth()->user()->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('settings.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-sliders side-menu__icon"></i>
-
+                             <i class="fa-solid fa-gear side-menu__icon"></i>
                              <span class="side-menu__label">Settings</span>
                          </a>
                      </li>
                  @endif
-
-
 
                  <!-- Logout -->
                  <li class="slide mt-2">
@@ -159,6 +156,7 @@
                      </form>
                  </li>
              </ul>
+
 
 
              <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
