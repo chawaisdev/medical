@@ -30,6 +30,8 @@
                                         <th>Patient</th>
                                         <th>Total Amount</th>
                                         <th>Requested Amount</th>
+                                        <th>Doctor Fee Refund</th>
+                                        <th>Refunded Services</th> {{-- 👈 New Column --}}
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -53,17 +55,25 @@
                                             <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
                                             <td>{{ number_format($finalFee, 2) }}</td>
                                             <td>{{ number_format($refund->requested_amount, 2) }}</td>
+                                            <td>{{ number_format($refund->doctor_fee_refund, 2) }}</td>
+                                            <td>
+                                                @if ($refund->services->count())
+                                                    @foreach ($refund->services as $service)
+                                                        <span class="badge bg-success text-white">{{ $service->name }}</span>
+                                                    @endforeach
+                                                @else
+                                                    <span class="text-muted">No Services</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($refund->status == 'approved')
                                                     <span class="badge bg-success">Approved</span>
                                                 @elseif($refund->status == 'rejected')
                                                     <span class="badge bg-danger">Rejected</span>
                                                 @else
-                                                    <span
-                                                        class="badge bg-secondary">{{ ucfirst($refund->status) }}</span>
+                                                    <span class="badge bg-secondary">{{ ucfirst($refund->status) }}</span>
                                                 @endif
                                             </td>
-
                                             <td>
                                                 @if ($refund->status === 'pending')
                                                     <div class="dropdown">
@@ -80,6 +90,8 @@
                                                                 @csrf
                                                                 <input type="hidden" name="approved_amount"
                                                                     value="{{ $refund->requested_amount }}">
+                                                                <input type="hidden" name="doctor_fee_refund"
+                                                                    value="{{ $refund->doctor_fee_refund }}">
                                                                 <button type="submit"
                                                                     class="dropdown-item text-success">Approve</button>
                                                             </form>
@@ -98,7 +110,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center text-muted">No refund requests found.</td>
+                                            <td colspan="9" class="text-center text-muted">No refund requests found.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

@@ -22,4 +22,10 @@ class Service extends Model
         return $this->hasMany(RefundService::class, 'service_id');
     }
 
+    public function refunds()
+    {
+        return $this->belongsToMany(Refund::class, 'refund_services', 'service_id', 'refund_id');
+    }
+
+
 }

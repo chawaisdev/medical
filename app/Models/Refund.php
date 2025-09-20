@@ -34,6 +34,7 @@ class Refund extends Model
 
     public function services()
     {
-        return $this->hasMany(RefundService::class);
+        return $this->belongsToMany(Service::class, 'refund_services', 'refund_id', 'service_id');
     }
+
 }
