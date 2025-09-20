@@ -17,4 +17,9 @@ class Service extends Model
                 ->withTimestamps();
     }
 
+    public function refundServices()
+    {
+        return $this->hasMany(RefundService::class, 'service_id');
+    }
+
 }

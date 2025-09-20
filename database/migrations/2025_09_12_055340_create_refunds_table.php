@@ -18,9 +18,6 @@ return new class extends Migration {
             $table->enum('status', ['pending','approved','rejected','processed'])->default('pending');
             $table->foreignId('approved_by_user_id')->nullable()->constrained('users'); // Doctor
             $table->timestamp('approved_at')->nullable();
-            $table->timestamp('processed_at')->nullable();
-            $table->string('payment_method')->nullable(); // cash, bank, etc.
-            $table->string('transaction_reference')->nullable(); // optional bank ref
             $table->timestamps();
         });
     }

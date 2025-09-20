@@ -9,7 +9,7 @@ class Refund extends Model
     protected $fillable = [
         'appointment_id','patient_id','created_by_user_id','reason',
         'requested_amount','approved_amount','status','approved_by_user_id',
-        'approved_at','processed_at','payment_method','transaction_reference'
+        'approved_at','processed_at','payment_method','transaction_reference','doctor_fee_refund'
     ];
 
     public function appointment()
