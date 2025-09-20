@@ -130,10 +130,15 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button type="submit" id="submitBtn" class="btn btn-primary">
-                                    <i class="fa fa-paper-plane me-1"></i> Submit Refund Request
+                                <button type="submit" id="submitBtn" class="btn btn-primary"
+                                    @if ($refundExists) disabled @endif>
+                                    <i class="fa fa-paper-plane me-1"></i>
+                                    @if ($refundExists)
+                                        Already Submitted
+                                    @else
+                                        Submit Refund Request
+                                    @endif
                                 </button>
-                            </div>
                         </form>
                     </div>
                 </div>

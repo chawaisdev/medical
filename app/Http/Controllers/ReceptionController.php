@@ -169,6 +169,7 @@ class ReceptionController extends Controller
         $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($appointmentId);
         $refundExists = Refund::where('appointment_id', $appointmentId)->exists();
 
+
         return view('appointments.refund', compact('appointment', 'refundExists'));
     }
 
@@ -245,7 +246,7 @@ class ReceptionController extends Controller
 
 
 
-    public function refundIndex()
+    public function refundIndex(Request $request)
     {
         $refunds = Refund::with(['appointment','patient','creator','approver','services'])
             ->latest()
