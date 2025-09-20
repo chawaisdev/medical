@@ -29,22 +29,40 @@ class FortifyServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-        Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
+{
+    Fortify::createUsersUsing(CreateNewUser::class);
+    Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+    Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
+    Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+    Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+    // ✅ Custom authentication: allow email OR contact_number
+    Fortify::authenticateUsing(function (Request $request) {
+        $login = $request->input('email'); // form field is "email" but it may be email or phone
+        $password = $request->input('password');
 
-            return Limit::perMinute(5)->by($throttleKey);
-        });
+        // find by email or contact_number
+        $user = \App\Models\User::where('email', $login)
+            ->orWhere('contact_number', $login)
+            ->first();
+
+        if ($user && $user->password && \Hash::check($password, $user->password)) {
+            return $user;
+        }
+
+        return null;
+    });
+
+    RateLimiter::for('login', function (Request $request) {
+        $throttleKey = Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
+        return Limit::perMinute(5)->by($throttleKey);
+    });
+
     $this->app->instance(LoginResponseContract::class, new LoginResponse());
 
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        });
-    }
+    RateLimiter::for('two-factor', function (Request $request) {
+        return Limit::perMinute(5)->by($request->session()->get('login.id'));
+    });
+}
+
 }

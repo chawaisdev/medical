@@ -37,8 +37,6 @@ class ReceptionController extends Controller
     {
         $request->validate([
             'name'           => 'required|string|max:255',
-            'email'          => 'required|email|unique:users,email',
-            'password'       => 'required|string|min:8',
             'father_name'    => 'nullable|string|max:255',
             'age'            => 'nullable|integer|min:0',
             'cnic'           => 'nullable|string|max:20',
@@ -74,8 +72,6 @@ class ReceptionController extends Controller
     {
         $request->validate([
             'name'           => 'required|string|max:255',
-            'email'          => 'required|email|unique:users,email,' . $id,
-            'password'       => 'nullable|string|min:8',
             'father_name'    => 'nullable|string|max:255',
             'age'            => 'nullable|integer|min:0',
             'cnic'           => 'nullable|string|max:20',

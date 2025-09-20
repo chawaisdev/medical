@@ -41,9 +41,12 @@
                             @csrf
 
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-                            </div>
+    <label for="email">Email or Phone</label>
+    <input id="email" type="text" class="form-control" name="email"
+           value="{{ old('email') }}" required autofocus
+           placeholder="Enter email or phone number">
+</div>
+
 
                             <div class="form-group mt-3">
                                 <label for="password">Password</label>
