@@ -166,7 +166,7 @@ class ReceptionController extends Controller
     {
         $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($appointmentId);
 
-        $refund = Refund::where('appointment_id', $appointmentId)->first(); // record bhi lao
+        $refund = Refund::with('services')->where('appointment_id', $appointmentId)->first();
         $refundExists = $refund ? true : false;
 
         return view('appointments.refund', compact('appointment', 'refundExists', 'refund'));
