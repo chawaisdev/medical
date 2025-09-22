@@ -18,8 +18,9 @@ class ReceptionController extends Controller
     public function index(Request $request)
     {
         $users = User::where('user_type', 'patient')
-                    ->with('reports') // eager load reports
-                    ->get();
+            ->with('reports') 
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('reception.index', compact('users'));
     }

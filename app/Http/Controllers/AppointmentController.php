@@ -15,12 +15,12 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $query = Appointment::with(['doctor', 'patient']);
-        // dd($query);
-        // if ($request->has('date')) {
-        //     $query->whereDate('date', $request->query('date'));
-        // } else {
-        //     $query->whereDate('date', \Carbon\Carbon::today());
-        // }
+        if ($request->has('date')) {
+            $query->whereDate('date', $request->query('date'));
+        } else {
+            $query->whereDate('date', \Carbon\Carbon::today());
+        }
+        $query->orderBy('id', 'desc'); 
         return view('appointments.index', [
             'appointments' => $query->get(),
         ]);

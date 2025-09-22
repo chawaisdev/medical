@@ -14,6 +14,7 @@ class PatientController extends Controller
         $user = auth()->user();
         $patient = Appointment::with(['doctor'])
                     ->where('patient_id', $user->id)
+                    ->orderBy('id', 'desc')
                     ->get();
         return view('patient.index', compact('patient'));
     }
