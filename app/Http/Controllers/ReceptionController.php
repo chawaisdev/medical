@@ -164,10 +164,11 @@ class ReceptionController extends Controller
     public function showRefund($appointmentId)
     {
         $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($appointmentId);
-        $refundExists = Refund::where('appointment_id', $appointmentId)->exists();
 
+        $refund = Refund::where('appointment_id', $appointmentId)->first(); // record bhi lao
+        $refundExists = $refund ? true : false;
 
-        return view('appointments.refund', compact('appointment', 'refundExists'));
+        return view('appointments.refund', compact('appointment', 'refundExists', 'refund'));
     }
 
 

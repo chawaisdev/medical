@@ -68,7 +68,7 @@
 
                             <div class="mb-3 col-4">
                                 <label for="cnic" class="form-label">CNIC</label>
-                                <input type="text" name="cnic" class="form-control" placeholder="Enter CNIC"
+                                <input type="number" name="cnic" class="form-control" placeholder="Enter CNIC"
                                     value="{{ old('cnic') }}">
                                 @error('cnic')
                                     <span class="text-danger">{{ $message }}</span>
@@ -77,7 +77,7 @@
 
                             <div class="mb-3 col-4">
                                 <label for="contact_number" class="form-label">Contact Number</label>
-                                <input type="text" name="contact_number" class="form-control"
+                                <input type="number" name="contact_number" class="form-control"
                                     placeholder="Enter contact number" value="{{ old('contact_number') }}">
                                 @error('contact_number')
                                     <span class="text-danger">{{ $message }}</span>
