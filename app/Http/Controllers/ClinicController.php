@@ -12,7 +12,8 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        $clinics = ClinicAvailability::orderBy('day')->get();
+        $clinics = ClinicAvailability::orderBy('day')->orderBy('id', 'desc')
+            ->get();
         return view('clinic.index', compact('clinics'));
     }
 

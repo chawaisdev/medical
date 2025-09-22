@@ -247,7 +247,7 @@ class ReceptionController extends Controller
     public function refundIndex(Request $request)
     {
         $refunds = Refund::with(['appointment','patient','creator','approver','services'])
-            ->latest()
+            ->orderBy('id', 'desc')
             ->get();
         return view('refunds.index', compact('refunds'));
     }

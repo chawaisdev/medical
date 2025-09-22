@@ -10,7 +10,7 @@ class ServiceController extends Controller
     // Display all services
     public function index()
     {
-        $services = Service::all();
+        $services = Service::orderBy('id', 'desc')->get();
         return view('services.index', compact('services'));
     }
 
