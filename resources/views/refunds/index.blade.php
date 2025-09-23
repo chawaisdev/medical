@@ -87,9 +87,6 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="10" class="text-center text-muted">No refund records found</td>
-                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -99,5 +96,4 @@
             </div>
         </div>
     </div>
-
 @endsection
