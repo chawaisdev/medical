@@ -38,7 +38,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $clinic->day }}</td>
                                 <td> <i>{{ $clinic->start_time ?? 'No set time' }}</i></td>
-                                <td>{{ $clinic->end_time ?? 'No set time' }}</td>
+                                <td><i>{{ $clinic->end_time ?? 'No set time' }}</i></td>
                                 <td>
                                     <span class="badge {{ $clinic->is_active ? 'bg-success' : 'bg-secondary' }}">
                                         {{ $clinic->is_active ? 'Active' : 'Inactive' }}
