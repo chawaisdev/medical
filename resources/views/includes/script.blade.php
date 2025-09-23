@@ -93,7 +93,6 @@
         <script>
             $(document).ready(function() {
                 $('.select2').select2({
-                    placeholder: "Select Services",
                     allowClear: true,
                     width: '100%' // ensure full width
                 });

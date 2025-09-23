@@ -144,7 +144,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Day</th>
                                         <th scope="col">Start Time</th>
-                                        <th scope="col">End Tie</th>
+                                        <th scope="col">End Time</th>
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
