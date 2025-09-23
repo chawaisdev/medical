@@ -39,67 +39,44 @@
                                 </thead>
                                 <tbody class="text-center">
                                     @forelse($refunds as $index => $refund)
-                                        @php
-                                            $appointment = $refund->appointment;
-                                            $totalServicesFee = $appointment->services->sum('price');
-                                            $doctorFee = $appointment->fee;
-                                            $totalDiscount =
-                                                $appointment->discount +
-                                                $appointment->services->sum(fn($service) => $service->discount ?? 0);
-                                            $finalFee = $doctorFee + $totalServicesFee - $totalDiscount;
-                                        @endphp
+                                        {{-- yahan $refund hamesha defined hoga --}}
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $appointment->doctor->name ?? 'N/A' }}</td>
-                                            <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
+                                            <td>{{ $refund->appointment->doctor->name ?? 'N/A' }}</td>
+                                            <td>{{ $refund->appointment->patient->name ?? 'N/A' }}</td>
                                             <td>{{ $refund->creator->name ?? 'N/A' }}</td>
-                                            <td>{{ number_format($finalFee, 2) }}</td>
+                                            <td>{{ number_format($refund->appointment->fee + $refund->appointment->services->sum('price'), 2) }}
+                                            </td>
                                             <td>{{ number_format($refund->requested_amount, 2) }}</td>
                                             <td>{{ number_format($refund->doctor_fee_refund, 2) }}</td>
                                             <td>
-                                                @if ($refund->services->count())
-                                                    @foreach ($refund->services as $service)
-                                                        <span
-                                                            class="badge bg-success text-white">{{ $service->name }}</span>
-                                                    @endforeach
-                                                @else
+                                                @forelse ($refund->services as $service)
+                                                    <span class="badge bg-success">{{ $service->name }}</span>
+                                                @empty
                                                     <span class="text-muted">No Services</span>
-                                                @endif
+                                                @endforelse
                                             </td>
-                                            <td>
-                                                @if ($refund->status == 'approved')
-                                                    <span class="badge bg-success">Approved</span>
-                                                @elseif($refund->status == 'rejected')
-                                                    <span class="badge bg-danger">Rejected</span>
-                                                @else
-                                                    <span class="badge bg-secondary">{{ ucfirst($refund->status) }}</span>
-                                                @endif
-                                            </td>
+                                            <td>{{ ucfirst($refund->status) }}</td>
                                             <td>
                                                 @if ($refund->status === 'pending')
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-sm btn-primary dropdown-toggle"
-                                                            type="button" id="actionDropdown{{ $refund->id }}"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            Action
-                                                        </button>
+                                                    <div class="dropdown"> <button
+                                                            class="btn btn-sm btn-primary dropdown-toggle" type="button"
+                                                            id="actionDropdown{{ $refund->id }}" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false"> Action </button>
                                                         <div class="dropdown-menu"
                                                             aria-labelledby="actionDropdown{{ $refund->id }}">
                                                             <form action="{{ route('refunds.approve', $refund->id) }}"
-                                                                method="POST" class="px-3 py-1 m-0">
-                                                                @csrf
-                                                                <input type="hidden" name="approved_amount"
-                                                                    value="{{ $refund->requested_amount }}">
-                                                                <input type="hidden" name="doctor_fee_refund"
-                                                                    value="{{ $refund->doctor_fee_refund }}">
-                                                                <button type="submit"
+                                                                method="POST" class="px-3 py-1 m-0"> @csrf <input
+                                                                    type="hidden" name="approved_amount"
+                                                                    value="{{ $refund->requested_amount }}"> <input
+                                                                    type="hidden" name="doctor_fee_refund"
+                                                                    value="{{ $refund->doctor_fee_refund }}"> <button
+                                                                    type="submit"
                                                                     class="dropdown-item text-success">Approve</button>
                                                             </form>
                                                             <form action="{{ route('refunds.reject', $refund->id) }}"
-                                                                method="POST" class="px-3 py-1 m-0">
-                                                                @csrf
-                                                                <button type="submit"
+                                                                method="POST" class="px-3 py-1 m-0"> @csrf <button
+                                                                    type="submit"
                                                                     class="dropdown-item text-danger">Reject</button>
                                                             </form>
                                                         </div>
@@ -110,6 +87,9 @@
                                             </td>
                                         </tr>
                                     @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center text-muted">No refund records found</td>
+                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -119,4 +99,5 @@
             </div>
         </div>
     </div>
+
 @endsection

@@ -189,9 +189,9 @@ public function refundStore(Request $request)
     $appointment = Appointment::findOrFail($request->appointment_id);
     $selectedServices = $request->services ?? [];
 
-    // ✅ Full doctor fee refund (ignore discount)
     $doctorFeeAmount = 0;
     if ($request->doctor_fee_refunded) {
+        // full doctor fee without discount
         $doctorFeeAmount = $appointment->fee;
     }
 
@@ -249,11 +249,12 @@ private function calculateRefundableAmount(Appointment $appointment, array $sele
         }
     }
 
-    // ✅ Full doctor fee (without discount)
+    // doctor fee always full refund (no discount)
     $doctorFee = $doctorFeeRefunded ? $appointment->fee : 0;
 
     return $totalServicesFee + $doctorFee;
 }
+
 
 
 
