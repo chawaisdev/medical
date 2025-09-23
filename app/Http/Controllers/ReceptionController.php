@@ -174,54 +174,55 @@ class ReceptionController extends Controller
 
 
     // Receptionist creates refund request
-    public function refundStore(Request $request)
-    {
-        $request->validate([
-            'appointment_id' => 'required|exists:appointments,id',
-            'patient_id' => 'required|exists:users,id',
-            'requested_amount' => 'required|numeric|min:0',
-            'services' => 'nullable|array',
-            'services.*' => 'exists:services,id',
-            'doctor_fee_refunded' => 'nullable|boolean',
-            'reason' => 'nullable|string',
+public function refundStore(Request $request)
+{
+    $request->validate([
+        'appointment_id' => 'required|exists:appointments,id',
+        'patient_id' => 'required|exists:users,id',
+        'requested_amount' => 'required|numeric|min:0',
+        'services' => 'nullable|array',
+        'services.*' => 'exists:services,id',
+        'doctor_fee_refunded' => 'nullable|boolean',
+        'reason' => 'nullable|string',
+    ]);
+
+    $appointment = Appointment::findOrFail($request->appointment_id);
+    $selectedServices = $request->services ?? [];
+
+    // ✅ Full doctor fee refund (ignore discount)
+    $doctorFeeAmount = 0;
+    if ($request->doctor_fee_refunded) {
+        $doctorFeeAmount = $appointment->fee;
+    }
+
+    $totalRefundable = $this->calculateRefundableAmount($appointment, $selectedServices, $request->doctor_fee_refunded);
+
+    if ($request->requested_amount > $totalRefundable) {
+        return back()->withErrors([
+            'requested_amount' => "Requested amount exceeds the total refundable amount (" . number_format($totalRefundable, 2) . ")"
         ]);
-        $appointment = Appointment::findOrFail($request->appointment_id);
-        $selectedServices = $request->services ?? [];
+    }
 
-        $doctorFeeAmount = 0;
-        if ($request->doctor_fee_refunded) {
-            $doctorFeeAmount = $appointment->fee - ($appointment->discount ?? 0);
-        }
+    $refund = Refund::where('appointment_id', $request->appointment_id)->first();
 
-        $totalRefundable = $this->calculateRefundableAmount($appointment, $selectedServices, $request->doctor_fee_refunded);
+    if ($refund) {
+        $refund->update([
+            'reason' => $request->reason ?? $refund->reason,
+            'requested_amount' => $refund->requested_amount + $request->requested_amount,
+            'doctor_fee_refund' => $refund->doctor_fee_refund > 0 ? $refund->doctor_fee_refund : $doctorFeeAmount,
+        ]);
+    } else {
+        $refund = Refund::create([
+            'appointment_id' => $request->appointment_id,
+            'patient_id' => $request->patient_id,
+            'created_by_user_id' => auth()->id(),
+            'reason' => $request->reason,
+            'requested_amount' => $request->requested_amount,
+            'doctor_fee_refund' => $doctorFeeAmount,
+        ]);
+    }
 
-        if ($request->requested_amount > $totalRefundable) {
-            return back()->withErrors([
-                'requested_amount' => "Requested amount exceeds the total refundable amount (" . number_format($totalRefundable, 2) . ")"
-            ]);
-        }
-
-        $refund = Refund::where('appointment_id', $request->appointment_id)->first();
-
-        if ($refund) {
-            $refund->update([
-                'reason' => $request->reason ?? $refund->reason,
-                'requested_amount' => $refund->requested_amount + $request->requested_amount,
-                'doctor_fee_refund' => $refund->doctor_fee_refund > 0 ? $refund->doctor_fee_refund : $doctorFeeAmount,
-            ]);
-        } else {
-            $refund = Refund::create([
-                'appointment_id' => $request->appointment_id,
-                'patient_id' => $request->patient_id,
-                'created_by_user_id' => auth()->id(),
-                'reason' => $request->reason,
-                'requested_amount' => $request->requested_amount,
-                'doctor_fee_refund' => $doctorFeeAmount,
-            ]);
-        }
-
-
-        if (!empty($selectedServices)) {
+    if (!empty($selectedServices)) {
         $alreadyRefunded = $refund->services()->pluck('service_id')->toArray();
 
         foreach ($selectedServices as $serviceId) {
@@ -234,25 +235,26 @@ class ReceptionController extends Controller
         }
     }
 
+    return back()->with('success', 'Refund request saved/updated successfully');
+}
 
-        return back()->with('success', 'Refund request saved/updated successfully');
-    }
+private function calculateRefundableAmount(Appointment $appointment, array $selectedServices, $doctorFeeRefunded): float
+{
+    $totalServicesFee = 0;
 
-    private function calculateRefundableAmount(Appointment $appointment, array $selectedServices, $doctorFeeRefunded): float
-    {
-        $totalServicesFee = 0;
-
-        foreach ($selectedServices as $serviceId) {
-            $service = $appointment->services()->where('services.id', $serviceId)->first();
-            if ($service) {
-                $totalServicesFee += $service->price;
-            }
+    foreach ($selectedServices as $serviceId) {
+        $service = $appointment->services()->where('services.id', $serviceId)->first();
+        if ($service) {
+            $totalServicesFee += $service->price;
         }
-
-        $doctorFee = $doctorFeeRefunded ? ($appointment->fee - ($appointment->discount ?? 0)) : 0;
-
-        return $totalServicesFee + $doctorFee;
     }
+
+    // ✅ Full doctor fee (without discount)
+    $doctorFee = $doctorFeeRefunded ? $appointment->fee : 0;
+
+    return $totalServicesFee + $doctorFee;
+}
+
 
 
 

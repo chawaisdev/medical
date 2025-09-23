@@ -82,22 +82,24 @@
                                         @php
                                             $totalServicesFee = $appointment->services->sum('price');
                                             $doctorFee = $appointment->fee;
-                                            $discount = $appointment->discount ?? 0;
-                                            $discountedDoctorFee = $doctorFee - $discount;
-                                            $finalFee = $discountedDoctorFee + $totalServicesFee;
+                                            $finalFee = $doctorFee + $totalServicesFee;
                                         @endphp
+
                                         <p><i class="fa fa-user-md me-2 text-muted"></i><strong>Doctor Fee:</strong>
                                             {{ number_format($doctorFee, 2) }}</p>
-                                        <p><i class="fa fa-percent me-2 text-muted"></i><strong>Discount:</strong>
-                                            -{{ number_format($discount, 2) }}</p>
+
                                         <p><i class="fa fa-stethoscope me-2 text-muted"></i><strong>Services Fee:</strong>
                                             {{ number_format($totalServicesFee, 2) }}</p>
+
                                         <hr>
-                                        <p class="fw-bold text-success"><i class="fa fa-money-bill-wave me-2"></i>Final
-                                            Amount: {{ number_format($finalFee, 2) }}</p>
+                                        <p class="fw-bold text-success"><i class="fa fa-money-bill-wave me-2"></i>
+                                            Final Amount: {{ number_format($finalFee, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
+
+
+
                         </div>
 
                         {{-- Refund Form --}}
@@ -137,7 +139,6 @@
                                                         class="form-check-input service-checkbox"
                                                         data-price="{{ $service->price }}"
                                                         @if ($isRefundedService) checked disabled @endif>
-
                                                 </td>
                                             </tr>
                                         @empty
@@ -157,11 +158,11 @@
                             <div class="mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" name="doctor_fee_refunded" id="doctorFeeRefunded"
-                                        class="form-check-input" value="1" data-price="{{ $discountedDoctorFee }}"
+                                        class="form-check-input" value="1" data-price="{{ $doctorFee }}"
                                         @if ($doctorFeeRefunded) checked disabled @endif>
                                     <label class="form-check-label" for="doctorFeeRefunded">
                                         <i class="fa fa-user-md me-1"></i> Include Doctor's Fee
-                                        ({{ number_format($discountedDoctorFee, 2) }}) in Refund
+                                        ({{ number_format($doctorFee, 2) }}) in Refund
                                     </label>
                                 </div>
                             </div>
@@ -173,9 +174,8 @@
                                     Requested Refund Amount <span class="text-danger">*</span>
                                 </label>
                                 <input type="number" step="0.01" name="requested_amount" class="form-control shadow-sm"
-                                    id="requestedAmount" placeholder="Enter requested refund amount" required>
-                                <div class="invalid-feedback">Requested amount is required and must not exceed the total
-                                    refundable amount.</div>
+                                    id="requestedAmount" readonly required>
+                                <div class="invalid-feedback">Requested amount is required.</div>
                                 <small class="form-text text-muted">
                                     <i class="fa fa-calculator me-1"></i>
                                     Total Refundable: <span id="totalRefundable">0.00</span>
@@ -219,32 +219,22 @@
                 totalRefundable = 0;
 
                 serviceCheckboxes.forEach(cb => {
-                    if (cb.checked && !cb.disabled) { // ✅ صرف نئی selected services
+                    if (cb.checked && !cb.disabled) {
                         totalRefundable += parseFloat(cb.dataset.price);
                     }
                 });
 
-                if (doctorFeeCheckbox.checked && !doctorFeeCheckbox.disabled) { // ✅ صرف نئی doctor fee
+                if (doctorFeeCheckbox.checked && !doctorFeeCheckbox.disabled) {
                     totalRefundable += parseFloat(doctorFeeCheckbox.dataset.price);
                 }
 
                 totalRefundableSpan.textContent = totalRefundable.toFixed(2);
-
-                if (totalRefundable > 0) {
-                    requestedAmountInput.value = totalRefundable.toFixed(2);
-                    requestedAmountInput.setAttribute('readonly', true);
-                } else {
-                    requestedAmountInput.value = '';
-                    requestedAmountInput.removeAttribute('readonly');
-                }
+                requestedAmountInput.value = totalRefundable.toFixed(2);
             }
 
-
-            // Add event listeners to checkboxes
             serviceCheckboxes.forEach(cb => cb.addEventListener('change', updateTotalRefundable));
             doctorFeeCheckbox.addEventListener('change', updateTotalRefundable);
 
-            // Initial update
             updateTotalRefundable();
         });
     </script>
