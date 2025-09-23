@@ -192,13 +192,19 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button type="submit" id="submitBtn" class="btn btn-primary">
-                                    <i class="fa fa-paper-plane me-1"></i>
-                                    Submit Refund Request
-                                </button>
+                                @if ($canSubmit)
+                                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                                        <i class="fa fa-paper-plane me-1"></i>
+                                        {{ $statusMessage }}
+                                    </button>
+                                @else
+                                    <button type="button" class="btn btn-danger" disabled>
+                                        <i class="fa fa-ban me-1"></i>
+                                        {{ $statusMessage }}
+                                    </button>
+                                @endif
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -213,10 +219,10 @@
             const doctorFeeCheckbox = document.getElementById('doctorFeeRefunded');
             const requestedAmountInput = document.getElementById('requestedAmount');
             const totalRefundableSpan = document.getElementById('totalRefundable');
-            let totalRefundable = 0;
+            const submitBtn = document.getElementById('submitBtn');
 
             function updateTotalRefundable() {
-                totalRefundable = 0;
+                let totalRefundable = 0;
 
                 serviceCheckboxes.forEach(cb => {
                     if (cb.checked && !cb.disabled) {
@@ -224,18 +230,47 @@
                     }
                 });
 
-                if (doctorFeeCheckbox.checked && !doctorFeeCheckbox.disabled) {
+                if (doctorFeeCheckbox && doctorFeeCheckbox.checked && !doctorFeeCheckbox.disabled) {
                     totalRefundable += parseFloat(doctorFeeCheckbox.dataset.price);
                 }
 
                 totalRefundableSpan.textContent = totalRefundable.toFixed(2);
                 requestedAmountInput.value = totalRefundable.toFixed(2);
+
+                checkRemaining();
             }
 
-            serviceCheckboxes.forEach(cb => cb.addEventListener('change', updateTotalRefundable));
-            doctorFeeCheckbox.addEventListener('change', updateTotalRefundable);
+            function checkRemaining() {
+                // Check how many are still refundable (not disabled)
+                let remainingOptions = 0;
 
+                serviceCheckboxes.forEach(cb => {
+                    if (!cb.disabled) remainingOptions++;
+                });
+
+                if (doctorFeeCheckbox && !doctorFeeCheckbox.disabled) {
+                    remainingOptions++;
+                }
+
+                if (remainingOptions === 0) {
+                    // Matlab sab pehle hi refund ho chuke hain
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa fa-ban me-1"></i> All Refunds Already Requested';
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Submit Refund Request';
+                }
+            }
+
+            // Events
+            serviceCheckboxes.forEach(cb => cb.addEventListener('change', updateTotalRefundable));
+            if (doctorFeeCheckbox) {
+                doctorFeeCheckbox.addEventListener('change', updateTotalRefundable);
+            }
+
+            // Initial load
             updateTotalRefundable();
         });
     </script>
+
 @endsection

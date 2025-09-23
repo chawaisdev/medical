@@ -161,17 +161,38 @@ class ReceptionController extends Controller
         return redirect()->back()->with('success', 'Report deleted successfully.');
     }
 
-
     public function showRefund($appointmentId)
     {
         $appointment = Appointment::with(['doctor', 'patient', 'services'])->findOrFail($appointmentId);
 
-        $refund = Refund::with('services')->where('appointment_id', $appointmentId)->first();
-        $refundExists = $refund ? true : false;
+        $refund = Refund::where('appointment_id', $appointmentId)->latest()->first();
 
-        return view('appointments.refund', compact('appointment', 'refundExists', 'refund'));
+        $refundExists = (bool) $refund;
+        $canSubmit = true;
+        $statusMessage = null;
+
+        if ($refund) {
+            $expireTime = $refund->created_at->addHours(8);
+
+            if (now()->lt($expireTime)) {
+                // 8 ghante se kam guzray → submit kar sakta hai
+                $canSubmit = true;
+                $statusMessage = 'Submit Refund Request';
+            } else {
+                // 8 ghante se zyada ho gaye → expire
+                $canSubmit = false;
+                $statusMessage = 'Expire Refund Request';
+            }
+        }
+
+        return view('appointments.refund', compact(
+            'appointment',
+            'refund',
+            'refundExists',
+            'canSubmit',
+            'statusMessage'
+        ));
     }
-
 
     // Receptionist creates refund request
     public function refundStore(Request $request)
