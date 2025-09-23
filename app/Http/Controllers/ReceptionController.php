@@ -209,7 +209,6 @@ class ReceptionController extends Controller
                 'requested_amount' => $refund->requested_amount + $request->requested_amount,
                 'doctor_fee_refund' => $refund->doctor_fee_refund > 0 ? $refund->doctor_fee_refund : $doctorFeeAmount,
             ]);
-            return "asdfasdf";
         } else {
             $refund = Refund::create([
                 'appointment_id' => $request->appointment_id,
@@ -221,18 +220,20 @@ class ReceptionController extends Controller
             ]);
         }
 
-        if (!empty($selectedServices)) {
-            $alreadyRefunded = $refund->services()->pluck('service_id')->toArray();
 
-            foreach ($selectedServices as $serviceId) {
-                if (!in_array($serviceId, $alreadyRefunded)) {
-                    RefundService::create([
-                        'refund_id' => $refund->id,
-                        'service_id' => $serviceId,
-                    ]);
-                }
+        if (!empty($selectedServices)) {
+        $alreadyRefunded = $refund->services()->pluck('service_id')->toArray();
+
+        foreach ($selectedServices as $serviceId) {
+            if (!in_array($serviceId, $alreadyRefunded)) {
+                RefundService::create([
+                    'refund_id' => $refund->id,
+                    'service_id' => $serviceId,
+                ]);
             }
         }
+    }
+
 
         return back()->with('success', 'Refund request saved/updated successfully');
     }

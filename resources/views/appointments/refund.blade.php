@@ -32,13 +32,17 @@
                                 <div>
                                     Refund Status:
                                     @if ($refund->status == 'pending')
-                                        <span class="badge bg-warning text-dark"><i class="fa fa-clock me-1"></i> Pending</span>
+                                        <span class="badge bg-warning text-dark"><i class="fa fa-clock me-1"></i>
+                                            Pending</span>
                                     @elseif($refund->status == 'approved')
-                                        <span class="badge bg-success"><i class="fa fa-check-circle me-1"></i> Approved</span>
+                                        <span class="badge bg-success"><i class="fa fa-check-circle me-1"></i>
+                                            Approved</span>
                                     @elseif($refund->status == 'rejected')
-                                        <span class="badge bg-danger"><i class="fa fa-times-circle me-1"></i> Rejected</span>
+                                        <span class="badge bg-danger"><i class="fa fa-times-circle me-1"></i>
+                                            Rejected</span>
                                     @else
-                                        <span class="badge bg-secondary"><i class="fa fa-question-circle me-1"></i> Unknown</span>
+                                        <span class="badge bg-secondary"><i class="fa fa-question-circle me-1"></i>
+                                            Unknown</span>
                                     @endif
                                 </div>
                             </div>
@@ -55,10 +59,14 @@
                                             <i class="fa fa-calendar-check me-2"></i>
                                             Appointment Details
                                         </h6>
-                                        <p><i class="fa fa-user-md me-2 text-muted"></i><strong>Doctor:</strong> {{ $appointment->doctor->name ?? 'N/A' }}</p>
-                                        <p><i class="fa fa-user me-2 text-muted"></i><strong>Patient:</strong> {{ $appointment->patient->name ?? 'N/A' }}</p>
-                                        <p><i class="fa fa-calendar me-2 text-muted"></i><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</p>
-                                        <p><i class="fa fa-clock me-2 text-muted"></i><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</p>
+                                        <p><i class="fa fa-user-md me-2 text-muted"></i><strong>Doctor:</strong>
+                                            {{ $appointment->doctor->name ?? 'N/A' }}</p>
+                                        <p><i class="fa fa-user me-2 text-muted"></i><strong>Patient:</strong>
+                                            {{ $appointment->patient->name ?? 'N/A' }}</p>
+                                        <p><i class="fa fa-calendar me-2 text-muted"></i><strong>Date:</strong>
+                                            {{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</p>
+                                        <p><i class="fa fa-clock me-2 text-muted"></i><strong>Time:</strong>
+                                            {{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -78,11 +86,15 @@
                                             $discountedDoctorFee = $doctorFee - $discount;
                                             $finalFee = $discountedDoctorFee + $totalServicesFee;
                                         @endphp
-                                        <p><i class="fa fa-user-md me-2 text-muted"></i><strong>Doctor Fee:</strong> {{ number_format($doctorFee, 2) }}</p>
-                                        <p><i class="fa fa-percent me-2 text-muted"></i><strong>Discount:</strong> -{{ number_format($discount, 2) }}</p>
-                                        <p><i class="fa fa-stethoscope me-2 text-muted"></i><strong>Services Fee:</strong> {{ number_format($totalServicesFee, 2) }}</p>
+                                        <p><i class="fa fa-user-md me-2 text-muted"></i><strong>Doctor Fee:</strong>
+                                            {{ number_format($doctorFee, 2) }}</p>
+                                        <p><i class="fa fa-percent me-2 text-muted"></i><strong>Discount:</strong>
+                                            -{{ number_format($discount, 2) }}</p>
+                                        <p><i class="fa fa-stethoscope me-2 text-muted"></i><strong>Services Fee:</strong>
+                                            {{ number_format($totalServicesFee, 2) }}</p>
                                         <hr>
-                                        <p class="fw-bold text-success"><i class="fa fa-money-bill-wave me-2"></i>Final Amount: {{ number_format($finalFee, 2) }}</p>
+                                        <p class="fw-bold text-success"><i class="fa fa-money-bill-wave me-2"></i>Final
+                                            Amount: {{ number_format($finalFee, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +124,9 @@
                                     <tbody>
                                         @forelse($appointment->services as $index => $service)
                                             @php
-                                                $isRefundedService = $refundExists && $refund->services->pluck('id')->contains($service->id);
+                                                $isRefundedService =
+                                                    $refundExists &&
+                                                    $refund->services->pluck('id')->contains($service->id);
                                             @endphp
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
@@ -123,6 +137,7 @@
                                                         class="form-check-input service-checkbox"
                                                         data-price="{{ $service->price }}"
                                                         @if ($isRefundedService) checked disabled @endif>
+
                                                 </td>
                                             </tr>
                                         @empty
@@ -159,7 +174,8 @@
                                 </label>
                                 <input type="number" step="0.01" name="requested_amount" class="form-control shadow-sm"
                                     id="requestedAmount" placeholder="Enter requested refund amount" required>
-                                <div class="invalid-feedback">Requested amount is required and must not exceed the total refundable amount.</div>
+                                <div class="invalid-feedback">Requested amount is required and must not exceed the total
+                                    refundable amount.</div>
                                 <small class="form-text text-muted">
                                     <i class="fa fa-calculator me-1"></i>
                                     Total Refundable: <span id="totalRefundable">0.00</span>
@@ -202,29 +218,27 @@
             function updateTotalRefundable() {
                 totalRefundable = 0;
 
-                // Calculate total refundable amount from checked services
                 serviceCheckboxes.forEach(cb => {
-                    if (cb.checked) {
+                    if (cb.checked && !cb.disabled) { // ✅ صرف نئی selected services
                         totalRefundable += parseFloat(cb.dataset.price);
                     }
                 });
 
-                // Add doctor fee if checked
-                if (doctorFeeCheckbox.checked) {
+                if (doctorFeeCheckbox.checked && !doctorFeeCheckbox.disabled) { // ✅ صرف نئی doctor fee
                     totalRefundable += parseFloat(doctorFeeCheckbox.dataset.price);
                 }
 
-                // Update UI
                 totalRefundableSpan.textContent = totalRefundable.toFixed(2);
-                requestedAmountInput.value = totalRefundable.toFixed(2);
 
-                // Toggle readonly attribute based on whether any checkbox is checked
-                if (serviceCheckboxes.length > 0 && Array.from(serviceCheckboxes).some(cb => cb.checked) || doctorFeeCheckbox.checked) {
+                if (totalRefundable > 0) {
+                    requestedAmountInput.value = totalRefundable.toFixed(2);
                     requestedAmountInput.setAttribute('readonly', true);
                 } else {
+                    requestedAmountInput.value = '';
                     requestedAmountInput.removeAttribute('readonly');
                 }
             }
+
 
             // Add event listeners to checkboxes
             serviceCheckboxes.forEach(cb => cb.addEventListener('change', updateTotalRefundable));
