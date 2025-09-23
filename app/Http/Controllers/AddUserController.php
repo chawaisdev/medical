@@ -134,27 +134,33 @@ class AddUserController extends Controller
             $start = $request->start_time[$day] ?? null;
             $end = $request->end_time[$day] ?? null;
 
-            $data = [
-                'user_id' => $userId,
-                'day' => $day,
-            ];
-
             if (in_array($day, $offDays)) {
-                $data['start_time'] = null;
-                $data['end_time'] = null;
-                $data['is_active'] = 0;
-            } else {
-                if (!$start || !$end) continue;
-
-                $data['start_time'] = $start;
-                $data['end_time'] = $end;
-                $data['is_active'] = 1;
+                UserSchedule::updateOrCreate(
+                    ['user_id' => $userId, 'day' => $day],
+                    [
+                        'start_time' => null,
+                        'end_time' => null,
+                        'is_active' => 0,
+                    ]
+                );
+                continue;
             }
 
-            UserSchedule::updateOrCreate(
-                ['user_id' => $userId, 'day' => $day],
-                $data
-            );
+            if (!$start && !$end) {
+                UserSchedule::where('user_id', $userId)->where('day', $day)->delete();
+                continue;
+            }
+
+            if ($start && $end) {
+                UserSchedule::updateOrCreate(
+                    ['user_id' => $userId, 'day' => $day],
+                    [
+                        'start_time' => $start,
+                        'end_time' => $end,
+                        'is_active' => 1,
+                    ]
+                );
+            }
         }
 
         return redirect()->back()->with('success', 'User schedule assigned/updated successfully.');
