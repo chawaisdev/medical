@@ -28,10 +28,11 @@
                                         <th>#</th>
                                         <th>Doctor</th>
                                         <th>Patient</th>
+                                        <th>Created By</th>
                                         <th>Total Amount</th>
                                         <th>Requested Amount</th>
                                         <th>Doctor Fee Refund</th>
-                                        <th>Refunded Services</th> {{-- 👈 New Column --}}
+                                        <th>Refunded Services</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -44,22 +45,22 @@
                                             $doctorFee = $appointment->fee;
                                             $totalDiscount =
                                                 $appointment->discount +
-                                                $appointment->services->sum(function ($service) {
-                                                    return $service->discount ?? 0;
-                                                });
+                                                $appointment->services->sum(fn($service) => $service->discount ?? 0);
                                             $finalFee = $doctorFee + $totalServicesFee - $totalDiscount;
                                         @endphp
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $appointment->doctor->name ?? 'N/A' }}</td>
                                             <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
+                                            <td>{{ $refund->creator->name ?? 'N/A' }}</td>
                                             <td>{{ number_format($finalFee, 2) }}</td>
                                             <td>{{ number_format($refund->requested_amount, 2) }}</td>
                                             <td>{{ number_format($refund->doctor_fee_refund, 2) }}</td>
                                             <td>
                                                 @if ($refund->services->count())
                                                     @foreach ($refund->services as $service)
-                                                        <span class="badge bg-success text-white">{{ $service->name }}</span>
+                                                        <span
+                                                            class="badge bg-success text-white">{{ $service->name }}</span>
                                                     @endforeach
                                                 @else
                                                     <span class="text-muted">No Services</span>
@@ -114,7 +115,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
