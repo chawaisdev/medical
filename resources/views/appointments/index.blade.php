@@ -38,6 +38,10 @@
                                     <th>Patient Name</th>
                                     <th>Time</th>
                                     <th>Date</th>
+                                    <th>Doctor Fee</th>
+                                    <th>Discount</th>
+                                    <th>Total Amount</th>
+                                    <th>Services</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -49,6 +53,20 @@
                                         <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</td>
+                                        <td>{{ $appointment->fee ?? 'N/A' }}</td>
+                                        <td>{{ $appointment->discount ?? 'N/A' }}</td>
+                                        <td>{{ $appointment->final_fee ?? 'N/A' }}</td>
+                                        <td>
+                                            @if ($appointment->services->count() > 0)
+                                                @foreach ($appointment->services as $service)
+                                                    <span class="badge bg-primary">{{ $service->name }}
+                                                        ({{ $service->price }})</span>
+                                                @endforeach
+                                            @else
+                                                <span class="text-muted">No Services</span>
+                                            @endif
+                                        </td>
+
                                         <td>
                                             {{-- <form action="{{ route('appointment.destroy', $appointment->id) }}"
                                                 method="POST" style="display: inline;"
@@ -71,7 +89,7 @@
                                                 class="btn btn-sm btn-success">
                                                 <i class="fa fa-undo"></i> Refund
                                             </a>
-                                         </td>
+                                        </td>
                                     </tr>
                                 @empty
                                 @endforelse

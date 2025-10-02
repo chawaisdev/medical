@@ -92,159 +92,161 @@
             </div>
         </div>
 
-        <div class="row">
-            {{-- Today Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-money-bill-wave fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todaySales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Sales</p>
+        @if (auth()->user()->user_type === 'admin')
+            <div class="row">
+                {{-- Today Sales --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
+                                        <i class="fas fa-money-bill-wave fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todaySales) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Sales</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- 7 Days Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-calendar-week fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysSales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Sales</p>
+                {{-- 7 Days Sales --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
+                                        <i class="fas fa-calendar-week fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysSales) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Sales</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Last Month Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-calendar-alt fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthSales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Sales</p>
+                {{-- Last Month Sales --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
+                                        <i class="fas fa-calendar-alt fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthSales) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Sales</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Total Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-chart-line fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalSales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Sales</p>
+                {{-- Total Sales --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
+                                        <i class="fas fa-chart-line fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalSales) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Sales</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Today Refund --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
-                                    <i class="fas fa-undo fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Refund</p>
+                {{-- Today Refund --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
+                                        <i class="fas fa-undo fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Refund</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- 7 Days Refund --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
-                                    <i class="fas fa-calendar-week fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Refund</p>
+                {{-- 7 Days Refund --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
+                                        <i class="fas fa-calendar-week fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Refund</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Last Month Refund --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
-                                    <i class="fas fa-calendar-alt fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Refund</p>
+                {{-- Last Month Refund --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
+                                        <i class="fas fa-calendar-alt fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Refund</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- Profit --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-success text-white rounded-circle">
-                                    <i class="fas fa-dollar-sign fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($profit) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Profit</p>
+                {{-- Profit --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-success text-white rounded-circle">
+                                        <i class="fas fa-dollar-sign fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($profit) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Profit</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
         <div class="row">
             {{-- Top Doctors List --}}
             <div class="col-xl-6">
