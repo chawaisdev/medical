@@ -14,6 +14,8 @@ class Appointment extends Model
         'final_fee',
         'discount',
         'fee',
+        'additional_charges',
+        'note',
     ];
 
     public function doctor()

@@ -47,6 +47,8 @@ class AppointmentController extends Controller
             'patient_id' => 'required|exists:users,id',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
+            'additional_charges' => 'nullable|numeric|min:0',
+            'note' => 'nullable|string|max:1000',
         ]);
 
         $appointment = Appointment::create([
@@ -57,6 +59,8 @@ class AppointmentController extends Controller
             'fee' => $request->fee,
             'discount' => $request->discount,
             'final_fee' => $request->final_fee,
+            'additional_charges' => $request->additional_charges ?? 0,
+            'note' => $request->note,
         ]);
 
         if ($request->has('services')) {
@@ -66,6 +70,7 @@ class AppointmentController extends Controller
         return redirect()->route('appointment.index')
                         ->with('success', 'Appointment scheduled successfully with services.');
     }
+
 
     /**
      * Display the specified resource.
