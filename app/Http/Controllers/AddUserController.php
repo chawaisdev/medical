@@ -13,7 +13,7 @@ class AddUserController extends Controller
     // Retrieve all users and pass them to the adduser index blade view
     public function index(Request $request)
     {
-        $users = User::where('user_type', '!=', 'admin')
+        $users = User::where('user_type', '!=', 'patient')
             ->orderBy('id', 'desc')
             ->get();
         return view('adduser.index', compact('users'));
@@ -33,6 +33,7 @@ class AddUserController extends Controller
         // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'user_type' => 'required|string|in:doctor,reception,patient',
@@ -43,6 +44,7 @@ class AddUserController extends Controller
         // Create user
         User::create([
             'name' => $request->name,
+            'contact_number' => $request->contact_number,
             'email' => $request->email,
             'user_type' => $request->user_type,
             'fee' => $request->fee,
@@ -67,6 +69,7 @@ class AddUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
             'user_type' => 'required|string|in:doctor,reception,patient',
@@ -77,6 +80,7 @@ class AddUserController extends Controller
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
+        $user->contact_number = $request->contact_number;
         $user->email = $request->email;
         $user->user_type = $request->user_type;
         $user->fee = $request->fee;

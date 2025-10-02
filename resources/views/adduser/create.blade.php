@@ -57,6 +57,12 @@
                                 <input type="password" name="password" class="form-control" placeholder="Enter password"
                                     required>
                             </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="contact_number" class="form-label">Contact Number</label>
+                                <input type="text" name="contact_number" class="form-control" placeholder="Enter contact number"
+                                    required>
+                            </div>
                         </div>
 
                         <div id="doctor_fields" style="display: none;">

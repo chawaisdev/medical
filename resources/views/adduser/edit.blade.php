@@ -50,7 +50,7 @@
                                     </option>
                                 </select>
                             </div>
-                            
+
                             <div class="mb-3 col-6">
                                 <label for="role_id" class="form-label">User Role</label>
                                 <select name="role_id" id="role_id" class="form-select" required>
@@ -68,6 +68,12 @@
                                 <label for="password" class="form-label">Password (optional)</label>
                                 <input type="password" name="password" class="form-control"
                                     placeholder="Enter new password">
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="contact_number" class="form-label">Contact Number</label>
+                                <input type="number" name="contact_number" id="contact_number" class="form-control"
+                                    placeholder="Enter contact number" value="{{ old('fee', $user->contact_number) }}">
                             </div>
 
                             <div class="mb-3 col-6">
