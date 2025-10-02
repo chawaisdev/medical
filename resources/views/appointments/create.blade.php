@@ -56,7 +56,7 @@
 
                             <div class="mb-3 col-12">
                                 <label for="services" class="form-label">Select Services</label>
-                                <select name="services[]" id="services" class="form-select select2" multiple required>
+                                <select name="services[]" id="services" class="form-select select2" multiple>
                                     @foreach ($services as $service)
                                         <option value="{{ $service->id }}" data-price="{{ $service->price }}">
                                             {{ $service->name }} - {{ $service->price }}</option>
@@ -281,11 +281,6 @@
             updateFinalFee();
 
             $('#appointmentForm').on('submit', function() {
-                const services = getSelectedServices();
-                if (services.length === 0) {
-                    alert('Please select at least one service.');
-                    return false;
-                }
                 const feeVal = toNumber(feeInput.val());
                 const finalFeeVal = toNumber(finalFeeInput.val());
                 if (!doctorSelect.val()) {

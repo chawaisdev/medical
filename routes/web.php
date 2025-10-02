@@ -21,8 +21,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Admin routes
-    Route::middleware(['userType:admin'])->group(function () {
+    // // Admin routes
+    // Route::middleware(['userType:admin'])->group(function () {
         Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
         Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
         Route::get('/patients/list', [PatientController::class, 'listPatient'])->name('patients.list');
@@ -44,10 +44,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('rolepermission', RolePermissionController::class);
         Route::resource('services', ServiceController::class);
-    });
+    // });
 
     // Reception routes
-    Route::middleware(['userType:reception'])->group(function () {
+    // Route::middleware(['userType:reception'])->group(function () {
         Route::resource('reception', ReceptionController::class);
         Route::resource('appointment', AppointmentController::class);
 
@@ -69,13 +69,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/refunds/{appointment}', [ReceptionController::class, 'showRefund'])->name('refunds.show');
 
 
-    });
+    // });
 
     // Patient routes
-    Route::middleware(['userType:patient'])->group(function () {
+    // Route::middleware(['userType:patient'])->group(function () {
         Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
         Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
-    });
+    // });
 
 
 // Profile routes

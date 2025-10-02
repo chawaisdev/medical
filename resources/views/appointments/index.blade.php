@@ -50,7 +50,7 @@
                                         <td>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</td>
                                         <td>
-                                            <form action="{{ route('appointment.destroy', $appointment->id) }}"
+                                            {{-- <form action="{{ route('appointment.destroy', $appointment->id) }}"
                                                 method="POST" style="display: inline;"
                                                 onsubmit="return confirm('Are you sure you want to delete?');">
                                                 @csrf
@@ -62,7 +62,7 @@
                                             <a href="{{ route('appointment.edit', $appointment->id) }}"
                                                 class="btn btn-sm btn-warning">
                                                 <i class="fa fa-pen-to-square"></i>
-                                            </a>
+                                            </a> --}}
                                             <a href="{{ route('appointments.print', $appointment->id) }}" target="_blank"
                                                 class="btn btn-sm btn-info">
                                                 <i class="fa fa-print"></i>

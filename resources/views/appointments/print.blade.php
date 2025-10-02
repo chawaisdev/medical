@@ -179,8 +179,8 @@
                         <div class="section-title">From</div>
                         <strong>GetWell Medical Center</strong><br>
                         Doctor: {{ $appointment->doctor->name ?? 'N/A' }}<br>
-                        Phone: +92-300-1234567<br>
-                        Address: 123 Health Street, Medical City
+                        Phone: +92-330-8881122<br>
+                        Address: Plot 17-E, New Alhayat Plaza, G-10 Markaz, Islamabad
                     </td>
                     <td>
                         <div class="section-title">Bill To</div>
@@ -241,7 +241,7 @@
         <!-- Footer -->
         <div class="footer">
             Thank you for choosing <strong>GetWell Medical Center</strong><br>
-            For inquiries, please contact: +92-300-1234567 | info@getwellcenter.com
+            For inquiries, please contact: +92-330-8881122 | info@getwellcenter.com
         </div>
     </div>
 </body>
