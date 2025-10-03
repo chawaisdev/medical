@@ -70,7 +70,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     // });
-
+ 
+    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments'])->name('doctor.appointments');
     // Patient routes
     // Route::middleware(['userType:patient'])->group(function () {
         Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');

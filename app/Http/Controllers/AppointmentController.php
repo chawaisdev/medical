@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Appointment;
 use App\Models\Service;
+use App\Models\UserSchedule;
 use Carbon\Carbon;
 class AppointmentController extends Controller
 {
@@ -147,4 +148,28 @@ class AppointmentController extends Controller
         return view('appointments.print', compact('appointment'));
     }
 
+public function doctorAppointments(Request $request)
+{
+    $query = Appointment::with(['doctor', 'patient']);
+
+    // filter by login user
+    if (auth()->check() && auth()->user()->user_type === 'doctor') {
+        $query->where('doctor_id', auth()->id());
+    }
+
+    if ($request->has('date')) {
+        $query->whereDate('date', $request->query('date'));
+    } else {
+        $query->whereDate('date', Carbon::today());
+    }
+
+    $query->orderBy('id', 'desc'); 
+
+    $userSchedules = UserSchedule::with('user')->get();
+
+    return view('appointments.doctorapp', [
+        'appointments' => $query->get(),
+        'userSchedules' => $userSchedules,
+    ]);
+}
 }

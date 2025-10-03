@@ -53,6 +53,16 @@
                      </li>
                  @endif
 
+                 @if (in_array('Doctor Appointment', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ route('doctor.appointments') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-doctor side-menu__icon"></i>
+                             <span class="side-menu__label">Doctor Appointment</span>
+                         </a>
+                     </li>
+                 @endif
+
+
                  <!-- Roles -->
                  @if (in_array('Roles', $permissions))
                      <li class="slide mt-2">
