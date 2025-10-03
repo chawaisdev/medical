@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register the 'reception' middleware alias
         $middleware->alias([
                 'userType' => \App\Http\Middleware\UserTypeMiddleware::class,
+                'permission' => \App\Http\Middleware\RolePermissionMiddleware::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
