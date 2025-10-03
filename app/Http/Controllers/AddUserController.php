@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Appointment;
+use App\Models\Refund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserSchedule; // Make sure this is imported
@@ -55,6 +57,89 @@ class AddUserController extends Controller
         return redirect()->route('adduser.create')->with('success', 'User added successfully.');
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Default
+        $todaySales = $sevenDaysSales = $lastMonthSales = $totalSales = 0;
+        $todayRefund = $sevenDaysRefund = $lastMonthRefund = $totalRefund = 0;
+        $profit = 0;
+        $appointments = [];
+
+        if ($user->user_type === 'doctor') {
+            // Get doctor appointments with services
+            $appointments = Appointment::with(['patient', 'services'])
+                ->where('doctor_id', $user->id)
+                ->get();
+
+            // --- Sales (sum of services->price instead of just final_fee) ---
+            $totalSales = $appointments->sum(function ($appointment) {
+                return $appointment->services->sum('price');
+            });
+
+            $todaySales = $appointments->where('date', today()->toDateString())
+                ->sum(function ($appointment) {
+                    return $appointment->services->sum('price');
+                });
+
+            $sevenDaysSales = $appointments->whereBetween('date', [now()->subDays(6)->toDateString(), now()->toDateString()])
+                ->sum(function ($appointment) {
+                    return $appointment->services->sum('price');
+                });
+
+            $lastMonthSales = $appointments->filter(function ($appointment) {
+                return \Carbon\Carbon::parse($appointment->date)->month === now()->subMonth()->month
+                    && \Carbon\Carbon::parse($appointment->date)->year === now()->subMonth()->year;
+            })->sum(function ($appointment) {
+                return $appointment->services->sum('price');
+            });
+
+            // --- Refunds (only approved) ---
+            $refunds = Refund::with('services')
+                ->where('approved_by_user_id', $user->id)
+                ->where('status', 'approved')
+                ->get();
+
+            $totalRefund = $refunds->sum(function ($refund) {
+                return $refund->services->sum('price');
+            });
+
+            $todayRefund = $refunds->where('created_at', '>=', today())
+                ->sum(function ($refund) {
+                    return $refund->services->sum('price');
+                });
+
+            $sevenDaysRefund = $refunds->whereBetween('created_at', [now()->subDays(6), now()])
+                ->sum(function ($refund) {
+                    return $refund->services->sum('price');
+                });
+
+            $lastMonthRefund = $refunds->filter(function ($refund) {
+                return $refund->created_at->month === now()->subMonth()->month
+                    && $refund->created_at->year === now()->subMonth()->year;
+            })->sum(function ($refund) {
+                return $refund->services->sum('price');
+            });
+
+            // --- Profit = Total services - refunded services ---
+            $profit = $totalSales - $totalRefund;
+        }
+
+        return view('adduser.show', compact(
+            'user',
+            'appointments',
+            'todaySales',
+            'sevenDaysSales',
+            'lastMonthSales',
+            'totalSales',
+            'todayRefund',
+            'sevenDaysRefund',
+            'lastMonthRefund',
+            'totalRefund',
+            'profit'
+        ));
+    }
 
     // Fetch user by ID and show it in the edit form for updating
     public function edit($id)
