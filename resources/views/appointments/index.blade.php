@@ -42,7 +42,6 @@
                                     <th>Doctor Fee</th>
                                     <th>Discount</th>
                                     <th>Final Fee</th>
-                                    <th>Additional Charges</th>
                                     <th>Total Amount</th>
                                     <th>Action</th>
                                 </tr>
@@ -50,11 +49,10 @@
                             <tbody>
                                 @forelse ($appointments as $appointment)
                                     @php
-                                        // Calculate totals
+                                        // Calculate totals (without additional charges)
                                         $servicesTotal = $appointment->services->sum('price');
                                         $finalFee = $appointment->final_fee ?? 0;
-                                        $additional = $appointment->additional_charges ?? 0;
-                                        $total = $finalFee + $servicesTotal + $additional;
+                                        $total = $finalFee + $servicesTotal;
                                     @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -76,7 +74,6 @@
                                         <td>{{ $appointment->fee ?? 'N/A' }}</td>
                                         <td>{{ $appointment->discount ?? 'N/A' }}</td>
                                         <td>{{ $finalFee }}</td>
-                                        <td>{{ $additional }}</td>
                                         <td><strong>{{ $total }}</strong></td>
                                         <td>
                                             <a href="{{ route('appointments.print', $appointment->id) }}" target="_blank"

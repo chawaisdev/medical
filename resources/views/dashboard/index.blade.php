@@ -14,137 +14,78 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            {{-- Total Users --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-users fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalUsers) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Users</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Total Doctors --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-success text-white rounded-circle">
-                                    <i class="fas fa-user-md fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctors) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Doctors</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Total Receptions --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
-                                    <i class="fas fa-concierge-bell fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalReceptions) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Receptions</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Total Patients --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
-                                    <i class="fas fa-procedures fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalPatients) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Patients</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         @if (auth()->user()->user_type === 'admin')
             <div class="row">
-                {{-- Today Sales --}}
+                {{-- Total Users --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
                                     <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                        <i class="fas fa-money-bill-wave fa-lg"></i>
+                                        <i class="fas fa-users fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todaySales) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Sales</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalUsers) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Users</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- 7 Days Sales --}}
+                {{-- Total Doctors --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
-                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                        <i class="fas fa-calendar-week fa-lg"></i>
+                                    <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
+                                        <i class="fas fa-user-md fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysSales) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Sales</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctors) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Doctors</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Last Month Sales --}}
+                {{-- Total Receptions --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
-                                    <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                        <i class="fas fa-calendar-alt fa-lg"></i>
+                                    <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
+                                        <i class="fas fa-concierge-bell fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthSales) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Sales</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalReceptions) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Receptions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Total Patients --}}
+                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top">
+                                <div class="me-3">
+                                    <span class="avatar avatar-md p-3 bg-secondary text-white rounded-circle">
+                                        <i class="fas fa-user-injured fa-lg"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-fill">
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalPatients) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Patients</p>
                                 </div>
                             </div>
                         </div>
@@ -170,57 +111,38 @@
                     </div>
                 </div>
 
-                {{-- Today Refund --}}
+                {{-- Doctor Refund --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
                                     <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
-                                        <i class="fas fa-undo fa-lg"></i>
+                                        <i class="fas fa-stethoscope fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayRefund) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Refund</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctorRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Doctor Refund</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- 7 Days Refund --}}
+                {{-- Service Refund --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
-                                    <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
-                                        <i class="fas fa-calendar-week fa-lg"></i>
+                                    <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
+                                        <i class="fas fa-concierge-bell fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysRefund) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Refund</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Last Month Refund --}}
-                <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-top">
-                                <div class="me-3">
-                                    <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
-                                        <i class="fas fa-calendar-alt fa-lg"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthRefund) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Refund</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalServiceRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Service Refund</p>
                                 </div>
                             </div>
                         </div>
@@ -247,6 +169,7 @@
                 </div>
             </div>
         @endif
+
         <div class="row">
             {{-- Top Doctors List --}}
             <div class="col-xl-6">

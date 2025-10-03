@@ -19,121 +19,108 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card bg-white shadow p-4">
-                        <form action="{{ route('appointment.store') }}" method="POST" id="appointmentForm">
-                            @csrf
+                    <form action="{{ route('appointment.store') }}" method="POST" id="appointmentForm">
+                        @csrf
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <label for="doctor_id" class="form-label">Select Doctor</label>
+                                <select name="doctor_id" id="doctor_id" class="form-control select2" required>
+                                    <option value="">-- Select Doctor --</option>
+                                    @foreach ($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" data-fee="{{ $doctor->fee ?? 0 }}">
+                                            {{ $doctor->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="patient_id" class="form-label fw-bold">Select Patient</label>
+                                <select name="patient_id" id="patient_id" class="form-control select2" required>
+                                    <option value="">-- Select Patient --</option>
+                                    @foreach ($patients as $patient)
+                                        <option value="{{ $patient->id }}">{{ $patient->name }} -
+                                            {{ $patient->contact_number ?? 'N/A' }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" name="date" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3 col-6">
+                                <label for="time" class="form-label">Time</label>
+                                <input type="time" name="time" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3 col-12">
+                                <label for="services" class="form-label">Select Services</label>
+                                <select name="services[]" id="services" class="form-select select2" multiple>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}" data-price="{{ $service->price }}">
+                                            {{ $service->name }} - {{ $service->price }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="doctor_fields" style="display:none; margin-top:20px;">
                             <div class="row">
-                                <div class="mb-3 col-6">
-                                    <label for="doctor_id" class="form-label">Select Doctor</label>
-                                    <select name="doctor_id" id="doctor_id" class="form-control select2" required>
-                                        <option value="">-- Select Doctor --</option>
-                                        @foreach ($doctors as $doctor)
-                                            <option value="{{ $doctor->id }}" data-fee="{{ $doctor->fee ?? 0 }}">
-                                                {{ $doctor->name }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="mb-3 col-4">
+                                    <label for="fee" class="form-label">Doctor Fee</label>
+                                    <input type="number" name="fee" id="fee" class="form-control" readonly>
                                 </div>
-
-                                <div class="mb-3 col-6">
-                                    <label for="patient_id" class="form-label fw-bold">Select Patient</label>
-                                    <select name="patient_id" id="patient_id" class="form-control select2" required>
-                                        <option value="">-- Select Patient --</option>
-                                        @foreach ($patients as $patient)
-                                            <option value="{{ $patient->id }}">{{ $patient->name }} -
-                                                {{ $patient->contact_number ?? 'N/A' }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="mb-3 col-4">
+                                    <label for="discount" class="form-label">Discount (%)</label>
+                                    <input type="number" name="discount" id="discount" class="form-control" step="0.01"
+                                        value="0">
                                 </div>
-
-                                <div class="mb-3 col-6">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" name="date" class="form-control" required>
-                                </div>
-
-                                <div class="mb-3 col-6">
-                                    <label for="time" class="form-label">Time</label>
-                                    <input type="time" name="time" class="form-control" required>
-                                </div>
-
-                                <div class="mb-3 col-12">
-                                    <label for="services" class="form-label">Select Services</label>
-                                    <select name="services[]" id="services" class="form-select select2" multiple>
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}" data-price="{{ $service->price }}">
-                                                {{ $service->name }} - {{ $service->price }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="mb-3 col-4">
+                                    <label for="final_fee" class="form-label">Final Fee</label>
+                                    <input type="number" name="final_fee" id="final_fee" class="form-control" readonly>
                                 </div>
                             </div>
+                        </div>
 
-                            <div id="doctor_fields" style="display:none; margin-top:20px;">
-                                <div class="row">
-                                    <div class="mb-3 col-4">
-                                        <label for="fee" class="form-label">Doctor Fee</label>
-                                        <input type="number" name="fee" id="fee" class="form-control" readonly>
+
+                        <div class="row mt-3">
+                            <div class="col-4 ms-auto">
+                                <div class="card p-3 border-secondary">
+                                    <h5 class="mb-3">Billing Summary</h5>
+                                    <div class="mb-2 d-flex justify-content-between">
+                                        <span>Services Subtotal</span>
+                                        <strong id="services_subtotal">0.00</strong>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="discount" class="form-label">Discount (%)</label>
-                                        <input type="number" name="discount" id="discount" class="form-control" step="0.01"
-                                            value="0">
+                                    <div class="mb-2 d-flex justify-content-between">
+                                        <span>Doctor Fee</span>
+                                        <strong id="display_fee">0.00</strong>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="final_fee" class="form-label">Final Fee</label>
-                                        <input type="number" name="final_fee" id="final_fee" class="form-control" readonly>
+                                    <div class="mb-2 d-flex justify-content-between">
+                                        <span>Doctor Discount (%)</span>
+                                        <strong id="display_discount">0.00</strong>
                                     </div>
+                                    <div class="mb-2 d-flex justify-content-between">
+                                        <span>Final Doctor Fee</span>
+                                        <strong id="display_final_fee">0.00</strong>
+                                    </div>
+                                    <hr>
+
+                                    <hr>
+                                    <div class="d-flex justify-content-between fs-5">
+                                        <span>Total Amount</span>
+                                        <strong id="grand_total">0.00</strong>
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="mb-3 col-6">
-                                <label for="additional_charges" class="form-label">Additional Charges</label>
-                                <input type="number" name="additional_charges" id="additional_charges" class="form-control"
-                                    step="0.01" value="0">
-
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label for="note" class="form-label">Note</label>
-                                <textarea name="note" id="note" class="form-control" rows="2" placeholder="Enter any additional notes"></textarea>
-                            </div>
-                            {{-- </div> --}}
-
-                            <div class="row mt-3">
-                                <div class="col-4 ms-auto">
-                                    <div class="card p-3 border-secondary">
-                                        <h5 class="mb-3">Billing Summary</h5>
-                                        <div class="mb-2 d-flex justify-content-between">
-                                            <span>Services Subtotal</span>
-                                            <strong id="services_subtotal">0.00</strong>
-                                        </div>
-                                        <div class="mb-2 d-flex justify-content-between">
-                                            <span>Doctor Fee</span>
-                                            <strong id="display_fee">0.00</strong>
-                                        </div>
-                                        <div class="mb-2 d-flex justify-content-between">
-                                            <span>Doctor Discount (%)</span>
-                                            <strong id="display_discount">0.00</strong>
-                                        </div>
-                                        <div class="mb-2 d-flex justify-content-between">
-                                            <span>Final Doctor Fee</span>
-                                            <strong id="display_final_fee">0.00</strong>
-                                        </div>
-                                        <hr>
-                                        <div class="mb-2 d-flex justify-content-between">
-                                            <span>Additional Charges</span>
-                                            <strong id="display_additional">0.00</strong>
-                                        </div>
-                                        <hr>
-                                        <div class="d-flex justify-content-between fs-5">
-                                            <span>Total Amount</span>
-                                            <strong id="grand_total">0.00</strong>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
 
 
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-primary">Save Appointment</button>
-                            </div>
-                        </form>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Save Appointment</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
