@@ -95,7 +95,7 @@
                                     <div class="mb-3">
                                         <label>Assign Permissions</label>
                                         <div class="border rounded p-2">
-                                            @foreach (['Dashboard', 'User Management', 'Roles', 'Clinics', 'Services', 'My Appointments', 'My Reports', 'Patients', 'Appointments', 'Refunds'] as $perm)
+                                            @foreach (['Dashboard', 'User Management', 'Roles', 'Clinics', 'Services', 'My Appointments', 'My Reports', 'Patients', 'Appointments', 'Refunds', 'Doctor Appointment'] as $perm)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" name="permissions[]"
                                                         value="{{ $perm }}" id="perm_{{ $perm }}">
