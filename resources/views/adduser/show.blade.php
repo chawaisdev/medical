@@ -18,63 +18,6 @@
 
         {{-- ==== Stats Cards ==== --}}
         <div class="row">
-            {{-- Today Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-money-bill-wave fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todaySales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Sales</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- 7 Days Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-calendar-week fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysSales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Sales</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Last Month Sales --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
-                                    <i class="fas fa-calendar-alt fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthSales) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Sales</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {{-- Total Sales --}}
             <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                 <div class="card custom-card">
@@ -94,57 +37,38 @@
                 </div>
             </div>
 
-            {{-- Today Refund --}}
+            {{-- Total Fee Refund --}}
             <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                 <div class="card custom-card">
                     <div class="card-body">
                         <div class="d-flex align-items-top">
                             <div class="me-3">
                                 <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
-                                    <i class="fas fa-undo fa-lg"></i>
+                                    <i class="fas fa-user-md fa-lg"></i>
                                 </span>
                             </div>
                             <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today Refund</p>
+                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctorRefund) }}</h5>
+                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Fee Refund</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- 7 Days Refund --}}
+            {{-- Total Service Refund --}}
             <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                 <div class="card custom-card">
                     <div class="card-body">
                         <div class="d-flex align-items-top">
                             <div class="me-3">
                                 <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
-                                    <i class="fas fa-calendar-week fa-lg"></i>
+                                    <i class="fas fa-stethoscope fa-lg"></i>
                                 </span>
                             </div>
                             <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($sevenDaysRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last 7 Days Refund</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Last Month Refund --}}
-            <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-top">
-                            <div class="me-3">
-                                <span class="avatar avatar-md p-3 bg-info text-white rounded-circle">
-                                    <i class="fas fa-calendar-alt fa-lg"></i>
-                                </span>
-                            </div>
-                            <div class="flex-fill">
-                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($lastMonthRefund) }}</h5>
-                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Last Month Refund</p>
+                                <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalRefundServices) }}</h5>
+                                <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Service Refund</p>
                             </div>
                         </div>
                     </div>
@@ -171,8 +95,9 @@
             </div>
         </div>
 
+
         {{-- ==== Doctor Appointments Section ==== --}}
-        @if($user->user_type === 'doctor')
+        @if ($user->user_type === 'doctor')
             <div class="card custom-card mt-4">
                 <div class="card-header">
                     <h5 class="mb-0">Appointments</h5>
@@ -201,7 +126,7 @@
                                         <td>{{ number_format($appointment->discount) }}</td>
                                         <td><strong>{{ number_format($appointment->final_fee) }}</strong></td>
                                         <td>
-                                            @if($appointment->services->count())
+                                            @if ($appointment->services->count())
                                                 {{ $appointment->services->pluck('name')->join(', ') }}
                                             @else
                                                 <span class="text-muted">No Services</span>

@@ -9,7 +9,7 @@ use App\Models\Refund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserSchedule; // Make sure this is imported
-
+use Carbon\Carbon;
 class AddUserController extends Controller
 {
     // Retrieve all users and pass them to the adduser index blade view
@@ -57,78 +57,59 @@ class AddUserController extends Controller
         return redirect()->route('adduser.create')->with('success', 'User added successfully.');
     }
 
-   public function show($id)
-{
-    $user = User::findOrFail($id);
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
 
-    // Default
-    $todaySales = $sevenDaysSales = $lastMonthSales = $totalSales = 0;
-    $todayRefund = $sevenDaysRefund = $lastMonthRefund = $totalRefund = 0;
-    $profit = 0;
-    $appointments = [];
-
-    if ($user->user_type === 'doctor') {
-        // Get doctor appointments
-        $appointments = Appointment::with(['patient', 'services'])
-            ->where('doctor_id', $user->id)
+        $appointments = Appointment::where('doctor_id', $id)
+            ->with(['patient', 'services'])
             ->get();
 
-        // --- Sales (sum of final_fee from appointments) ---
-        $todaySales = Appointment::where('doctor_id', $user->id)
-            ->whereDate('date', today())
-            ->sum('final_fee');
-
-        $sevenDaysSales = Appointment::where('doctor_id', $user->id)
-            ->whereBetween('date', [now()->subDays(6), now()])
-            ->sum('final_fee');
-
-        $lastMonthSales = Appointment::where('doctor_id', $user->id)
-            ->whereMonth('date', now()->subMonth()->month)
-            ->whereYear('date', now()->subMonth()->year)
-            ->sum('final_fee');
-
-        $totalSales = Appointment::where('doctor_id', $user->id)
-            ->sum('final_fee');
-
-        // --- Refunds (only approved) ---
-        $todayRefund = Refund::where('approved_by_user_id', $user->id)
+        $refunds = Refund::whereHas('appointment', function ($query) use ($id) {
+                $query->where('doctor_id', $id);
+            })
             ->where('status', 'approved')
-            ->whereDate('created_at', today())
-            ->sum('requested_amount');
+            ->with(['appointment.patient', 'services'])
+            ->get();
 
-        $sevenDaysRefund = Refund::where('approved_by_user_id', $user->id)
+        $totalFinalFee = Appointment::where('doctor_id', $id)->sum('final_fee');
+
+        $totalServicePrice = Appointment::where('doctor_id', $id)
+            ->join('appointment_services', 'appointments.id', '=', 'appointment_services.appointment_id')
+            ->join('services', 'appointment_services.services_id', '=', 'services.id')
+            ->sum('services.price');
+
+        $totalSales = $totalFinalFee + $totalServicePrice;
+
+        $totalDoctorRefund = Refund::whereHas('appointment', function ($query) use ($id) {
+                $query->where('doctor_id', $id);
+            })
             ->where('status', 'approved')
-            ->whereBetween('created_at', [now()->subDays(6), now()])
-            ->sum('requested_amount');
+            ->sum('doctor_fee_refund');
 
-        $lastMonthRefund = Refund::where('approved_by_user_id', $user->id)
+        $totalRefundServices = Refund::whereHas('appointment', function ($query) use ($id) {
+                $query->where('doctor_id', $id);
+            })
             ->where('status', 'approved')
-            ->whereMonth('created_at', now()->subMonth()->month)
-            ->whereYear('created_at', now()->subMonth()->year)
-            ->sum('requested_amount');
+            ->join('refund_services', 'refunds.id', '=', 'refund_services.refund_id')
+            ->join('services', 'refund_services.service_id', '=', 'services.id')
+            ->sum('services.price');
 
-        $totalRefund = Refund::where('approved_by_user_id', $user->id)
-            ->where('status', 'approved')
-            ->sum('requested_amount');
+        $totalRefund = $totalDoctorRefund + $totalRefundServices;
 
-        // --- Profit ---
         $profit = $totalSales - $totalRefund;
-    }
 
-    return view('adduser.show', compact(
-        'user',
-        'appointments',
-        'todaySales',
-        'sevenDaysSales',
-        'lastMonthSales',
-        'totalSales',
-        'todayRefund',
-        'sevenDaysRefund',
-        'lastMonthRefund',
-        'totalRefund',
-        'profit'
-    ));
-}
+        return view('adduser.show', compact(
+            'user',
+            'appointments',
+            'refunds',
+            'totalSales',
+            'totalDoctorRefund',
+            'totalRefundServices',
+            'totalRefund',
+            'profit'
+        ));
+    }
 
 
     // Fetch user by ID and show it in the edit form for updating

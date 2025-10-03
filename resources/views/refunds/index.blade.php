@@ -45,13 +45,13 @@
                                             <td>{{ $refund->appointment->doctor->name ?? 'N/A' }}</td>
                                             <td>{{ $refund->appointment->patient->name ?? 'N/A' }}</td>
                                             <td>{{ $refund->creator->name ?? 'N/A' }}</td>
-                                            <td>{{ number_format($refund->appointment->fee + $refund->appointment->services->sum('price'), 2) }}
+                                            {{-- <td>{{ number_format($refund->appointment->fee + $refund->appointment->services->sum('price'), 2) }} --}}
                                             </td>
                                             <td>{{ number_format($refund->requested_amount, 2) }}</td>
                                             <td>{{ number_format($refund->doctor_fee_refund, 2) }}</td>
                                             <td>
                                                 @forelse ($refund->services as $service)
-                                                    <span class="badge bg-success">{{ $service->name }}</span>
+                                                    <span class="badge bg-success">{{ $service->name }},{{ $service->price }}</span>
                                                 @empty
                                                     <span class="text-muted">No Services</span>
                                                 @endforelse
