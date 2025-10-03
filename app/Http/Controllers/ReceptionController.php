@@ -212,11 +212,14 @@ class ReceptionController extends Controller
 
         $doctorFeeAmount = 0;
         if ($request->doctor_fee_refunded) {
-            // full doctor fee without discount
-            $doctorFeeAmount = $appointment->fee;
+            $doctorFeeAmount = $appointment->final_fee;
         }
 
-        $totalRefundable = $this->calculateRefundableAmount($appointment, $selectedServices, $request->doctor_fee_refunded);
+        $totalRefundable = $this->calculateRefundableAmount(
+            $appointment,
+            $selectedServices,
+            $request->doctor_fee_refunded
+        );
 
         if ($request->requested_amount > $totalRefundable) {
             return back()->withErrors([
@@ -231,6 +234,7 @@ class ReceptionController extends Controller
                 'reason' => $request->reason ?? $refund->reason,
                 'requested_amount' => $refund->requested_amount + $request->requested_amount,
                 'doctor_fee_refund' => $refund->doctor_fee_refund > 0 ? $refund->doctor_fee_refund : $doctorFeeAmount,
+                'status' => 'pending',
             ]);
         } else {
             $refund = Refund::create([
@@ -240,6 +244,7 @@ class ReceptionController extends Controller
                 'reason' => $request->reason,
                 'requested_amount' => $request->requested_amount,
                 'doctor_fee_refund' => $doctorFeeAmount,
+                'status' => 'pending',
             ]);
         }
 
