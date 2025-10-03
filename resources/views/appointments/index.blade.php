@@ -28,73 +28,73 @@
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </div>
-<div class="card-body p-2">
-    <div class="table-responsive">
-        <table id="example" class="table table-hover text-nowrap">
-            <thead>
-                <tr>
-                    <th>Sr #</th>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Time</th>
-                    <th>Date</th>
-                    <th>Services</th>
-                    <th>Doctor Fee</th>
-                    <th>Discount</th>
-                    <th>Final Fee</th>
-                    <th>Additional Charges</th>
-                    <th>Total Amount</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($appointments as $appointment)
-                    @php
-                        // Calculate totals
-                        $servicesTotal = $appointment->services->sum('price');
-                        $finalFee      = $appointment->final_fee ?? 0;
-                        $additional    = $appointment->additional_charges ?? 0;
-                        $total         = $finalFee + $servicesTotal + $additional;
-                    @endphp
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $appointment->doctor->name ?? 'N/A' }}</td>
-                        <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</td>
-                        <td>
-                            @if ($appointment->services->count() > 0)
-                                @foreach ($appointment->services as $service)
-                                    <span class="badge bg-primary">
-                                        {{ $service->name }} ({{ $service->price }})
-                                    </span>
-                                @endforeach
-                            @else
-                                <span class="text-muted">No Services</span>
-                            @endif
-                        </td>
-                        <td>{{ $appointment->fee ?? 'N/A' }}</td>
-                        <td>{{ $appointment->discount ?? 'N/A' }}</td>
-                        <td>{{ $finalFee }}</td>
-                        <td>{{ $additional }}</td>
-                        <td><strong>{{ $total }}</strong></td>
-                        <td>
-                            <a href="{{ route('appointments.print', $appointment->id) }}" target="_blank"
-                                class="btn btn-sm btn-info">
-                                <i class="fa fa-print"></i>
-                            </a>
-                            <a href="{{ route('refunds.show', $appointment->id) }}"
-                                class="btn btn-sm btn-success">
-                                <i class="fa fa-undo"></i> Refund
-                            </a>
-                        </td>
-                    </tr>
-                @empty
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div>
+                <div class="card-body p-2">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Sr #</th>
+                                    <th>Doctor Name</th>
+                                    <th>Patient Name</th>
+                                    <th>Time</th>
+                                    <th>Date</th>
+                                    <th>Services</th>
+                                    <th>Doctor Fee</th>
+                                    <th>Discount</th>
+                                    <th>Final Fee</th>
+                                    <th>Additional Charges</th>
+                                    <th>Total Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($appointments as $appointment)
+                                    @php
+                                        // Calculate totals
+                                        $servicesTotal = $appointment->services->sum('price');
+                                        $finalFee = $appointment->final_fee ?? 0;
+                                        $additional = $appointment->additional_charges ?? 0;
+                                        $total = $finalFee + $servicesTotal + $additional;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $appointment->doctor->name ?? 'N/A' }}</td>
+                                        <td>{{ $appointment->patient->name ?? 'N/A' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($appointment->date)->format('Y-m-d') }}</td>
+                                        <td>
+                                            @if ($appointment->services->count() > 0)
+                                                @foreach ($appointment->services as $service)
+                                                    <span class="badge bg-primary">
+                                                        {{ $service->name }} ({{ $service->price }})
+                                                    </span>
+                                                @endforeach
+                                            @else
+                                                <span class="text-muted">No Services</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $appointment->fee ?? 'N/A' }}</td>
+                                        <td>{{ $appointment->discount ?? 'N/A' }}</td>
+                                        <td>{{ $finalFee }}</td>
+                                        <td>{{ $additional }}</td>
+                                        <td><strong>{{ $total }}</strong></td>
+                                        <td>
+                                            <a href="{{ route('appointments.print', $appointment->id) }}" target="_blank"
+                                                class="btn btn-sm btn-info">
+                                                <i class="fa fa-print"></i>
+                                            </a>
+                                            <a href="{{ route('refunds.show', $appointment->id) }}"
+                                                class="btn btn-sm btn-success">
+                                                <i class="fa fa-undo"></i> Refund
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
 
             </div>
