@@ -41,6 +41,9 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
+                                            <a href="{{ route('adduser.show', $user->id) }}" class="btn btn-sm btn-primary">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
                                             <form action="{{ route('adduser.destroy', $user->id) }}" method="POST"
                                                 style="display: inline;" onsubmit="return confirm('Are you sure?');">
                                                 @csrf @method('DELETE')

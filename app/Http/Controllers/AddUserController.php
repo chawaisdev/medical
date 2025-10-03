@@ -57,89 +57,79 @@ class AddUserController extends Controller
         return redirect()->route('adduser.create')->with('success', 'User added successfully.');
     }
 
-    public function show($id)
-    {
-        $user = User::findOrFail($id);
+   public function show($id)
+{
+    $user = User::findOrFail($id);
 
-        // Default
-        $todaySales = $sevenDaysSales = $lastMonthSales = $totalSales = 0;
-        $todayRefund = $sevenDaysRefund = $lastMonthRefund = $totalRefund = 0;
-        $profit = 0;
-        $appointments = [];
+    // Default
+    $todaySales = $sevenDaysSales = $lastMonthSales = $totalSales = 0;
+    $todayRefund = $sevenDaysRefund = $lastMonthRefund = $totalRefund = 0;
+    $profit = 0;
+    $appointments = [];
 
-        if ($user->user_type === 'doctor') {
-            // Get doctor appointments with services
-            $appointments = Appointment::with(['patient', 'services'])
-                ->where('doctor_id', $user->id)
-                ->get();
+    if ($user->user_type === 'doctor') {
+        // Get doctor appointments
+        $appointments = Appointment::with(['patient', 'services'])
+            ->where('doctor_id', $user->id)
+            ->get();
 
-            // --- Sales (sum of services->price instead of just final_fee) ---
-            $totalSales = $appointments->sum(function ($appointment) {
-                return $appointment->services->sum('price');
-            });
+        // --- Sales (sum of final_fee from appointments) ---
+        $todaySales = Appointment::where('doctor_id', $user->id)
+            ->whereDate('date', today())
+            ->sum('final_fee');
 
-            $todaySales = $appointments->where('date', today()->toDateString())
-                ->sum(function ($appointment) {
-                    return $appointment->services->sum('price');
-                });
+        $sevenDaysSales = Appointment::where('doctor_id', $user->id)
+            ->whereBetween('date', [now()->subDays(6), now()])
+            ->sum('final_fee');
 
-            $sevenDaysSales = $appointments->whereBetween('date', [now()->subDays(6)->toDateString(), now()->toDateString()])
-                ->sum(function ($appointment) {
-                    return $appointment->services->sum('price');
-                });
+        $lastMonthSales = Appointment::where('doctor_id', $user->id)
+            ->whereMonth('date', now()->subMonth()->month)
+            ->whereYear('date', now()->subMonth()->year)
+            ->sum('final_fee');
 
-            $lastMonthSales = $appointments->filter(function ($appointment) {
-                return \Carbon\Carbon::parse($appointment->date)->month === now()->subMonth()->month
-                    && \Carbon\Carbon::parse($appointment->date)->year === now()->subMonth()->year;
-            })->sum(function ($appointment) {
-                return $appointment->services->sum('price');
-            });
+        $totalSales = Appointment::where('doctor_id', $user->id)
+            ->sum('final_fee');
 
-            // --- Refunds (only approved) ---
-            $refunds = Refund::with('services')
-                ->where('approved_by_user_id', $user->id)
-                ->where('status', 'approved')
-                ->get();
+        // --- Refunds (only approved) ---
+        $todayRefund = Refund::where('approved_by_user_id', $user->id)
+            ->where('status', 'approved')
+            ->whereDate('created_at', today())
+            ->sum('requested_amount');
 
-            $totalRefund = $refunds->sum(function ($refund) {
-                return $refund->services->sum('price');
-            });
+        $sevenDaysRefund = Refund::where('approved_by_user_id', $user->id)
+            ->where('status', 'approved')
+            ->whereBetween('created_at', [now()->subDays(6), now()])
+            ->sum('requested_amount');
 
-            $todayRefund = $refunds->where('created_at', '>=', today())
-                ->sum(function ($refund) {
-                    return $refund->services->sum('price');
-                });
+        $lastMonthRefund = Refund::where('approved_by_user_id', $user->id)
+            ->where('status', 'approved')
+            ->whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->sum('requested_amount');
 
-            $sevenDaysRefund = $refunds->whereBetween('created_at', [now()->subDays(6), now()])
-                ->sum(function ($refund) {
-                    return $refund->services->sum('price');
-                });
+        $totalRefund = Refund::where('approved_by_user_id', $user->id)
+            ->where('status', 'approved')
+            ->sum('requested_amount');
 
-            $lastMonthRefund = $refunds->filter(function ($refund) {
-                return $refund->created_at->month === now()->subMonth()->month
-                    && $refund->created_at->year === now()->subMonth()->year;
-            })->sum(function ($refund) {
-                return $refund->services->sum('price');
-            });
-
-            // --- Profit = Total services - refunded services ---
-            $profit = $totalSales - $totalRefund;
-        }
-
-        return view('adduser.show', compact(
-            'user',
-            'appointments',
-            'todaySales',
-            'sevenDaysSales',
-            'lastMonthSales',
-            'totalSales',
-            'todayRefund',
-            'sevenDaysRefund',
-            'lastMonthRefund',
-            'totalRefund',
-            'profit'
-        ));
+        // --- Profit ---
+        $profit = $totalSales - $totalRefund;
     }
+
+    return view('adduser.show', compact(
+        'user',
+        'appointments',
+        'todaySales',
+        'sevenDaysSales',
+        'lastMonthSales',
+        'totalSales',
+        'todayRefund',
+        'sevenDaysRefund',
+        'lastMonthRefund',
+        'totalRefund',
+        'profit'
+    ));
+}
+
 
     // Fetch user by ID and show it in the edit form for updating
     public function edit($id)
