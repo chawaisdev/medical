@@ -21,27 +21,30 @@
                  </svg>
              </div>
              <li class="slide__category"><span class="category-name">Main</span></li>
-             @php
-                 $user = auth()->user();
-                 $permissions = $user->role?->permissions->pluck('name')->toArray() ?? [];
-             @endphp
-
              <ul class="main-menu">
-                 <!-- Dashboard -->
-                 <li class="slide">
-                     <a href="{{ $user->user_type === 'admin' ? route('dashboard') : route('reception.dashboard') }}"
-                         class="side-menu__item">
-                         <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
-                         <span class="side-menu__label">Dashboard</span>
-                     </a>
-                 </li>
-
                  @php
-                     $isNotAdmin = $user->user_type !== 'admin';
+                     $permissions = auth()->check() ? auth()->user()->getPermissions() : [];
                  @endphp
 
-                 <!-- Menu Items -->
-                 @if ($isNotAdmin && in_array('User Management', $permissions))
+                 <!-- Dashboard -->
+                 @if (auth()->user()->user_type === 'admin')
+                     <li class="slide">
+                         <a href="{{ route('dashboard') }}" class="side-menu__item">
+                             <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
+                 @elseif (auth()->user()->user_type === 'reception')
+                     <li class="slide">
+                         <a href="{{ route('reception.dashboard') }}" class="side-menu__item">
+                             <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- User Management -->
+                 @if (in_array('User Management', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('adduser.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-gear side-menu__icon"></i>
@@ -50,15 +53,7 @@
                      </li>
                  @endif
 
-                 @if ($isNotAdmin && in_array('Doctor Appointment', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ route('doctor.appointments') }}" class="side-menu__item">
-                             <i class="fa-solid fa-user-doctor side-menu__icon"></i>
-                             <span class="side-menu__label">Doctor Appointment</span>
-                         </a>
-                     </li>
-                 @endif
-
+                 <!-- Roles -->
                  @if (in_array('Roles', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('roles.index') }}" class="side-menu__item">
@@ -68,6 +63,7 @@
                      </li>
                  @endif
 
+                 <!-- Clinics -->
                  @if (in_array('Clinics', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('clinic.index') }}" class="side-menu__item">
@@ -77,6 +73,7 @@
                      </li>
                  @endif
 
+                 <!-- Services -->
                  @if (in_array('Services', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('services.index') }}" class="side-menu__item">
@@ -86,24 +83,28 @@
                      </li>
                  @endif
 
+                 <!-- My Appointments -->
                  @if (in_array('My Appointments', $permissions))
                      <li class="slide mt-2">
-                         <a href="{{ route('patient.index') }}" class="side-menu__item">
+                         <a href="{{ url('get-patient') }}" class="side-menu__item">
                              <i class="fa-solid fa-calendar-check side-menu__icon"></i>
                              <span class="side-menu__label">My Appointments</span>
                          </a>
                      </li>
                  @endif
 
+                 <!-- My Reports -->
                  @if (in_array('My Reports', $permissions))
                      <li class="slide mt-2">
-                         <a href="{{ route('patient.reports.download') }}" class="side-menu__item">
-                             <i class="fa-solid fa-file-medical side-menu__icon"></i>
+                         <a href="{{ url('patient-reports/download') }}"
+                             class="side-menu__item d-flex align-items-center">
+                             <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
                              <span class="side-menu__label">My Reports</span>
                          </a>
                      </li>
                  @endif
 
+                 <!-- Patients -->
                  @if (in_array('Patients', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('reception.index') }}" class="side-menu__item">
@@ -113,6 +114,7 @@
                      </li>
                  @endif
 
+                 <!-- Appointments -->
                  @if (in_array('Appointments', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('appointment.index') }}" class="side-menu__item">
@@ -122,6 +124,7 @@
                      </li>
                  @endif
 
+                 <!-- Refunds -->
                  @if (in_array('Refunds', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('refunds.index') }}" class="side-menu__item">
@@ -131,8 +134,28 @@
                      </li>
                  @endif
 
-                 <!-- Admin Only Settings -->
-                 @if ($user->user_type === 'admin' && in_array('Settings', $permissions))
+
+
+                 @if (auth()->user()->user_type === 'admin')
+                     <li class="slide mt-2">
+                         <a href="{{ url('patients/list') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                             <span class="side-menu__label">All Patients List</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 @if (in_array(auth()->user()->user_type, ['doctor', 'admin']))
+                     <li class="slide mt-2">
+                         <a href="{{ route('doctor.appointments') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                             <span class="side-menu__label">Doctor Appointments</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- Settings -->
+                 @if (auth()->user()->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('settings.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-gear side-menu__icon"></i>
@@ -140,7 +163,6 @@
                          </a>
                      </li>
                  @endif
-
                  <!-- Logout -->
                  <li class="slide mt-2">
                      <a href="#" class="side-menu__item"
@@ -153,8 +175,6 @@
                      </form>
                  </li>
              </ul>
-
-
 
 
 
