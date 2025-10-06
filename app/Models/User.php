@@ -88,14 +88,25 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function getPermissions(): array
+   public function getPermissions(): array
     {
-        // return array of permission names for the user's role
+        if (!$this->relationLoaded('role')) {
+            $this->load('role.permissions');
+        }
+
         if ($this->role && $this->role->permissions) {
             return $this->role->permissions->pluck('name')->toArray();
         }
+
         return [];
     }
+
+    public function hasPermission(string $permissionName): bool
+    {
+        $permissions = $this->getPermissions();
+        return in_array($permissionName, $permissions);
+    }
+
 
     public function creator()
     {

@@ -24,17 +24,18 @@
              <ul class="main-menu">
                  @php
                      $permissions = auth()->check() ? auth()->user()->getPermissions() : [];
+                     $user = auth()->user();
                  @endphp
 
-                 <!-- Dashboard -->
-                 @if (auth()->user()->user_type === 'admin')
+                 <!-- DASHBOARD -->
+                 @if ($user->user_type === 'admin')
                      <li class="slide">
                          <a href="{{ route('dashboard') }}" class="side-menu__item">
                              <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
-                 @elseif (auth()->user()->user_type === 'reception')
+                 @elseif ($user->user_type === 'reception')
                      <li class="slide">
                          <a href="{{ route('reception.dashboard') }}" class="side-menu__item">
                              <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
@@ -43,7 +44,7 @@
                      </li>
                  @endif
 
-                 <!-- User Management -->
+                 <!-- USER MANAGEMENT -->
                  @if (in_array('User Management', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('adduser.index') }}" class="side-menu__item">
@@ -53,7 +54,7 @@
                      </li>
                  @endif
 
-                 <!-- Roles -->
+                 <!-- ROLES -->
                  @if (in_array('Roles', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('roles.index') }}" class="side-menu__item">
@@ -63,7 +64,7 @@
                      </li>
                  @endif
 
-                 <!-- Clinics -->
+                 <!-- CLINICS -->
                  @if (in_array('Clinics', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('clinic.index') }}" class="side-menu__item">
@@ -73,7 +74,7 @@
                      </li>
                  @endif
 
-                 <!-- Services -->
+                 <!-- SERVICES -->
                  @if (in_array('Services', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('services.index') }}" class="side-menu__item">
@@ -83,7 +84,7 @@
                      </li>
                  @endif
 
-                 <!-- My Appointments -->
+                 <!-- MY APPOINTMENTS -->
                  @if (in_array('My Appointments', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ url('get-patient') }}" class="side-menu__item">
@@ -93,7 +94,7 @@
                      </li>
                  @endif
 
-                 <!-- My Reports -->
+                 <!-- MY REPORTS -->
                  @if (in_array('My Reports', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ url('patient-reports/download') }}"
@@ -104,7 +105,7 @@
                      </li>
                  @endif
 
-                 <!-- Patients -->
+                 <!-- PATIENTS -->
                  @if (in_array('Patients', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('reception.index') }}" class="side-menu__item">
@@ -114,7 +115,7 @@
                      </li>
                  @endif
 
-                 <!-- Appointments -->
+                 <!-- APPOINTMENTS -->
                  @if (in_array('Appointments', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('appointment.index') }}" class="side-menu__item">
@@ -124,7 +125,7 @@
                      </li>
                  @endif
 
-                 <!-- Refunds -->
+                 <!-- REFUNDS -->
                  @if (in_array('Refunds', $permissions))
                      <li class="slide mt-2">
                          <a href="{{ route('refunds.index') }}" class="side-menu__item">
@@ -134,9 +135,8 @@
                      </li>
                  @endif
 
-
-
-                 @if (auth()->user()->user_type === 'admin')
+                 <!-- ALL PATIENTS (ADMIN ONLY) -->
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ url('patients/list') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-injured side-menu__icon"></i>
@@ -145,7 +145,8 @@
                      </li>
                  @endif
 
-                 @if (in_array(auth()->user()->user_type, ['doctor', 'admin']))
+                 <!-- DOCTOR APPOINTMENTS (Admin + Doctor) -->
+                 @if (in_array($user->user_type, ['doctor', 'admin']))
                      <li class="slide mt-2">
                          <a href="{{ route('doctor.appointments') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-injured side-menu__icon"></i>
@@ -154,8 +155,8 @@
                      </li>
                  @endif
 
-                 <!-- Settings -->
-                 @if (auth()->user()->user_type === 'admin')
+                 <!-- SETTINGS -->
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('settings.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-gear side-menu__icon"></i>
@@ -163,7 +164,8 @@
                          </a>
                      </li>
                  @endif
-                 <!-- Logout -->
+
+                 <!-- LOGOUT -->
                  <li class="slide mt-2">
                      <a href="#" class="side-menu__item"
                          onclick="event.preventDefault(); document.getElementById('logout-link').submit();">
@@ -175,7 +177,6 @@
                      </form>
                  </li>
              </ul>
-
 
 
              <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"

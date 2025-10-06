@@ -4,17 +4,24 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckPermission
 {
-    public function handle(Request $request, Closure $next, $permission)
+    public function handle(Request $request, Closure $next, $permission): Response
     {
         $user = auth()->user();
-        if ($user && in_array($permission, $user->getPermissions())) {
-            return $next($request);
+
+        if (!$user) {
+            abort(403, 'Unauthorized');
         }
 
-        abort(403, 'Unauthorized action.');
+        $permissions = $user->getPermissions();
+
+        if (!in_array($permission, $permissions)) {
+            abort(403, 'You do not have permission to access this page.');
+        }
+
+        return $next($request);
     }
 }
