@@ -36,16 +36,16 @@
             <div class="col-xl-8">
                 <div class="card custom-card">
                     <div class="card-header justify-content-between">
-                        <div class="card-title">Top Patient List</div>
+                        <div class="card-title">Patient List</div>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled">
-                            @foreach ($dashboard as $dashboard)
+                            @foreach ($dashboard as $patient)
                                 <li class="mb-3">
                                     <div class="d-flex align-items-top flex-wrap">
                                         <div class="flex-fill">
-                                            <p class="fw-semibold mb-0">{{ $dashboard->name }}</p>
-                                            <span class="text-muted fs-12">{{ $dashboard->email }}</span>
+                                            <p class="fw-semibold mb-0">{{ $patient->name }}</p>
+                                            <span class="text-muted fs-12">{{ $patient->contact_number }}</span>
                                         </div>
                                         <div class="fw-semibold fs-13">
                                             <span class="badge bg-primary text-white text-capitalize">Patient</span>
@@ -54,6 +54,11 @@
                                 </li>
                             @endforeach
                         </ul>
+
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $dashboard->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

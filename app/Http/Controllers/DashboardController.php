@@ -18,6 +18,7 @@ class DashboardController extends Controller
         $totalDoctors = User::where('user_type', 'doctor')->count();
         $totalReceptions = User::where('user_type', 'reception')->count();
         $totalPatients = User::where('user_type', 'patient')->count();
+
         $topDoctors = User::where('user_type', 'doctor')->latest()->take(5)->get();
         $userSchedules = UserSchedule::with('user')->get();
 
@@ -26,17 +27,31 @@ class DashboardController extends Controller
             ->sum('services.price');
         $totalSales = $totalAppointmentIncome + $totalServiceIncome;
 
-        $totalDoctorRefund = Refund::where('status', 'approved')
-            ->whereNotNull('approved_at')
+        $totalDoctorRefund = Refund::whereNotNull('approved_at')
             ->sum('doctor_fee_refund');
 
         $totalServiceRefund = RefundService::join('services', 'refund_services.service_id', '=', 'services.id')
-            ->whereIn('refund_services.refund_id', Refund::where('status', 'approved')
-                ->whereNotNull('approved_at')
-                ->pluck('id'))
+            ->whereIn('refund_services.refund_id', Refund::whereNotNull('approved_at')->pluck('id'))
             ->sum('services.price');
 
         $profit = $totalSales - ($totalDoctorRefund + $totalServiceRefund);
+
+        $todayAppointmentIncome = Appointment::whereDate('created_at', today())->sum('final_fee');
+        $todayServiceIncome = AppointmentServices::join('services', 'appointment_services.services_id', '=', 'services.id')
+            ->whereDate('appointment_services.created_at', today())
+            ->sum('services.price');
+        $todaySales = $todayAppointmentIncome + $todayServiceIncome;
+
+        $todayDoctorRefund = Refund::whereNotNull('approved_at')
+            ->whereDate('approved_at', today())
+            ->sum('doctor_fee_refund');
+
+        $todayServiceRefund = RefundService::join('services', 'refund_services.service_id', '=', 'services.id')
+            ->join('refunds', 'refund_services.refund_id', '=', 'refunds.id')
+            ->whereDate('refunds.approved_at', today())
+            ->sum('services.price');
+
+        $todayProfit = $todaySales - ($todayDoctorRefund + $todayServiceRefund);
 
         return view('dashboard.index', compact(
             'totalUsers',
@@ -48,7 +63,13 @@ class DashboardController extends Controller
             'totalSales',
             'totalDoctorRefund',
             'totalServiceRefund',
-            'profit'
+            'profit',
+            'todaySales',
+            'todayDoctorRefund',
+            'todayServiceRefund',
+            'todayProfit'
         ));
     }
+
+
 }

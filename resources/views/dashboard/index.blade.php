@@ -91,8 +91,91 @@
                         </div>
                     </div>
                 </div>
+        @endif
 
-                {{-- Total Sales --}}
+        {{-- Total Sales --}}
+        <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-top">
+                        <div class="me-3">
+                            <span class="avatar avatar-md p-3 bg-primary text-white rounded-circle">
+                                <i class="fas fa-chart-line fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="flex-fill">
+                            <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalSales) }}</h5>
+                            <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Sales</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Doctor Refund --}}
+        <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-top">
+                        <div class="me-3">
+                            <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
+                                <i class="fas fa-stethoscope fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="flex-fill">
+                            <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctorRefund) }}</h5>
+                            <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Doctor Refund</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Service Refund --}}
+        <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-top">
+                        <div class="me-3">
+                            <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
+                                <i class="fas fa-concierge-bell fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="flex-fill">
+                            <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalServiceRefund) }}</h5>
+                            <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Service Refund</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Profit --}}
+        <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-top">
+                        <div class="me-3">
+                            <span class="avatar avatar-md p-3 bg-success text-white rounded-circle">
+                                <i class="fas fa-dollar-sign fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="flex-fill">
+                            <h5 class="fw-semibold mb-0 lh-1">{{ number_format($profit) }}</h5>
+                            <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Profit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                @if (auth()->user()->user_type === 'admin')
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h5 class="fw-bold mb-3">Today’s Overview</h5>
+                </div>
+
+                {{-- Today’s Sales --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
@@ -103,15 +186,15 @@
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalSales) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Total Sales</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todaySales) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today’s Sales</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Doctor Refund --}}
+                {{-- Today’s Doctor Refund --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
@@ -122,34 +205,34 @@
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalDoctorRefund) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Doctor Refund</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayDoctorRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today’s Doctor Refund</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Service Refund --}}
+                {{-- Today’s Service Refund --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <div class="d-flex align-items-top">
                                 <div class="me-3">
-                                    <span class="avatar avatar-md p-3 bg-danger text-white rounded-circle">
+                                    <span class="avatar avatar-md p-3 bg-warning text-white rounded-circle">
                                         <i class="fas fa-concierge-bell fa-lg"></i>
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($totalServiceRefund) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Service Refund</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayServiceRefund) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today’s Service Refund</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Profit --}}
+                {{-- Today’s Profit --}}
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card custom-card">
                         <div class="card-body">
@@ -160,8 +243,8 @@
                                     </span>
                                 </div>
                                 <div class="flex-fill">
-                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($profit) }}</h5>
-                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Profit</p>
+                                    <h5 class="fw-semibold mb-0 lh-1">{{ number_format($todayProfit) }}</h5>
+                                    <p class="mb-0 fs-10 op-7 text-muted fw-semibold">Today’s Profit</p>
                                 </div>
                             </div>
                         </div>
@@ -169,91 +252,46 @@
                 </div>
             </div>
         @endif
+    </div>
 
-        <div class="row">
-            {{-- Top Doctors List --}}
-            <div class="col-xl-6">
-                <div class="card custom-card">
-                    <div class="card-header justify-content-between">
-                        <div class="card-title">Top Doctors List</div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled">
-                            @foreach ($topDoctors as $doctor)
-                                <li class="mb-3">
-                                    <div class="d-flex align-items-top flex-wrap">
-                                        <div class="flex-fill">
-                                            <p class="fw-semibold mb-0">{{ $doctor->name }}</p>
-                                            <span class="text-muted fs-12">{{ $doctor->email }}</span>
-                                        </div>
-                                        <div class="fw-semibold fs-13">
-                                            <span class="badge bg-primary text-white text-capitalize">Doctor</span>
-                                        </div>
+    <div class="row">
+        {{-- Top Doctors List --}}
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">Top Doctors List</div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        @foreach ($topDoctors as $doctor)
+                            <li class="mb-3">
+                                <div class="d-flex align-items-top flex-wrap">
+                                    <div class="flex-fill">
+                                        <p class="fw-semibold mb-0">{{ $doctor->name }}</p>
+                                        <span class="text-muted fs-12">{{ $doctor->email }}</span>
                                     </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6">
-                <div class="card custom-card">
-                    <div class="card-header justify-content-between">
-                        <div class="card-title">User Distribution</div>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="userChart" height="320"></canvas>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    <div class="card-header justify-content-between">
-                        <div class="card-title">Doctor Time-Table </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="example" class="table text-nowrap table-hover border table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Sr #</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Day</th>
-                                        <th scope="col">Start Time</th>
-                                        <th scope="col">End Time</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($userSchedules as $schedule)
-                                        <tr>
-                                            <td>{{ $schedule->id }}</td>
-                                            <td>
-                                                {{ $schedule->user->name ?? 'N/A' }}
-                                            </td>
-
-                                            <td>{{ $schedule->day }}</td>
-                                            <td>{{ $schedule->start_time }}</td>
-                                            <td>{{ $schedule->end_time }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge {{ $schedule->is_active ? 'bg-success' : 'bg-danger' }}">
-                                                    {{ $schedule->is_active ? 'Active' : 'Inactive' }}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    <div class="fw-semibold fs-13">
+                                        <span class="badge bg-primary text-white text-capitalize">Doctor</span>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
+        <div class="col-xl-6">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">User Distribution</div>
+                </div>
+                <div class="card-body">
+                    <canvas id="userChart" height="320"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

@@ -45,7 +45,7 @@
                  @endif
 
                  <!-- USER MANAGEMENT -->
-                 @if (in_array('User Management', $permissions))
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('adduser.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-gear side-menu__icon"></i>
@@ -55,7 +55,7 @@
                  @endif
 
                  <!-- ROLES -->
-                 @if (in_array('Roles', $permissions))
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('roles.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-shield side-menu__icon"></i>
@@ -65,7 +65,7 @@
                  @endif
 
                  <!-- CLINICS -->
-                 @if (in_array('Clinics', $permissions))
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('clinic.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-hospital side-menu__icon"></i>
@@ -74,63 +74,23 @@
                      </li>
                  @endif
 
-                 <!-- SERVICES -->
-                 @if (in_array('Services', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ route('services.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-stethoscope side-menu__icon"></i>
-                             <span class="side-menu__label">Services</span>
-                         </a>
-                     </li>
-                 @endif
-
-                 <!-- MY APPOINTMENTS -->
-                 @if (in_array('My Appointments', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ url('get-patient') }}" class="side-menu__item">
-                             <i class="fa-solid fa-calendar-check side-menu__icon"></i>
-                             <span class="side-menu__label">My Appointments</span>
-                         </a>
-                     </li>
-                 @endif
-
-                 <!-- MY REPORTS -->
-                 @if (in_array('My Reports', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ url('patient-reports/download') }}"
-                             class="side-menu__item d-flex align-items-center">
-                             <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
-                             <span class="side-menu__label">My Reports</span>
-                         </a>
-                     </li>
-                 @endif
-
-                 <!-- PATIENTS -->
-                 @if (in_array('Patients', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ route('reception.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
-                             <span class="side-menu__label">Patients</span>
-                         </a>
-                     </li>
-                 @endif
-
-                 <!-- APPOINTMENTS -->
-                 @if (in_array('Appointments', $permissions))
-                     <li class="slide mt-2">
-                         <a href="{{ route('appointment.index') }}" class="side-menu__item">
-                             <i class="fa-solid fa-calendar-days side-menu__icon"></i>
-                             <span class="side-menu__label">Appointments</span>
-                         </a>
-                     </li>
-                 @endif
-
                  <!-- REFUNDS -->
-                 @if (in_array('Refunds', $permissions))
+                 @if ($user->user_type === 'admin')
                      <li class="slide mt-2">
                          <a href="{{ route('refunds.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-rotate-left side-menu__icon"></i>
                              <span class="side-menu__label">Refunds</span>
+                         </a>
+                     </li>
+                 @endif
+
+
+                 <!-- SERVICES -->
+                 @if ($user->user_type === 'admin')
+                     <li class="slide mt-2">
+                         <a href="{{ route('services.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-stethoscope side-menu__icon"></i>
+                             <span class="side-menu__label">Services</span>
                          </a>
                      </li>
                  @endif
@@ -145,8 +105,50 @@
                      </li>
                  @endif
 
+                 <!-- MY APPOINTMENTS For Patients -->
+                 @if ($user->user_type === 'patient')
+                     <li class="slide mt-2">
+                         <a href="{{ url('get-patient') }}" class="side-menu__item">
+                             <i class="fa-solid fa-calendar-check side-menu__icon"></i>
+                             <span class="side-menu__label">My Appointments</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- MY REPORTS  For Patients-->
+                 @if (in_array('My Reports', $permissions))
+                     <li class="slide mt-2">
+                         <a href="{{ url('patient-reports/download') }}"
+                             class="side-menu__item d-flex align-items-center">
+                             <i class="fa-solid fa-file-medical side-menu__icon me-2"></i>
+                             <span class="side-menu__label">My Reports</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- PATIENTS  Menu For the reception-->
+                 @if ($user->user_type === 'reception')
+                     <li class="slide mt-2">
+                         <a href="{{ route('reception.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-user-injured side-menu__icon"></i>
+                             <span class="side-menu__label">Patients</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- APPOINTMENTS Menu For the reception -->
+                 @if ($user->user_type === 'reception')
+                     <li class="slide mt-2">
+                         <a href="{{ route('appointment.index') }}" class="side-menu__item">
+                             <i class="fa-solid fa-calendar-days side-menu__icon"></i>
+                             <span class="side-menu__label">Appointments</span>
+                         </a>
+                     </li>
+                 @endif
+
+
                  <!-- DOCTOR APPOINTMENTS (Admin + Doctor) -->
-                 @if (in_array($user->user_type, ['doctor', 'admin']))
+                 @if ($user->user_type === 'doctor')
                      <li class="slide mt-2">
                          <a href="{{ route('doctor.appointments') }}" class="side-menu__item">
                              <i class="fa-solid fa-user-injured side-menu__icon"></i>

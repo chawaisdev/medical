@@ -52,10 +52,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/refunds', [ReceptionController::class, 'refundIndex'])->name('refunds.index');
         Route::post('/refunds/{refund}/approve', [ReceptionController::class, 'approve'])->name('refunds.approve');
         Route::post('/refunds/{refund}/reject', [ReceptionController::class, 'reject'])->name('refunds.reject');
-        Route::post('/refunds/store', [ReceptionController::class, 'refundStore'])->name('refunds.store');
-        Route::get('/refunds/{appointment}', [ReceptionController::class, 'showRefund'])->name('refunds.show');
     });
-
+    
+    Route::post('/refunds/store', [ReceptionController::class, 'refundStore'])->name('refunds.store');
+    Route::get('/refunds/{appointment}', [ReceptionController::class, 'showRefund'])->name('refunds.show');
     // ================================
     // RECEPTION ROUTES
     // ================================
@@ -94,9 +94,11 @@ Route::middleware(['auth'])->group(function () {
     // ================================
     // ALL PATIENTS (ADMIN ONLY)
     // ================================
+    Route::middleware(['permission:All Patients List'])->group(function () {
     Route::get('/patients/list', [PatientController::class, 'listPatient'])
         ->name('patients.list')
         ->middleware('permission:Patients');
+    });
 
     // ================================
     // SETTINGS (ADMIN ONLY)

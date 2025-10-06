@@ -110,9 +110,11 @@ class ReceptionController extends Controller
 
     public function topPatientGet(Request $request)
     {
-        $dashboard = User::where('user_type', 'patient')->get();
+        $dashboard = User::where('user_type', 'patient')
+            ->orderBy('id', 'desc') 
+            ->paginate(10);
         $totalDoctor = User::where('user_type', 'patient')->count();
-        return view('reception.dashboard',compact('dashboard','totalDoctor'));
+        return view('reception.dashboard', compact('dashboard', 'totalDoctor'));
     }
 
     public function patientReports(Request $request)
