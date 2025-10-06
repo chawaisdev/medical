@@ -35,9 +35,22 @@
                              <span class="side-menu__label">Dashboard</span>
                          </a>
                      </li>
-                 @elseif ($user->user_type === 'reception')
+                 @endif
+
+                 <!-- USER reception -->
+                 @if ($user->user_type === 'reception')
                      <li class="slide">
                          <a href="{{ route('reception.dashboard') }}" class="side-menu__item">
+                             <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
+                             <span class="side-menu__label">Dashboard</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 <!-- USER PATINNTS -->
+                 @if ($user->user_type === 'patient')
+                     <li class="slide">
+                         <a href="{{ route('patient.index') }}" class="side-menu__item">
                              <i class="fa-solid fa-gauge-high side-menu__icon text-sm"></i>
                              <span class="side-menu__label">Dashboard</span>
                          </a>

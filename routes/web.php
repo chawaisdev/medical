@@ -24,7 +24,9 @@ Route::middleware(['auth'])->group(function () {
     // ================================
     // DASHBOARD
     // ================================
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::middleware(['userType:admin'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
 
     // ================================
     // ADMIN ROUTES (Require Permissions)

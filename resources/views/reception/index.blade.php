@@ -70,9 +70,6 @@
                                                     <i class="fa fa-file-medical"></i> Reports
                                                 </button>
                                             @endif
-
-
-
                                         </td>
                                     </tr>
                                 @empty
