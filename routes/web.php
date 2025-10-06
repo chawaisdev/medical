@@ -80,9 +80,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['permission:My Reports'])->group(function () {
         Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
-        Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
-        Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
     });
+    Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
+    Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
 
     // ================================
     // DOCTOR ROUTES
