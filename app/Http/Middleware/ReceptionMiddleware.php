@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
-class RestrictToReception
+class ReceptionMiddleware
 {
     /**
      * Handle an incoming request.

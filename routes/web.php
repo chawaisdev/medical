@@ -29,26 +29,26 @@ Route::middleware(['auth'])->group(function () {
     // ================================
     // ADMIN ROUTES (Require Permissions)
     // ================================
-    Route::middleware(['permission:User Management'])->group(function () {
+    Route::middleware(['userType:admin'])->group(function () {
         Route::resource('adduser', AddUserController::class);
         Route::post('/schedule.assign', [AddUserController::class, 'storeSchedule'])->name('schedule.assign');
         Route::get('/schedule.assign/{id}/schedules', [AddUserController::class, 'getSchedules'])->name('schedule.schedules');
     });
 
-    Route::middleware(['permission:Clinics'])->group(function () {
+    Route::middleware(['userType:admin'])->group(function () {
         Route::resource('clinic', ClinicController::class);
     });
 
-    Route::middleware(['permission:Services'])->group(function () {
+    Route::middleware(['userType:admin'])->group(function () {
         Route::resource('services', ServiceController::class);
     });
 
-    Route::middleware(['permission:Roles'])->group(function () {
+    Route::middleware(['userType:admin'])->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('rolepermission', RolePermissionController::class);
     });
 
-    Route::middleware(['permission:Refunds'])->group(function () {
+    Route::middleware(['userType:admin'])->group(function () {
         Route::get('/refunds', [ReceptionController::class, 'refundIndex'])->name('refunds.index');
         Route::post('/refunds/{refund}/approve', [ReceptionController::class, 'approve'])->name('refunds.approve');
         Route::post('/refunds/{refund}/reject', [ReceptionController::class, 'reject'])->name('refunds.reject');
@@ -59,30 +59,30 @@ Route::middleware(['auth'])->group(function () {
     // ================================
     // RECEPTION ROUTES
     // ================================
-    Route::middleware(['permission:Patients'])->group(function () {
+    Route::middleware(['userType:reception'])->group(function () {
         Route::resource('reception', ReceptionController::class);
     });
 
-    Route::middleware(['permission:Appointments'])->group(function () {
+    Route::middleware(['userType:reception'])->group(function () {
         Route::resource('appointment', AppointmentController::class);
         Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointment.edit');
         Route::get('/appointments/{id}/print', [AppointmentController::class, 'print'])->name('appointments.print');
+        Route::get('/get-top-patient', [ReceptionController::class, 'topPatientGet'])->name('reception.dashboard');
+        Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
     });
 
-    Route::get('/get-top-patient', [ReceptionController::class, 'topPatientGet'])->name('reception.dashboard');
-    Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
     // ================================
     // PATIENT ROUTES
     // ================================
-    Route::middleware(['permission:My Appointments'])->group(function () {
-        Route::get('/get-patient', [PatientController::class, 'index'])->name('patient.index');
+    Route::middleware(['userType:patient'])->group(function () {
+        Route::get('/my-appointments', [PatientController::class, 'index'])->name('patient.index');
     });
 
-    Route::middleware(['permission:My Reports'])->group(function () {
+    Route::middleware(['userType:patient'])->group(function () {
         Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
+        Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
+        Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
     });
-    Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
-    Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
 
     // ================================
     // DOCTOR ROUTES

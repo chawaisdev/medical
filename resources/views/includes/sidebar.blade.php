@@ -108,7 +108,7 @@
                  <!-- MY APPOINTMENTS For Patients -->
                  @if ($user->user_type === 'patient')
                      <li class="slide mt-2">
-                         <a href="{{ url('get-patient') }}" class="side-menu__item">
+                         <a href="{{ url('my-appointments') }}" class="side-menu__item">
                              <i class="fa-solid fa-calendar-check side-menu__icon"></i>
                              <span class="side-menu__label">My Appointments</span>
                          </a>
@@ -116,7 +116,7 @@
                  @endif
 
                  <!-- MY REPORTS  For Patients-->
-                 @if (in_array('My Reports', $permissions))
+                 @if ($user->user_type === 'patient')
                      <li class="slide mt-2">
                          <a href="{{ url('patient-reports/download') }}"
                              class="side-menu__item d-flex align-items-center">
