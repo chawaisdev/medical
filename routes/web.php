@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['userType:patient'])->group(function () {
         Route::get('/patient-reports/download', [PatientController::class, 'reportsDownload'])->name('patient.reports.download');
         Route::delete('/patient-reports/{id}', [ReceptionController::class, 'destroyReport'])->name('patient-reports.destroy');
+    });
+    Route::middleware(['permission:Patients Reports'])->group(function () {
         Route::post('/patients/reports', [ReceptionController::class, 'patientReports'])->name('patients.patientReports');
     });
 

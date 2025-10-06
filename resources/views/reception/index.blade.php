@@ -64,10 +64,14 @@
                                                 class="btn btn-sm btn-warning">
                                                 <i class="fa fa-pen-to-square"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#patientModal-{{ $user->id }}">
-                                                <i class="fa fa-file-medical"></i> Reports
-                                            </button>
+                                            @if (auth()->check() && auth()->user()->hasPermission('Patients Reports'))
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#patientModal-{{ $user->id }}">
+                                                    <i class="fa fa-file-medical"></i> Reports
+                                                </button>
+                                            @endif
+
+
 
                                         </td>
                                     </tr>
